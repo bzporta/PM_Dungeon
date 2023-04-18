@@ -46,6 +46,7 @@ replay_pid*
 .gradle/
 # don't ignore any gradle wrapper files
 !gradle/
+!gradle-wrapper.jar
 
 
 # Packages #
