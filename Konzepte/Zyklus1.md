@@ -8,35 +8,28 @@ hidden: true
 
 # Beschreibung der Aufgabe
 
-Das Dungeon soll um mindestens zwei Monster erweitert werden. Die Monster sollen
-unterschiedliche Eigenschaften haben und sich zufällig im Dungeon bewegen.
+## Aufgabe 1 - Fallen
+
+In dieser Aufgabe sollen Fallen in den Dungeon implementiert werden. Diese sollen das Voranschreiten im Dungeon schwieriger machen. Die Fallen sollen verschiedene Wirkungen beim Helden oder beim Monster auslösen. 
+
+## Aufgabe 2 - Game-Over
+
 
 
 # Beschreibung der Lösung
 
-Wir wollen zwei Monster realisieren, die sich sowohl vertikal als auch horizontal
-im Dungeon bewegen. Pro Frame wird per Zufallsfunktion bestimmt, ob sich das Monster
-horizontal und/oder vertikal bewegt. Dabei soll eines der beiden Monster eine höhere
-Geschwindigkeit haben, und das andere sich nur in einer Achse bewegen.
+## Aufgabe 1 - Fallen
 
-Die Monster sollen animiert werden: Das eine Monster soll als kleiner Igel dargestellt
-werden, das andere Monster ist eine Art Schleimkugel. Bei der Bewegung soll sich die
-Textur in fünf Schritten ändern, so dass ein optischer Bewegungseffekt entsteht.
+Wir wollen zwei Arten von Fallen erstellen. Bei der einen bekommt der Hero eine zufällig generierte Anzahl an Schaden. Bei der anderen Art der Falle erscheint ein zufälliges Monster vor dem Hero. Außerdem gibt es eine gewisse Anzahl an Schaltern, die benutzt werden können, um eine Falle zu deaktivieren. Die Falle soll als bodenähnliche Druckplatte auf dem Boden zu sehen sein. 
 
-Die Monster sollen vom Helden angegriffen werden können und dabei Schaden erleiden.
-Wenn sie dabei zu viel Schaden erleiden, "sterben" sie und werden aus dem Spiel
-entfernt.
+## Aufgabe 2
 
 
 # Methoden und Techniken
 
-Für die Realisierung der Monster nutzen wir das Type-Object-Pattern aus der Vorlesung.
-Damit vermeiden wir eine Vererbungshierarchie, die im Laufe des Sommersemesters recht
-tief werden könnte.
+## Für alle Aufgaben
 
-Unser Code wird entsprechend den Regeln aus der Vorlesung mit Javadoc dokumentiert,
-die Formatierung erfolgt nach dem ASOP-Style. Es soll keine Warnings oder Fehlermeldungen
-von Checkstyle geben.
+Der Code wird mit JavaDoc dokumentiert. Dabei werden die entsprechenden Regeln eingehalten. Außerdem haben wir uns entschieden für jedes Feature einen eigenen Branch zu machen (siehe GitHub-Flow). 
 
 
 # Ansatz und Modellierung
