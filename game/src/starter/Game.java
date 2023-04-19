@@ -19,6 +19,7 @@ import ecs.entities.Hero;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
+import graphic.hud.GameOver;
 import graphic.hud.PauseMenu;
 import java.io.IOException;
 import java.util.*;
@@ -71,6 +72,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     public static ILevel currentLevel;
     private static PauseMenu<Actor> pauseMenu;
+
+    private static GameOver<Actor> gameOverMenu;
     private static Entity hero;
     private Logger gameLogger;
 
@@ -115,6 +118,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(systems);
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
+        gameOverMenu = new GameOver<>();
+        controller.add(gameOverMenu);
         hero = new Hero();
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
@@ -127,6 +132,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) toggleGameOver();
     }
 
     @Override
@@ -200,6 +206,18 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             else pauseMenu.hideMenu();
         }
     }
+
+    public static void toggleGameOver() {
+        paused = !paused;
+        if (systems != null) {
+            systems.forEach(ECS_System::toggleRun);
+        }
+        if (gameOverMenu != null) {
+            if (paused) gameOverMenu.showMenu();
+            else gameOverMenu.hideMenu();
+        }
+    }
+
 
     /**
      * Given entity will be added to the game in the next frame
