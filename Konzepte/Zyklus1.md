@@ -14,7 +14,11 @@ In dieser Aufgabe sollen Fallen in den Dungeon implementiert werden. Diese solle
 
 ## Aufgabe 2 - Game-Over
 
+In dieser Aufgabe soll man den Spielertod implementieren. Wenn der Held stirbt, dann soll eine Meldung "Game Over" auf dem Bildschirm erscheinen. Danach soll der Spieler eine Auswahlmöglichkeit bekommen, ob er das Spiel beenden oder neustarten möchte. 
 
+## Aufgabe 3 - NPC-Ghost
+
+In dieser Aufgabe soll ein NPC-Ghost implementiert werden. Dieser soll als NPC den Spieler verfolgen und zusätzlich zufällig durch das Level "fliegt". Außerdem soll ein Grabstein generiert werden. Wenn der Spieler den Grabstein findet, soll dieser dafür belohnt bzw. bestraft werden. 
 
 # Beschreibung der Lösung
 
@@ -22,8 +26,13 @@ In dieser Aufgabe sollen Fallen in den Dungeon implementiert werden. Diese solle
 
 Wir wollen zwei Arten von Fallen erstellen. Bei der einen bekommt der Hero eine zufällig generierte Anzahl an Schaden. Bei der anderen Art der Falle erscheint ein zufälliges Monster vor dem Hero. Außerdem gibt es eine gewisse Anzahl an Schaltern, die benutzt werden können, um eine Falle zu deaktivieren. Die Falle soll als bodenähnliche Druckplatte auf dem Boden zu sehen sein. 
 
-## Aufgabe 2
+## Aufgabe 2 - Game-Over
 
+Wenn die Health-Points des Spielers (aus welchem Grund auch immer) auf 0 fallen, stirbt der Spieler, d.h. es wird ein "Game Over"-Screen (ähnlich wie das Pause-Menu) eingeblendet. Dort erscheinen dann noch zusätzlich zwei Buttons. Mit diesen kann der Spieler auswählen, ob er das Spiel beenden oder neustarten möchte. Beim Beenden wird die Java-Applikation ordnungsgemäß nach beendet. Beim Neustart wird ein neuer Run gestartet. 
+
+## Aufgabe 3 - NPC-Ghost
+
+Wir wollen einen Geist in Form eines verstorbenen Heros implementieren (also ein Hero-Skin mit weißer Umrandung). Dieser kann den Spieler anhand seiner Koordinaten verfolgen. Zusätzlich kann dieser frei durch das Level wandern. Dieser soll in jedem Level spawnen. Wenn der Spieler den dazugehörigen Grabstein findet, soll er mit einem Wahrscheinlichkeitsverhältnis von 70%/30% belohnt/bestraft werden. Als Belohnung/Bestrafung werden dem Spieler HP gegeben bzw. abgezogen.
 
 # Methoden und Techniken
 
@@ -34,87 +43,51 @@ Der Code wird mit JavaDoc dokumentiert. Dabei werden die entsprechenden Regeln e
 
 # Ansatz und Modellierung
 
-Wir erstellen eine `Monster`-Klasse mit den grundlegenden Eigenschaften und Funktionen
-eines Monsters.
+## Aufgabe 1 - Fallen
 
-Da Monster auch im Dungeon gezeichnet werden müssen, implementiert die Klasse `Monster`
-das Interface `IDrawable`. Die Monster sollen vom `EntityController` verwaltet werden,
-daher implementiert die Klasse auch das Interface `IEntity`.
+Wir erstellen eine `Fallen`-Klasse, die von `Entity` erbt. Diese hat die grundlegenden Komponenten einer Falle. Diese sind:
+- HitboxComponent (der Hero bekommt ebenfalls eine HitBoxComponent, damit eine Kollision zwischen zwei Entities möglich ist)
+- PositionComponent (wir nehmen den Konstruktor, der die Falle an eine zufällige Position setzt)
 
-## Monster haben zusätzlich folgende Grundeigenschaften:
+Die Fallen Klasse hat folgende Attribute:
+- `int damage` : Gib die HP an, die beim Betreten der Falle abgezogen werden.
+- `String pathToSkin` : Speicher den Pfad in dem das Bild für die Falle gespeichert ist. 
 
--   `float lebenspunkte`: Geben die verbleibenden Lebenspunkte des Monsters an
-    -   Hat das Monster 0 Lebenspunkte, wird es mit Hilfe der `deletable`-Methode
-        aus dem `EntityController`entfernt.
--   `float hSpeed`: Die Geschwindigkeit, in der sich das Monster horizontal bewegt
--   `float vSpeed`: Die Geschwindigkeit, in der sich das Monster vertikal bewegt
--   `float dmg`: Den Schaden, den das Monster im Kampf macht
--   `dungeonWorld level`: Genau wie der Held müssen auch Monster das Level kennen,
-    um sich darin zu bewegen. Wird im Konstruktor gesetzt.
+Der Hero bekommt zusätzlich eine Methode `getHit()`, die ihm die entsprechende Anzahl an HP abzieht. 
 
-## Monster haben zusätzlich folgende Grundfunktionen:
+## Aufgabe 2 - Game-Over
 
--   `void move()`: Bewegt das Monster in eine zufällige Richtung
+Der Game-Over-Screen soll ähnlich wie das Pausen-Menu realisiert werden. 
 
-    Dafür verwenden wir zwei Zufallszahlen: Die erste Zahl gibt an, ob sich das
-    Monster nach rechts oder links bewegt, die zweite Zahl, ob sich das Monster
-    nach oben oder unten bewegt. Zusätzlich gibt es die Chance, dass ein Monster
-    sich gar nicht bewegt.
+## Aufgabe 3 - NPC-Ghost
 
-    ```java
-    int linksOrechts = getRandomZahl(0,1);
-    int obenOunten = getRandomZahl(0,1);
+Wir erstellen eine `Ghost`-Klasse, die von `Entity` erbt. Diese hat die grundlegenden Komponenten eines NPC-Ghosts. Diese sind:
+- AnimationComponent (zur Animation des Ghosts)
+- PositionComponent
+- VelocityComponent
 
-    //30% Chance, sich nicht zu bewegen
-    if (getRandomZahl(0,100) > 30) {
-        //horizontal
-        if (linksOrechts == 0) {
-            this.x += this.hSpeed;
-        } else {
-            this.x -= this.hSpeed;
-        }
+Folgende Methoden sollen implementiert werden:
+- `setupVelocityComponent()`
+- `setupAnimationComponent()`
 
-        //vertikal
-        if (obenOunten == 0) {
-            this.y += this.vSpeed;
-        } else {
-            this.y -= this.vSpeed;
-        }
-    }
-    ```
+Die Klasse `Ghost` hat folgende Attribute:
+- `float xSpeed` : Die Geschwindigkeit, in der sich der Geist in x-Richtung bewegt.
+- `float ySpeed` : Die Geschwindigkeit, in der sich der Geist in y-Richtung bewegt.
+- `String pathToIdleLeft` : Hier wird der Pfad zu den Assets der Ghost-Animationen gespeichert.
+- `String pathToIdleRight` 
+- `String pathToRunLeft`
+- `String pathToRunRight`
 
--   `void getHit(float dmg)`: Zieht dem Monster Lebenspunkte ab
--   `float getDMG()`: Gibt Schaden zurück
--   `getRandomPosition()`: Wird im Konstruktor aufgerufen, sucht sich eine
-    zufällige Position im Dungeon als Spawn-Punkt
-
-## Daraus ergibt sich folgendes UML:
-
-![Klassendiagramm der angedachten Lösung](images/tagebuch_uml.png)
-
-## Beschreibung der konkreten Monster:
-
-1.  Igel:
-    -   Hat 5 Lebenspunkte
-    -   Macht 0.5 Schaden
-    -   Bewegt sich sowohl vertikal als auch horizontal mit 0.1f
-    -   Bewegt sich in eine zufällige Richtung
-
-2.  Schleimkugel:
-    -   Hat 3 Lebenspunkte
-    -   Macht 1 Schaden
-    -   Bewegt sich nur horizontal
-        -   hSpeed=0.2f;
-        -   vSpeed=0f;
-
-Monster werden beim Laden eines Levels im Dungeon verteilt. Dafür erstellen
-wir die Funktion `spawnMonster` in unserem `MainController`, welche in der
-`onLevelLoad`-Methode aufgerufen wird.
-
-`spawnMonster` erstellt eine zufällige Anzahl an Monstern (zwischen 5 und 10),
-platziert diese mit Hilfe von `getRandomPointInDungeon` (wie beim Helden) im
-Dungeon und fügt Sie dem `EntityController` hinzu.
-
-Verlässt der Spieler das Level, werden alle Monster aus dem `EntityController`
-gelöscht. Dafür wird die gesamte Liste des `EntityController` gelöscht und der
-Held neu hinzugefügt.
+Um den Grabstein zu realisieren erstellen wir eine neue Klasse `Grabstein`, die von der Klasse `Fallen` erbt, da diese ähnliche Eigenschaften wie der Grabstein hat. Der Unterschied zu den Fallen ist, dass der Grabstein den Spieler belohnen kann. Hier beträgt die Chance einer Belohnung 60%. Eine geeignete Methode könnte wie folgt aussehen:
+```java
+int damage;
+if (getRandomZahl(0,100) > 60){
+    damage = -20; 
+} 
+else {
+    damage = 20;
+}
+```
+Wir arbeiten mit folgenden Components für den Grabstein:
+- HitboxComponent 
+- PositionComponent (wir nehmen den Konstruktor, der die Falle an eine zufällige Position setzt)
