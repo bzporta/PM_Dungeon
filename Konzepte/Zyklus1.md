@@ -1,9 +1,8 @@
----
-title: "Konzeptskizze für Zyklus 1"
-author: "Bjarne Zaremba, Lukas Landmann, David Stevic"
 
-hidden: true
----
+#### title: "Konzeptskizze für Zyklus 1"
+
+#### author: "Bjarne Zaremba, Lukas Landmann, David Stevic"
+
 
 
 # Beschreibung der Aufgabe
@@ -18,13 +17,13 @@ In dieser Aufgabe soll man den Spielertod implementieren. Wenn der Held stirbt, 
 
 ## Aufgabe 3 - NPC-Ghost
 
-In dieser Aufgabe soll ein NPC-Ghost implementiert werden. Dieser soll als NPC den Spieler verfolgen und zusätzlich zufällig durch das Level "fliegt". Außerdem soll ein Grabstein generiert werden. Wenn der Spieler den Grabstein findet, soll dieser dafür belohnt bzw. bestraft werden. 
+In dieser Aufgabe soll ein NPC-Ghost implementiert werden. Dieser soll als NPC den Spieler verfolgen und zusätzlich zufällig durch das Level "fliegen". Außerdem soll ein Grabstein generiert werden. Wenn der Spieler den Grabstein findet, soll dieser dafür belohnt bzw. bestraft werden. 
 
 # Beschreibung der Lösung
 
 ## Aufgabe 1 - Fallen
 
-Wir wollen zwei Arten von Fallen erstellen. Bei der einen bekommt der Hero eine zufällig generierte Anzahl an Schaden. Bei der anderen Art der Falle erscheint ein zufälliges Monster vor dem Hero. Außerdem gibt es eine gewisse Anzahl an Schaltern, die benutzt werden können, um eine Falle zu deaktivieren. Die Falle soll als bodenähnliche Druckplatte auf dem Boden zu sehen sein. 
+Wir wollen zwei Arten von Fallen erstellen. Bei der einen bekommt der Hero eine zufällig generierte Anzahl an Schaden. Bei der anderen Art der Falle wird der Hero an einen zufälligen Ort im Level teleportiert. Außerdem gibt es eine gewisse Anzahl an Schaltern, die benutzt werden können, um eine Falle zu deaktivieren. Die Falle soll als bodenähnliche Druckplatte auf dem Boden zu sehen sein. 
 
 ## Aufgabe 2 - Game-Over
 
@@ -52,12 +51,21 @@ Wir erstellen eine `Fallen`-Klasse, die von `Entity` erbt. Diese hat die grundle
 Die Fallen Klasse hat folgende Attribute:
 - `int damage` : Gib die HP an, die beim Betreten der Falle abgezogen werden.
 - `String pathToSkin` : Speicher den Pfad in dem das Bild für die Falle gespeichert ist. 
+- `Hebel hebel`
 
 Der Hero bekommt zusätzlich eine Methode `getHit()`, die ihm die entsprechende Anzahl an HP abzieht. 
 
+Zusätzlich wird noch eine `Hebel`-Klasse implementiert. Wenn der Hebel benutzt wird, dann wird die zugehörige Falle deaktiviert. 
+Der Hebel braucht folgende Components:
+- InteractionComponent
+- PositionComponent
+- AnimationComponent
+
+Der Hebel hat eine `toogle()`-Methode und ein `isToggled`-Attribut.
+
 ## Aufgabe 2 - Game-Over
 
-Der Game-Over-Screen soll ähnlich wie das Pausen-Menu realisiert werden. 
+Der Game-Over-Screen soll ähnlich wie das Pausen-Menu realisiert werden. Dazu legen wir eine neue `GameOver`-Klasse im Ordner Hud an. Außerdem wird die Methode `frame()` aus der `starter.game`-Klasse erweitert. Es soll bei jedem Neuladen des Screens die HP des Heros überprüft werden. Wenn diese unter 1 fallen, wird die `showGameOverMenu`-Methode aufgerufen. Der Spieler bekommt dann die Möglichkeit über 2 Tasten auf der Tastatur auszuwählen, ob er das Spiel beenden oder neustarten will. Dafür nutzen wir die `(Gdx.input.isKeyJustPressed())`-Methode.
 
 ## Aufgabe 3 - NPC-Ghost
 
@@ -65,10 +73,13 @@ Wir erstellen eine `Ghost`-Klasse, die von `Entity` erbt. Diese hat die grundleg
 - AnimationComponent (zur Animation des Ghosts)
 - PositionComponent
 - VelocityComponent
+- AiComponent -> zum Verfolgen des Heros
 
 Folgende Methoden sollen implementiert werden:
 - `setupVelocityComponent()`
 - `setupAnimationComponent()`
+- `setupPositionComponent()`
+- `setupAiComponent()`
 
 Die Klasse `Ghost` hat folgende Attribute:
 - `float xSpeed` : Die Geschwindigkeit, in der sich der Geist in x-Richtung bewegt.
@@ -91,3 +102,9 @@ else {
 Wir arbeiten mit folgenden Components für den Grabstein:
 - HitboxComponent 
 - PositionComponent (wir nehmen den Konstruktor, der die Falle an eine zufällige Position setzt)
+
+Der Grabstein hat folgende Attribute: 
+- `pathToSkin`
+
+Der Grabstein hat folgende Methoden:
+- `setDamage()` -> mit dieser kann die Variable damage überschrieben werden
