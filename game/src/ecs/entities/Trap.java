@@ -4,18 +4,20 @@ import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
 import ecs.components.HitboxComponent;
 import ecs.components.PositionComponent;
-import graphic.Animation;
+import ecs.components.collision.ICollide;
+import org.lwjgl.system.Pointer;
 
 public abstract class Trap extends Entity{
 
-    private int damage;
-    private String pathToSkin;
+
     Lever lever;
+    PositionComponent pc;
+    HitboxComponent hb;
+    ICollide onEntry;
 
     public Trap(){
-        new HitboxComponent(this);
-        new PositionComponent(this);
-
+        hb = new HitboxComponent(this);
+        pc = new PositionComponent(this);
 
     }
 
@@ -23,6 +25,8 @@ public abstract class Trap extends Entity{
         new AnimationComponent(this,AnimationBuilder.buildAnimation(path));
     }
 
-
+    public void setTrapTile(tools.Point pt){
+        pc.setPosition(pt);
+    }
 
 }

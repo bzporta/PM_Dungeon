@@ -16,6 +16,7 @@ import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
+import ecs.entities.Trap;
 import ecs.entities.TrapDmg;
 import ecs.systems.*;
 import graphic.DungeonCamera;
@@ -24,6 +25,7 @@ import graphic.hud.GameOver;
 import graphic.hud.PauseMenu;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import level.IOnLevelLoader;
 import level.LevelAPI;
@@ -76,7 +78,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private static GameOver<Actor> gameOverMenu;
     private static Entity hero;
-    private static Entity falle;
+    private Trap falle;
     private Logger gameLogger;
 
     public static void main(String[] args) {
@@ -135,6 +137,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+
     }
 
     @Override
@@ -143,7 +146,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         entities.add(falle);
-
+        falle.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
     }
 
     private void manageEntitiesSets() {

@@ -7,6 +7,8 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import graphic.Animation;
 import graphic.hud.GameOver;
 
@@ -24,6 +26,7 @@ public class Hero extends Entity implements IOnDeathFunction {
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
+    private HealthComponent hp;
     private static GameOver<Actor> gameOverMenu;
     private Skill firstSkill;
 
@@ -61,12 +64,12 @@ public class Hero extends Entity implements IOnDeathFunction {
     private void setupHitboxComponent() {
         new HitboxComponent(
                 this,
-                (you, other, direction) -> System.out.println("heroCollisionEnter"),
-                (you, other, direction) -> System.out.println("heroCollisionLeave"));
+                (you, other, direction) -> hp.receiveHit(new Damage(20, DamageType.PHYSICAL, hp.getEntity())),
+                null);
     }
 
     private void setupHealthComponent(){
-        HealthComponent hp = new HealthComponent(this);
+        hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
