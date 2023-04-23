@@ -48,10 +48,10 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        //Befehl in der Bash ausführen 
+                        //Befehl in der Bash ausführen
                         Runtime runtime = Runtime.getRuntime();
                         try {
-                            
+
                             runtime.exec("./gradlew run");
                             System.exit(0);
                         } catch (IOException e) {
@@ -62,14 +62,14 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
                     .setFontColor(Color.WHITE)
                     .build()
-                
+
             );
         screenButton_neustart.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f - screenButton_neustart.getWidth(),
                 (Constants.WINDOW_HEIGHT) / 2f + screenButton_neustart.getHeight(),
                 Align.center | Align.bottom);
 
-        
+
         add((T) screenButton_neustart);
 
         ScreenButton screenButton_beenden =
@@ -79,25 +79,23 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        //Befehl in der Bash ausführen 
+                        //Befehl in der Bash ausführen
                         System.exit(0);
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
                     .setFontColor(Color.WHITE)
                     .build()
-                
+
             );
         screenButton_beenden.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f + screenButton_beenden.getWidth(),
                 (Constants.WINDOW_HEIGHT) / 2f + screenButton_beenden.getHeight(),
                 Align.center | Align.bottom);
 
-        
+
         add((T) screenButton_beenden);
-
-
-        //hideMenu();
+        hideMenu();
     }
 
     /** shows the Menu */

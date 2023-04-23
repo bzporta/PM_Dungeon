@@ -68,8 +68,9 @@ public class Hero extends Entity implements IOnDeathFunction {
     private void setupHealthComponent(){
         HealthComponent hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
+        hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
-        hp.setCurrentHealthpoints(0);
+
     }
 
     //TODO JavaDoc

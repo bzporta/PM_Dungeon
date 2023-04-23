@@ -16,6 +16,7 @@ import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
+import ecs.entities.TrapDmg;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
@@ -75,6 +76,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private static GameOver<Actor> gameOverMenu;
     private static Entity hero;
+    private static Entity falle;
     private Logger gameLogger;
 
     public static void main(String[] args) {
@@ -120,6 +122,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOver<>();
         controller.add(gameOverMenu);
+        falle = new TrapDmg();
         hero = new Hero();
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
@@ -139,6 +142,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
+        entities.add(falle);
+
     }
 
     private void manageEntitiesSets() {
@@ -206,7 +211,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    
+
 
 
     /**
