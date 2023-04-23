@@ -44,9 +44,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                     }
                 }
             );
-        screenButton.setScale(2.0f);
 
-        screenButton.setColor(new Color(3.0f, 2.0f, 2.0f, 1.0f));
         add((T) screenButton);
 
         //hideMenu();
