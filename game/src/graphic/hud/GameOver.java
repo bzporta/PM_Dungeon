@@ -3,6 +3,7 @@ package graphic.hud;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ScreenController;
 import tools.Constants;
@@ -32,7 +33,23 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 (Constants.WINDOW_HEIGHT) / 1.5f + screenText.getHeight(),
                 Align.center | Align.bottom);
         add((T) screenText);
-        hideMenu();
+        ScreenButton screenButton =
+            new ScreenButton(
+                "Neustart",
+                new Point(0, 0),
+                new TextButtonListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+
+                    }
+                }
+            );
+        screenButton.setScale(2.0f);
+
+        screenButton.setColor(new Color(3.0f, 2.0f, 2.0f, 1.0f));
+        add((T) screenButton);
+
+        //hideMenu();
     }
 
     /** shows the Menu */
