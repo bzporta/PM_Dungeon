@@ -48,6 +48,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+
                         //Befehl in der Bash ausführen
                         Runtime runtime = Runtime.getRuntime();
                         try {
@@ -57,6 +58,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        //Anwendung neustarten
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
