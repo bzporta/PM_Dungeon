@@ -48,15 +48,8 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        //Befehl in der Bash ausführen 
-                        Runtime runtime = Runtime.getRuntime();
-                        try {
-                            
-                            runtime.exec("./gradlew run");
-                            System.exit(0);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        //Anwendung neustarten
+                        starter.Game.setup();
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
