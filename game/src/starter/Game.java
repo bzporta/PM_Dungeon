@@ -206,16 +206,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    public static void toggleGameOver() {
-        paused = !paused;
-        if (systems != null) {
-            systems.forEach(ECS_System::toggleRun);
-        }
-        if (gameOverMenu != null) {
-            if (paused) gameOverMenu.showMenu();
-            else gameOverMenu.hideMenu();
-        }
-    }
+    
 
 
     /**

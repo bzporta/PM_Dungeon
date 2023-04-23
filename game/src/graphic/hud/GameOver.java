@@ -5,6 +5,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
+import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static logging.LoggerConfig.initBaseLogger;
+import java.io.IOException;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import controller.ScreenController;
 import tools.Constants;
 import tools.Point;
@@ -33,16 +41,22 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 (Constants.WINDOW_HEIGHT) / 1.5f + screenText.getHeight(),
                 Align.center | Align.bottom);
         add((T) screenText);
-        ScreenButton screenButton =
+        ScreenButton screenButton_neustart =
             new ScreenButton(
                 "Neustart",
                 new Point(0, 0),
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        //Game Beenden
-                        System.out.println("Neustart");
-                        //DesktopLauncher.run(new Game());
+                        //Befehl in der Bash ausführen 
+                        Runtime runtime = Runtime.getRuntime();
+                        try {
+                            
+                            runtime.exec("./gradlew run");
+                            System.exit(0);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -50,13 +64,38 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                     .build()
                 
             );
-        screenButton.setPosition(
-                (Constants.WINDOW_WIDTH) / 2f - screenButton.getWidth(),
-                (Constants.WINDOW_HEIGHT) / 2f + screenButton.getHeight(),
+        screenButton_neustart.setPosition(
+                (Constants.WINDOW_WIDTH) / 2f - screenButton_neustart.getWidth(),
+                (Constants.WINDOW_HEIGHT) / 2f + screenButton_neustart.getHeight(),
                 Align.center | Align.bottom);
 
         
-        add((T) screenButton);
+        add((T) screenButton_neustart);
+
+        ScreenButton screenButton_beenden =
+            new ScreenButton(
+                "Beenden",
+                new Point(0, 0),
+                new TextButtonListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        //Befehl in der Bash ausführen 
+                        System.exit(0);
+                    }
+                },
+                new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
+                    .setFontColor(Color.WHITE)
+                    .build()
+                
+            );
+        screenButton_beenden.setPosition(
+                (Constants.WINDOW_WIDTH) / 2f + screenButton_beenden.getWidth(),
+                (Constants.WINDOW_HEIGHT) / 2f + screenButton_beenden.getHeight(),
+                Align.center | Align.bottom);
+
+        
+        add((T) screenButton_beenden);
+
 
         //hideMenu();
     }
