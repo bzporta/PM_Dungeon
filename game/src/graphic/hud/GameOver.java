@@ -40,11 +40,22 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-
+                        //Game Beenden
+                        System.out.println("Neustart");
+                        //DesktopLauncher.run(new Game());
                     }
-                }
+                },
+                new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
+                    .setFontColor(Color.WHITE)
+                    .build()
+                
             );
+        screenButton.setPosition(
+                (Constants.WINDOW_WIDTH) / 2f - screenButton.getWidth(),
+                (Constants.WINDOW_HEIGHT) / 2f + screenButton.getHeight(),
+                Align.center | Align.bottom);
 
+        
         add((T) screenButton);
 
         //hideMenu();
