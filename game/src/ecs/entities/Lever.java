@@ -11,8 +11,7 @@ public class Lever extends Entity {
 
     private String pathToSkin = "dungeon/lever/e2063a6ece3a560.png";
     public Lever(){
-
-        ic = new InteractionComponent(this, 5f, false, entity -> System.out.println("121212"));
+        new InteractionComponent(this, 1f, false, this::pullLever);
         pc = new PositionComponent(this);
         setupAnimation(pathToSkin);
 
@@ -25,4 +24,7 @@ public class Lever extends Entity {
         pc.setPosition(pt);
     }
 
+    private void pullLever(Entity entity){
+        System.out.println("moin");
+    }
 }

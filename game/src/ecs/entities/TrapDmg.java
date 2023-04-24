@@ -6,7 +6,7 @@ import ecs.damage.DamageType;
 public class TrapDmg extends Trap{
 
     private static final Damage dmg = new Damage(20, DamageType.PHYSICAL, null);
-    String pathToSkin = "dungeon/trap/Pit_Trap_Spikes.png";
+    private String pathToSkin = "dungeon/trap/Pit_Trap_Spikes.png";
 
     public TrapDmg(){
         super();

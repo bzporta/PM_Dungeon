@@ -9,9 +9,9 @@ import ecs.components.PositionComponent;
 public abstract class Trap extends Entity{
 
 
-    Lever lever;
-    PositionComponent pc;
-    HitboxComponent hb;
+    private Lever lever;
+    private PositionComponent pc;
+    private HitboxComponent hb;
 
 
     public Trap(){
