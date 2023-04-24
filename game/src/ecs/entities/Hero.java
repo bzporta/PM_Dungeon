@@ -64,7 +64,11 @@ public class Hero extends Entity implements IOnDeathFunction {
     private void setupHitboxComponent() {
         new HitboxComponent(
                 this,
-                (you, other, direction) -> hp.receiveHit(new Damage(20, DamageType.PHYSICAL, hp.getEntity())),
+                (hero, other, direction) -> {
+                    if(other instanceof TrapDmg){
+                        hp.receiveHit(TrapDmg.getDmg());
+                    }
+                },
                 null);
     }
 
@@ -73,7 +77,6 @@ public class Hero extends Entity implements IOnDeathFunction {
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
-
     }
 
     //TODO JavaDoc

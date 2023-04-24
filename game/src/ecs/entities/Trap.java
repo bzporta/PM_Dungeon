@@ -13,7 +13,7 @@ public abstract class Trap extends Entity{
     Lever lever;
     PositionComponent pc;
     HitboxComponent hb;
-    ICollide onEntry;
+
 
     public Trap(){
         hb = new HitboxComponent(this);
