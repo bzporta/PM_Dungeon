@@ -70,6 +70,7 @@ public class Hero extends Entity implements IOnDeathFunction {
                     }
                 },
                 null);
+
     }
 
     private void setupHealthComponent(){

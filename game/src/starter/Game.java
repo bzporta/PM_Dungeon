@@ -147,6 +147,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         getHero().ifPresent(this::placeOnLevelStart);
         entities.add(falle);
         falle.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+        entities.add(falle.getLever());
+        falle.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+
     }
 
     private void manageEntitiesSets() {
