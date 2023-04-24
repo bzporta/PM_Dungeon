@@ -4,8 +4,7 @@ import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
 import ecs.components.HitboxComponent;
 import ecs.components.PositionComponent;
-import ecs.components.collision.ICollide;
-import org.lwjgl.system.Pointer;
+
 
 public abstract class Trap extends Entity{
 
@@ -18,7 +17,7 @@ public abstract class Trap extends Entity{
     public Trap(){
         hb = new HitboxComponent(this);
         pc = new PositionComponent(this);
-
+        lever = new Lever();
     }
 
     public void setupAnimation(String path){
@@ -29,4 +28,7 @@ public abstract class Trap extends Entity{
         pc.setPosition(pt);
     }
 
+    public Lever getLever(){
+        return lever;
+    }
 }
