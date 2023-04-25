@@ -78,6 +78,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private static GameOver<Actor> gameOverMenu;
     private static Entity hero;
+    private static Ghost ghost;
     private Logger gameLogger;
 
     public static void main(String[] args) {
@@ -128,6 +129,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
+        ghost = new Ghost((Hero) hero);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
@@ -150,6 +152,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapTeleportCreator.creator(1,entities,currentLevel);
         trapDmgCreator.creator(1,entities,currentLevel);
         trapDmgCreator.clearList();
+        entities.add(ghost);
+        ghost.setSpawn();
     }
 
     private void manageEntitiesSets() {
@@ -268,6 +272,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static Optional<Entity> getHero() {
         return Optional.ofNullable(hero);
     }
+
 
     public static Game getGame() {
         return game;

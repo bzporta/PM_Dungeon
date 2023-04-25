@@ -11,6 +11,7 @@ import ecs.components.skill.*;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import graphic.hud.GameOver;
+import tools.Point;
 
 
 /**
@@ -31,10 +32,12 @@ public class Hero extends Entity implements IOnDeathFunction {
     private static GameOver<Actor> gameOverMenu2;
     private Skill firstSkill;
 
+    private PositionComponent pc;
+
     /** Entity with Components */
     public Hero() {
         super();
-        new PositionComponent(this);
+        pc = new PositionComponent(this);
         setupHealthComponent();
         setupVelocityComponent();
         setupAnimationComponent();
@@ -42,7 +45,6 @@ public class Hero extends Entity implements IOnDeathFunction {
         PlayableComponent pc = new PlayableComponent(this);
         setupFireballSkill();
         pc.setSkillSlot1(firstSkill);
-        //gameOverMenu2 = new GameOver<>();
     }
 
     private void setupVelocityComponent() {
@@ -90,7 +92,8 @@ public class Hero extends Entity implements IOnDeathFunction {
         System.out.println("Game Over");
     }
 
-    public void setHealthpoints(int hp){
-        this.hp.setCurrentHealthpoints(hp);
+    public Point getPosition(){
+        return pc.getPosition();
     }
+
 }
