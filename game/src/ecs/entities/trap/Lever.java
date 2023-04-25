@@ -1,8 +1,8 @@
-package ecs.entities;
+package ecs.entities.trap;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
-import ecs.damage.Damage;
+import ecs.entities.Entity;
 
 public class Lever extends Entity {
 
@@ -26,7 +26,12 @@ public class Lever extends Entity {
         pc.setPosition(pt);
     }
 
+    public tools.Point getPoint(){
+        return pc.getPosition();
+    }
+
     private void pullLever(Entity entity){
         trap.deactivateTrap();
+        setupAnimation("dungeon/lever/flippedlever.png");
     }
 }

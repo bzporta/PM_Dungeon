@@ -1,10 +1,13 @@
-package ecs.entities;
+package ecs.entities.trap;
 
 import ecs.components.HitboxComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.entities.Entity;
+import ecs.entities.Hero;
+import ecs.entities.trap.Trap;
 
-public class TrapTeleport extends Trap{
+public class TrapTeleport extends Trap {
 
     private String pathToSkin = "dungeon/trap/TeleportTrapSkin.png";
     private HitboxComponent hb;

@@ -15,6 +15,7 @@ import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.*;
+import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
@@ -22,7 +23,6 @@ import graphic.hud.GameOver;
 import graphic.hud.PauseMenu;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import level.IOnLevelLoader;
 import level.LevelAPI;
@@ -57,6 +57,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Generates the level */
     protected IGenerator generator;
 
+    private TrapDmgCreator trapDmgCreator;
+    private TrapTeleportCreator trapTeleportCreator;
     private boolean doSetup = true;
     private static boolean paused = false;
 
@@ -120,10 +122,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOver<>();
         controller.add(gameOverMenu);
+        trapDmgCreator = new TrapDmgCreator();
+        trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
+
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -140,20 +145,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-        Trap falle = new TrapDmg();
-        Trap falle2 = new TrapTeleport(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
-        entities.add(falle);
-        entities.add(falle2);
-        falle.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
-        falle2.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
-        if (falle.getLever() != null){
-            entities.add(falle.getLever());
-            falle.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
-        }
-        if (falle2.getLever() != null){
-            entities.add(falle2.getLever());
-            falle2.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
-        }
+        trapTeleportCreator.creator(2,entities,currentLevel);
+        trapDmgCreator.creator(2,entities,currentLevel);
+        trapDmgCreator.clearList();
 
     }
 

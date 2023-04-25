@@ -1,14 +1,17 @@
-package ecs.entities;
+package ecs.entities.trap;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
 import ecs.components.HitboxComponent;
 import ecs.components.PositionComponent;
+import ecs.entities.Entity;
+import ecs.entities.trap.Lever;
 
+import java.awt.*;
 import java.util.Random;
 
 
-public abstract class Trap extends Entity{
+public abstract class Trap extends Entity {
 
 
     private Lever lever;
@@ -35,6 +38,10 @@ public abstract class Trap extends Entity{
 
     public Lever getLever(){
         return lever;
+    }
+
+    public tools.Point getPoint(){
+        return pc.getPosition();
     }
 
     public abstract void deactivateTrap();

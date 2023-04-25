@@ -1,9 +1,10 @@
-package ecs.entities;
+package ecs.entities.trap;
 
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import ecs.entities.trap.Trap;
 
-public class TrapDmg extends Trap{
+public class TrapDmg extends Trap {
 
     private static Damage dmg;
     private String pathToSkin = "dungeon/trap/Pit_Trap_Spikes.png";
