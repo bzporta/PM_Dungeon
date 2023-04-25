@@ -14,10 +14,7 @@ import controller.AbstractController;
 import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
-import ecs.entities.Entity;
-import ecs.entities.Hero;
-import ecs.entities.Trap;
-import ecs.entities.TrapDmg;
+import ecs.entities.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
@@ -78,7 +75,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private static GameOver<Actor> gameOverMenu;
     private static Entity hero;
-    private Trap falle;
     private Logger gameLogger;
 
     public static void main(String[] args) {
@@ -144,12 +140,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-        falle = new TrapDmg();
+        Trap falle = new TrapDmg();
+        Trap falle2 = new TrapTeleport(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
         entities.add(falle);
+        entities.add(falle2);
         falle.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+        falle2.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
         if (falle.getLever() != null){
             entities.add(falle.getLever());
             falle.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+        }
+        if (falle2.getLever() != null){
+            entities.add(falle2.getLever());
+            falle2.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
         }
 
     }
