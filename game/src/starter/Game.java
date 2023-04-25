@@ -145,9 +145,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-        trapTeleportCreator.creator(2,entities,currentLevel);
-        trapDmgCreator.creator(2,entities,currentLevel);
+        trapTeleportCreator.creator(1,entities,currentLevel);
+        trapDmgCreator.creator(1,entities,currentLevel);
         trapDmgCreator.clearList();
+
 
     }
 
