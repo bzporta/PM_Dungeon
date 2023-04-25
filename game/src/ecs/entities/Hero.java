@@ -89,4 +89,8 @@ public class Hero extends Entity implements IOnDeathFunction {
         gameOverMenu2.showMenu();
         System.out.println("Game Over");
     }
+
+    public void setHealthpoints(int hp){
+        this.hp.setCurrentHealthpoints(hp);
+    }
 }

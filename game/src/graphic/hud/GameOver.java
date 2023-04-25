@@ -8,12 +8,16 @@ import com.badlogic.gdx.utils.Align;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static logging.LoggerConfig.initBaseLogger;
 import java.io.IOException;
+import java.util.Optional;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import controller.ScreenController;
+import ecs.entities.Entity;
+import ecs.entities.Hero;
 import starter.Game;
 import tools.Constants;
 import tools.Point;
@@ -49,17 +53,13 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-
-                        //Befehl in der Bash ausführen
-                        Runtime runtime = Runtime.getRuntime();
-                        try {
-
-                            runtime.exec("./gradlew run");
-                            System.exit(0);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        //Anwendung neustarten
+                        //Lade neues Level
+                        //Game.getInstance().setScreen(new GameScreen());
+                        Game game = Game.getGame();
+                        Hero hero = new Hero();
+                        game.setHero(hero);
+                        game.onLevelLoad();
+                        starter.Game.getGameOverMenu().hideMenu();
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -82,7 +82,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 new TextButtonListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        //Befehl in der Bash ausführen
+
                         System.exit(0);
                     }
                 },

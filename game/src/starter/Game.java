@@ -46,6 +46,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     protected SpriteBatch batch;
 
+    private static Game game;
     /** Contains all Controller of the Dungeon */
     protected List<AbstractController<?>> controller;
 
@@ -53,12 +54,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Draws objects */
     protected Painter painter;
 
-    protected LevelAPI levelAPI;
+    protected static LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
 
-    private TrapDmgCreator trapDmgCreator;
-    private TrapTeleportCreator trapTeleportCreator;
+    private static TrapDmgCreator trapDmgCreator;
+    private static TrapTeleportCreator trapTeleportCreator;
     private boolean doSetup = true;
     private static boolean paused = false;
 
@@ -86,7 +87,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        DesktopLauncher.run(new Game());
+        game = new Game();
+        DesktopLauncher.run(game);
     }
 
     /**
@@ -148,8 +150,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapTeleportCreator.creator(1,entities,currentLevel);
         trapDmgCreator.creator(1,entities,currentLevel);
         trapDmgCreator.clearList();
-
-
     }
 
     private void manageEntitiesSets() {
@@ -269,6 +269,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return Optional.ofNullable(hero);
     }
 
+    public static Game getGame() {
+        return game;
+    }
     /**
      * set the reference of the playable character careful: old hero will not be removed from the
      * game
