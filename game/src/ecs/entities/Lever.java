@@ -2,15 +2,18 @@ package ecs.entities;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
+import ecs.damage.Damage;
 
 public class Lever extends Entity {
 
     private PositionComponent pc;
     private InteractionComponent ic;
-
+    Trap trap;
 
     private String pathToSkin = "dungeon/lever/e2063a6ece3a560.png";
-    public Lever(){
+
+    public Lever(Trap trap){
+        this.trap = trap;
         new InteractionComponent(this, 1f, false, this::pullLever);
         pc = new PositionComponent(this);
         setupAnimation(pathToSkin);
@@ -25,6 +28,6 @@ public class Lever extends Entity {
     }
 
     private void pullLever(Entity entity){
-        System.out.println("moin");
+        trap.deactivateTrap();
     }
 }

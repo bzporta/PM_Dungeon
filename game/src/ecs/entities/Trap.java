@@ -17,7 +17,7 @@ public abstract class Trap extends Entity{
     public Trap(){
         hb = new HitboxComponent(this);
         pc = new PositionComponent(this);
-        lever = new Lever();
+        lever = new Lever(this);
     }
 
     public void setupAnimation(String path){
@@ -31,4 +31,6 @@ public abstract class Trap extends Entity{
     public Lever getLever(){
         return lever;
     }
+
+    public abstract void deactivateTrap();
 }
