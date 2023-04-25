@@ -125,7 +125,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         gameOverMenu = new GameOver<>();
         controller.add(gameOverMenu);
         hero = new Hero();
-        falle = new TrapDmg();
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
@@ -145,10 +144,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
+        falle = new TrapDmg();
         entities.add(falle);
         falle.setTrapTile(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
-        entities.add(falle.getLever());
-        falle.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+        if (falle.getLever() != null){
+            entities.add(falle.getLever());
+            falle.getLever().setLever(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+        }
 
     }
 

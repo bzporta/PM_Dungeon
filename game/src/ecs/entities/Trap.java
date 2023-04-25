@@ -5,6 +5,8 @@ import ecs.components.AnimationComponent;
 import ecs.components.HitboxComponent;
 import ecs.components.PositionComponent;
 
+import java.util.Random;
+
 
 public abstract class Trap extends Entity{
 
@@ -17,7 +19,10 @@ public abstract class Trap extends Entity{
     public Trap(){
         hb = new HitboxComponent(this);
         pc = new PositionComponent(this);
-        lever = new Lever(this);
+        Random rand = new Random();
+        if (rand.nextDouble() < 0.5){
+            lever = new Lever(this);
+        }
     }
 
     public void setupAnimation(String path){
