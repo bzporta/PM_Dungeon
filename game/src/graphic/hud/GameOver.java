@@ -54,7 +54,6 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         //Lade neues Level
-                        //Game.getInstance().setScreen(new GameScreen());
                         Game game = Game.getGame();
                         Hero hero = new Hero();
                         game.setHero(hero);
