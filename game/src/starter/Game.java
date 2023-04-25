@@ -310,4 +310,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new SkillSystem();
         new ProjectileSystem();
     }
+
+    //test test 221
+    private int get5() {
+        return 5;
+    }
 }
