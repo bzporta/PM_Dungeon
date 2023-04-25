@@ -18,8 +18,8 @@ import ecs.entities.*;
 import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
-import graphic.Painter;
 import graphic.hud.GameOver;
+import graphic.Painter;
 import graphic.hud.PauseMenu;
 import java.io.IOException;
 import java.util.*;
@@ -122,6 +122,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOver<>();
         controller.add(gameOverMenu);
+        gameOverMenu.hideMenu();
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
@@ -137,7 +138,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-
     }
 
     @Override
@@ -216,6 +216,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    public static GameOver getGameOverMenu() {
+        return gameOverMenu;
+    }
 
 
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import controller.ScreenController;
+import starter.Game;
 import tools.Constants;
 import tools.Point;
 
@@ -24,7 +25,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
         this(new SpriteBatch());
     }
 
-    /** Creates a new PauseMenu with a given Spritebatch */
+    /** Creates a new GameOverMenu with a given Spritebatch */
     public GameOver(SpriteBatch batch) {
         super(batch);
         ScreenText screenText =
@@ -97,12 +98,14 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
 
 
         add((T) screenButton_beenden);
-        hideMenu();
+        //hideMenu();
     }
 
     /** shows the Menu */
     public void showMenu() {
+        System.out.println("showMenu");
         this.forEach((Actor s) -> s.setVisible(true));
+
     }
 
     /** hides the Menu */

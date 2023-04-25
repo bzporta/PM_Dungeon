@@ -1,5 +1,6 @@
 package ecs.entities;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
@@ -10,6 +11,7 @@ import ecs.components.skill.*;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import graphic.hud.GameOver;
+
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
@@ -26,7 +28,7 @@ public class Hero extends Entity implements IOnDeathFunction {
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
     private HealthComponent hp;
-    private static GameOver<Actor> gameOverMenu;
+    private static GameOver<Actor> gameOverMenu2;
     private Skill firstSkill;
 
     /** Entity with Components */
@@ -40,6 +42,7 @@ public class Hero extends Entity implements IOnDeathFunction {
         PlayableComponent pc = new PlayableComponent(this);
         setupFireballSkill();
         pc.setSkillSlot1(firstSkill);
+        //gameOverMenu2 = new GameOver<>();
     }
 
     private void setupVelocityComponent() {
@@ -76,12 +79,14 @@ public class Hero extends Entity implements IOnDeathFunction {
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
+        //hp.setCurrentHealthpoints(0);
     }
 
     //TODO JavaDoc
     @Override
     public void onDeath(Entity entity){
-        gameOverMenu = new GameOver<>();
-        gameOverMenu.showMenu();
+        gameOverMenu2 = starter.Game.getGameOverMenu();
+        gameOverMenu2.showMenu();
+        System.out.println("Game Over");
     }
 }
