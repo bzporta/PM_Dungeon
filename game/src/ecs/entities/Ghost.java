@@ -29,17 +29,17 @@ public class Ghost extends Entity{
     private PositionComponent pc;
     private AIComponent ai;
 
-    private Hero hero;
+    private Grave grave;
 
     /** Constructor
      * Creates a ghost-object which the Hero can be followed by
-     * @param follows Hero which the ghost follows
+     * @param spawn Grave on which the Ghost spawns
      * */
-    public Ghost(Hero follows){
+    public Ghost(Grave spawn){
         pc = new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
-        this.hero = follows;
+        this.grave = spawn;
         setupAiComponent();
     }
 
@@ -62,6 +62,6 @@ public class Ghost extends Entity{
 
     /** Sets the position of the ghost to the position of the hero */
     public void setSpawn(){
-        pc.setPosition(hero.getPosition());
+        pc.setPosition(grave.getPosition());
     }
 }

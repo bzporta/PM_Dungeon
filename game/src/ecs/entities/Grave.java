@@ -6,6 +6,10 @@ import ecs.components.InteractionComponent;
 import ecs.components.PositionComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import level.elements.ILevel;
+import level.elements.tile.Tile;
+import starter.Game;
+import tools.Point;
 
 import java.util.Random;
 
@@ -26,9 +30,14 @@ public class Grave extends Entity{
         new AnimationComponent(this, AnimationBuilder.buildAnimation(path));
     }
 
-    public void setGrave(tools.Point pt){
-        pc.setPosition(pt);
+    public void setGrave(ILevel currentlevel){
+        Tile tile;
+        do {
+            tile = currentlevel.getRandomFloorTile();
+            pc.setPosition(tile.getCoordinateAsPoint());
+        } while (Game.positionList.contains(tile));
         setupAnimation(pathToSkin);
+        Game.positionList.add(tile);
     }
 
     private void event(Entity entity){
@@ -41,5 +50,9 @@ public class Grave extends Entity{
             hero.getHC().receiveHit(new Damage(20, DamageType.MAGIC,null));
         }
         setupAnimation("dungeon/grave/graveused.png");
+    }
+
+    public Point getPosition(){
+        return pc.getPosition();
     }
 }

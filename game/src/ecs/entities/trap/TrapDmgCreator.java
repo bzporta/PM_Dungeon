@@ -21,33 +21,25 @@ public class TrapDmgCreator implements TrapFactory{
 
         Tile tile;
 
-        positionList.add(currentLevel.getStartTile());
+        starter.Game.positionList.add(currentLevel.getStartTile());
         for(int i = 0; i < anzahl; i++) {
             Trap falle = new TrapDmg();
             entity.add(falle);
             do{
                 tile = currentLevel.getRandomFloorTile();
                 falle.setTrapTile(tile.getCoordinate().toPoint());
-            }while(positionList.contains(tile));
-            positionList.add(tile);
+            }while(starter.Game.positionList.contains(tile));
+            starter.Game.positionList.add(tile);
 
             if (falle.getLever() != null){
                 entity.add(falle.getLever());
                 do{
                     tile = currentLevel.getRandomFloorTile();
                     falle.getLever().setLever(tile.getCoordinate().toPoint());
-                }while(positionList.contains(tile));
-                positionList.add(tile);
+                }while(starter.Game.positionList.contains(tile));
+                starter.Game.positionList.add(tile);
             }
         }
-        //to delete
-        System.out.println(positionList.size() + "  !!!!!!!");
     }
 
-    /** Clears the list of positions
-     */
-    @Override
-    public void clearList() {
-        positionList.removeAll(positionList);
-    }
 }

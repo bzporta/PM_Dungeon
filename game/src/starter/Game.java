@@ -66,6 +66,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     /** All entities that are currently active in the dungeon */
     private static final Set<Entity> entities = new HashSet<>();
+    private static Entity hero;
+    private static Ghost ghost;
+    private static Grave grave;
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
     /** All entities to be added from the dungeon in the next frame */
@@ -78,10 +81,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
 
     private static GameOver<Actor> gameOverMenu;
-    private static Entity hero;
-    private static Ghost ghost;
-    private static Grave grave;
     private Logger gameLogger;
+
+    /** List of Tile positions for entities
+     */
+    public static ArrayList<Tile> positionList = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -132,7 +136,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
-        ghost = new Ghost((Hero) hero);
+        //ghost = new Ghost(grave);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
@@ -150,15 +154,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     @Override
     public void onLevelLoad() {
         currentLevel = levelAPI.getCurrentLevel();
+        clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         trapTeleportCreator.creator(1,entities,currentLevel);
         trapDmgCreator.creator(1,entities,currentLevel);
-        trapDmgCreator.clearList();
-        entities.add(ghost);
-        ghost.setSpawn();
         entities.add(grave = new Grave((Hero)hero));
-        grave.setGrave(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+        grave.setGrave(currentLevel);
+        entities.add(ghost = new Ghost(grave));
+        ghost.setSpawn();
     }
 
     private void manageEntitiesSets() {
@@ -335,5 +339,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static void restartGame(){
         getGame().setup();
+    }
+
+    private void clearPositionlist() {
+        positionList.removeAll(positionList);
     }
 }

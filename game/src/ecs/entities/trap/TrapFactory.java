@@ -14,9 +14,6 @@ import java.util.Set;
  */
 public interface TrapFactory {
 
-    /** List of positions
-     */
-    ArrayList<Tile> positionList = new ArrayList<>();
 
     /** Creates a Trap
      * @param anzahl number of traps to be created
@@ -25,7 +22,5 @@ public interface TrapFactory {
      */
     void creator(int anzahl, Set<Entity> entity, ILevel currentLevel);
 
-    /** Clears the list of positions
-     */
-    void clearList();
+
 }
