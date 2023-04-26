@@ -315,4 +315,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new SkillSystem();
         new ProjectileSystem();
     }
+
+    public static void restartGame(){
+        getGame().setup();
+    }
 }

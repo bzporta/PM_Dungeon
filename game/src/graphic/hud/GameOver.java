@@ -54,11 +54,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         //Lade neues Level
-                        Game game = Game.getGame();
-                        Hero hero = new Hero();
-                        game.setHero(hero);
-                        game.onLevelLoad();
-                        starter.Game.getGameOverMenu().hideMenu();
+                        Game.restartGame();
                     }
                 },
                 new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
