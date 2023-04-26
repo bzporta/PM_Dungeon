@@ -10,6 +10,7 @@ import starter.Game;
 import tools.Constants;
 import tools.Point;
 
+/** GameOverMenu is a ScreenController that is shown when the player dies */
 public class GameOver<T extends Actor> extends ScreenController<T> {
 
     /** Creates a new GameOverMenu with a new Spritebatch */

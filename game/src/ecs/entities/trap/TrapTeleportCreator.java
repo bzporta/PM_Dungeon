@@ -7,10 +7,18 @@ import level.elements.tile.Tile;
 
 import java.util.Set;
 
+/**
+ * A class that creates Teleportation Traps
+ */
 public class TrapTeleportCreator implements TrapFactory{
 
 
 
+    /** Creates a Teleportation Trap
+     * @param anzahl number of traps to be created
+     * @param entity set of entities
+     * @param currentLevel current level
+     */
     @Override
     public void creator(int anzahl, Set<Entity> entity, ILevel currentLevel) {
 

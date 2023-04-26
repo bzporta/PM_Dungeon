@@ -13,6 +13,9 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+/** Ghost class
+ * This class represents a ghost which follows the hero
+ * */
 public class Ghost extends Entity{
 
     private final float xSpeed = 0.1f;
