@@ -13,6 +13,9 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+/** Ghost class
+ * This class represents a ghost which follows the hero
+ * */
 public class Ghost extends Entity{
 
     private final float xSpeed = 0.1f;
@@ -28,6 +31,10 @@ public class Ghost extends Entity{
 
     private Hero hero;
 
+    /** Constructor
+     * Creates a ghost-object which the Hero can be followed by
+     * @param follows Hero which the ghost follows
+     * */
     public Ghost(Hero follows){
         pc = new PositionComponent(this);
         setupVelocityComponent();
@@ -53,6 +60,7 @@ public class Ghost extends Entity{
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
+    /** Sets the position of the ghost to the position of the hero */
     public void setSpawn(){
         pc.setPosition(hero.getPosition());
     }

@@ -10,6 +10,9 @@ import ecs.entities.trap.Lever;
 import java.awt.*;
 import java.util.Random;
 
+/** Trap class
+ * A trap that can be deactivated by a lever
+ */
 
 public abstract class Trap extends Entity {
 
@@ -19,6 +22,8 @@ public abstract class Trap extends Entity {
     private HitboxComponent hb;
 
 
+    /** Constructor for Trap
+     */
     public Trap(){
         hb = new HitboxComponent(this);
         pc = new PositionComponent(this);
@@ -28,21 +33,35 @@ public abstract class Trap extends Entity {
         }
     }
 
+    /** Sets up the animation of the trap
+     * @param path the path to the animation
+     */
     public void setupAnimation(String path){
         new AnimationComponent(this,AnimationBuilder.buildAnimation(path));
     }
 
+    /** Sets the position of the trap
+     * @param pt the position to set the trap to
+     */
     public void setTrapTile(tools.Point pt){
         pc.setPosition(pt);
     }
 
+    /** Gets the lever connected to the trap
+     * @return the lever connected to the trap
+     */
     public Lever getLever(){
         return lever;
     }
 
+    /** Gets the position of the trap
+     * @return the position of the trap
+     */
     public tools.Point getPoint(){
         return pc.getPosition();
     }
 
+    /** Deactivates the trap
+     */
     public abstract void deactivateTrap();
 }

@@ -6,9 +6,16 @@ import level.elements.tile.Tile;
 
 import java.util.Set;
 
+/**
+ * A class that creates Damage Traps
+ */
 public class TrapDmgCreator implements TrapFactory{
 
-
+    /** Creates a Damage Trap
+     * @param anzahl number of traps to be created
+     * @param entity set of entities
+     * @param currentLevel current level
+     */
     @Override
     public void creator(int anzahl, Set<Entity> entity, ILevel currentLevel) {
 
@@ -37,6 +44,8 @@ public class TrapDmgCreator implements TrapFactory{
         System.out.println(positionList.size() + "  !!!!!!!");
     }
 
+    /** Clears the list of positions
+     */
     @Override
     public void clearList() {
         positionList.removeAll(positionList);
