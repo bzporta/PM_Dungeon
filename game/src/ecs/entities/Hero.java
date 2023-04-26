@@ -81,7 +81,6 @@ public class Hero extends Entity implements IOnDeathFunction {
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
-        //hp.setCurrentHealthpoints(0);
     }
 
     /** Is called when the hero dies
@@ -99,6 +98,10 @@ public class Hero extends Entity implements IOnDeathFunction {
      */
     public Point getPosition(){
         return pc.getPosition();
+    }
+
+    public HealthComponent getHC(){
+        return hp;
     }
 
 }

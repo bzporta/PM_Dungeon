@@ -80,7 +80,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static GameOver<Actor> gameOverMenu;
     private static Entity hero;
     private static Ghost ghost;
+    private static Grave grave;
     private Logger gameLogger;
+
 
     public static void main(String[] args) {
         // start the game
@@ -155,6 +157,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator.clearList();
         entities.add(ghost);
         ghost.setSpawn();
+        entities.add(grave = new Grave((Hero)hero));
+        grave.setGrave(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
     }
 
     private void manageEntitiesSets() {
