@@ -52,10 +52,11 @@ public class Grave extends Entity{
         if (random.nextDouble() <= 0.7){
             hero.getHC().setCurrentHealthpoints(
                 hero.getHC().getCurrentHealthpoints() + 20);
+            setupAnimation("dungeon/grave/graveheal.png");
         } else {
             hero.getHC().receiveHit(new Damage(20, DamageType.MAGIC,null));
+            setupAnimation("dungeon/grave/graveused.png");
         }
-        setupAnimation("dungeon/grave/graveused.png");
     }
 
     /** Returns the position of the grave.
