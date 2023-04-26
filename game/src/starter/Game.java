@@ -330,10 +330,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      * <p> Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all important parameters.</p>
      */
     public static void restartGame(){
-        Game game = Game.getGame();
-        entities.clear();
-        game.setup();
-        levelAPI.loadLevel(LevelSize.MEDIUM);
-        starter.Game.getGameOverMenu().hideMenu();
+        getGame().setup();
     }
 }
