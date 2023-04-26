@@ -34,7 +34,7 @@ public class Hero extends Entity implements IOnDeathFunction {
 
     private PositionComponent pc;
 
-    /** Entity with Components */
+    /** Constructor Entity with Components */
     public Hero() {
         super();
         pc = new PositionComponent(this);
@@ -84,7 +84,9 @@ public class Hero extends Entity implements IOnDeathFunction {
         //hp.setCurrentHealthpoints(0);
     }
 
-    //TODO JavaDoc
+    /** Is called when the hero dies
+     * @param entity which is looked for
+     */
     @Override
     public void onDeath(Entity entity){
         gameOverMenu2 = starter.Game.getGameOverMenu();
@@ -92,6 +94,9 @@ public class Hero extends Entity implements IOnDeathFunction {
         System.out.println("Game Over");
     }
 
+    /** Returns the position of the hero
+     * @return position of the hero
+     */
     public Point getPosition(){
         return pc.getPosition();
     }
