@@ -54,6 +54,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Draws objects */
     protected Painter painter;
 
+    /** Generates the level */
     protected static LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
@@ -221,11 +222,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Returns the GameOverMenuObject
+     *
+     * @return GameOverMenuObject
+     */
     public static GameOver getGameOverMenu() {
         return gameOverMenu;
     }
-
-
 
     /**
      * Given entity will be added to the game in the next frame
@@ -274,6 +277,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
 
+    /** Returns the current game-Object
+     * @return the current game-Object
+     */
+
     public static Game getGame() {
         return game;
     }
@@ -283,6 +290,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      *
      * @param hero new reference of hero
      */
+
+    /** sets the reference of the playable character */
     public static void setHero(Entity hero) {
         Game.hero = hero;
     }
@@ -316,6 +325,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new ProjectileSystem();
     }
 
+    /** Restarts the game
+     *
+     * <p> Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all important parameters.</p>
+     */
     public static void restartGame(){
         Game game = Game.getGame();
         entities.clear();

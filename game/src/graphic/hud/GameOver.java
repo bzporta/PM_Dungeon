@@ -5,31 +5,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
-import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static logging.LoggerConfig.initBaseLogger;
-import java.io.IOException;
-import java.util.Optional;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import controller.ScreenController;
-import ecs.entities.Entity;
-import ecs.entities.Hero;
 import starter.Game;
 import tools.Constants;
 import tools.Point;
 
 public class GameOver<T extends Actor> extends ScreenController<T> {
 
-    /** Creates a new PauseMenu with a new Spritebatch */
+    /** Creates a new GameOverMenu with a new Spritebatch */
     public GameOver() {
         this(new SpriteBatch());
     }
 
-    /** Creates a new GameOverMenu with a given Spritebatch */
+    /** Creates a new GameOverMenu with a given Spritebatch
+     * @param batch Spritebatch to use
+     * */
     public GameOver(SpriteBatch batch) {
         super(batch);
         ScreenText screenText =
@@ -93,16 +83,13 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
 
 
         add((T) screenButton_beenden);
-        //hideMenu();
     }
 
     /** shows the Menu */
     public void showMenu() {
-        System.out.println("showMenu");
         this.forEach((Actor s) -> s.setVisible(true));
 
     }
-
     /** hides the Menu */
     public void hideMenu() {
         this.forEach((Actor s) -> s.setVisible(false));
