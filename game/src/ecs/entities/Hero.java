@@ -100,6 +100,9 @@ public class Hero extends Entity implements IOnDeathFunction {
         return pc.getPosition();
     }
 
+    /** Returns the health component of the hero
+     * @return health component of the hero
+     */
     public HealthComponent getHC(){
         return hp;
     }
