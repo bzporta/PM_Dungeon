@@ -33,6 +33,7 @@ public class TrapTeleport extends Trap {
 
     @Override
     public void deactivateTrap() {
+        setupAnimation("dungeon/trap/deactivate_trap.png");
         active = false;
     }
 }

@@ -21,6 +21,7 @@ public class TrapDmg extends Trap {
 
     @Override
     public void deactivateTrap() {
+        setupAnimation("dungeon/trap/deactivate_trap.png");
         dmg = new Damage(0,null,null);
     }
 }
