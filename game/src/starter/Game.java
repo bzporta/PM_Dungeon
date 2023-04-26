@@ -315,4 +315,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new SkillSystem();
         new ProjectileSystem();
     }
+
+    public static void restartGame(){
+        Game game = Game.getGame();
+        entities.clear();
+        game.setup();
+        levelAPI.loadLevel(LevelSize.MEDIUM);
+        starter.Game.getGameOverMenu().hideMenu();
+    }
 }
