@@ -14,10 +14,11 @@ import controller.AbstractController;
 import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
-import ecs.entities.Entity;
-import ecs.entities.Hero;
+import ecs.entities.*;
+import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
+import graphic.hud.GameOver;
 import graphic.Painter;
 import graphic.hud.PauseMenu;
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     protected SpriteBatch batch;
 
+    private static Game game;
     /** Contains all Controller of the Dungeon */
     protected List<AbstractController<?>> controller;
 
@@ -52,15 +54,21 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Draws objects */
     protected Painter painter;
 
-    protected LevelAPI levelAPI;
+    /** Generates the level */
+    protected static LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
 
+    private static TrapDmgCreator trapDmgCreator;
+    private static TrapTeleportCreator trapTeleportCreator;
     private boolean doSetup = true;
     private static boolean paused = false;
 
     /** All entities that are currently active in the dungeon */
     private static final Set<Entity> entities = new HashSet<>();
+    private static Entity hero;
+    private static Ghost ghost;
+    private static Grave grave;
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
     /** All entities to be added from the dungeon in the next frame */
@@ -71,8 +79,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     public static ILevel currentLevel;
     private static PauseMenu<Actor> pauseMenu;
-    private static Entity hero;
+
+    private static GameOver<Actor> gameOverMenu;
     private Logger gameLogger;
+
+    /** List of Tile positions for entities
+     */
+    public static ArrayList<Tile> positionList = new ArrayList<>();
+
 
     public static void main(String[] args) {
         // start the game
@@ -81,7 +95,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        DesktopLauncher.run(new Game());
+        game = new Game();
+        DesktopLauncher.run(game);
     }
 
     /**
@@ -115,10 +130,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(systems);
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
+        gameOverMenu = new GameOver<>();
+        controller.add(gameOverMenu);
+        gameOverMenu.hideMenu();
+        trapDmgCreator = new TrapDmgCreator();
+        trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
+        //ghost = new Ghost(grave);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         createSystems();
+
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -132,8 +154,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     @Override
     public void onLevelLoad() {
         currentLevel = levelAPI.getCurrentLevel();
+        clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
+        trapTeleportCreator.creator(1,entities,currentLevel);
+        trapDmgCreator.creator(1,entities,currentLevel);
+        entities.add(grave = new Grave((Hero)hero));
+        grave.setGrave(currentLevel);
+        entities.add(ghost = new Ghost(grave));
+        ghost.setSpawn();
     }
 
     private void manageEntitiesSets() {
@@ -201,6 +230,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Returns the GameOverMenuObject
+     *
+     * @return GameOverMenuObject
+     */
+    public static GameOver getGameOverMenu() {
+        return gameOverMenu;
+    }
+
     /**
      * Given entity will be added to the game in the next frame
      *
@@ -247,12 +284,22 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return Optional.ofNullable(hero);
     }
 
+
+    /** Returns the current game-Object
+     * @return the current game-Object
+     */
+
+    public static Game getGame() {
+        return game;
+    }
     /**
      * set the reference of the playable character careful: old hero will not be removed from the
      * game
      *
      * @param hero new reference of hero
      */
+
+    /** sets the reference of the playable character */
     public static void setHero(Entity hero) {
         Game.hero = hero;
     }
@@ -284,5 +331,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
+    }
+
+    /** Restarts the game
+     *
+     * <p> Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all important parameters.</p>
+     */
+    public static void restartGame(){
+        getGame().setup();
+    }
+
+    private void clearPositionlist() {
+        positionList.removeAll(positionList);
     }
 }

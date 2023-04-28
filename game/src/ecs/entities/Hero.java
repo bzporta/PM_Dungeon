@@ -1,18 +1,24 @@
 package ecs.entities;
 
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
+import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
+import graphic.hud.GameOver;
+import tools.Point;
+
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
  */
-public class Hero extends Entity {
+public class Hero extends Entity implements IOnDeathFunction {
 
     private final int fireballCoolDown = 5;
     private final float xSpeed = 0.3f;
@@ -22,12 +28,17 @@ public class Hero extends Entity {
     private final String pathToIdleRight = "knight/idleRight";
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
+    private HealthComponent hp;
+    private static GameOver<Actor> gameOverMenu2;
     private Skill firstSkill;
 
-    /** Entity with Components */
+    private PositionComponent pc;
+
+    /** Constructor Entity with Components */
     public Hero() {
         super();
-        new PositionComponent(this);
+        pc = new PositionComponent(this);
+        setupHealthComponent();
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
@@ -57,7 +68,43 @@ public class Hero extends Entity {
     private void setupHitboxComponent() {
         new HitboxComponent(
                 this,
-                (you, other, direction) -> System.out.println("heroCollisionEnter"),
-                (you, other, direction) -> System.out.println("heroCollisionLeave"));
+                (hero, other, direction) -> {
+                    if(other instanceof TrapDmg){
+                        hp.receiveHit(TrapDmg.getDmg());
+                    }
+                },
+                null);
     }
+
+    private void setupHealthComponent(){
+        hp = new HealthComponent(this);
+        hp.setMaximalHealthpoints(100);
+        hp.setCurrentHealthpoints(100);
+        hp.setOnDeath(this::onDeath);
+    }
+
+    /** Is called when the hero dies
+     * @param entity which is looked for
+     */
+    @Override
+    public void onDeath(Entity entity){
+        gameOverMenu2 = starter.Game.getGameOverMenu();
+        gameOverMenu2.showMenu();
+        System.out.println("Game Over");
+    }
+
+    /** Returns the position of the hero
+     * @return position of the hero
+     */
+    public Point getPosition(){
+        return pc.getPosition();
+    }
+
+    /** Returns the health component of the hero
+     * @return health component of the hero
+     */
+    public HealthComponent getHC(){
+        return hp;
+    }
+
 }
