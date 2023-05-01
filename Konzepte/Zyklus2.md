@@ -1,5 +1,5 @@
 
-#### title: "Konzeptskizze für Zyklus 1"
+#### title: "Konzeptskizze für Zyklus 2"
 
 #### author: "Bjarne Zaremba, Lukas Landmann, David Stevic"
 
@@ -7,104 +7,92 @@
 
 # Beschreibung der Aufgabe
 
-## Aufgabe 1 - Fallen
+## Aufgabe 1 - Monster
 
-In dieser Aufgabe sollen Fallen in den Dungeon implementiert werden. Diese sollen das Voranschreiten im Dungeon schwieriger machen. Die Fallen sollen verschiedene Wirkungen beim Helden oder beim Monster auslösen. 
+Es sollen einfache Gegner für den Hero implementiert werden, die sich frei im Dungeon bewegen können.
 
-## Aufgabe 2 - Game-Over
+### Codeanalyse des AI-Systems:
 
-In dieser Aufgabe soll man den Spielertod implementieren. Wenn der Held stirbt, dann soll eine Meldung "Game Over" auf dem Bildschirm erscheinen. Danach soll der Spieler eine Auswahlmöglichkeit bekommen, ob er das Spiel beenden oder neustarten möchte. 
+In dem Spiel wird eine AI-Component verwendet, um das Verhalten der Monster zu steuern. Die AI-Component nutzt verschiedene Strategien, die durch das Strategy-Pattern implementiert sind. Jede Strategie repräsentiert ein bestimmtes Verhalten, das von einer Entität ausgeführt werden kann (zum Beispiel einen Spieler verfolgen oder angreifen). Durch die Verwendung eines Interfaces können alle Strategien von der AI-Component genutzt werden, was es ermöglicht, dass unterschiedliche Arten von Monstern unterschiedliche Verhaltensweisen haben können. Die eigentliche Steuerung der AIs erfolgt durch das "systems/AISystem.java". Das AI-System kontrolliert das Verhalten aller Entities im Spiel, die eine AI-Component haben.
 
-## Aufgabe 3 - NPC-Ghost
+## Aufgabe 2 - Fähigkeiten
 
-In dieser Aufgabe soll ein NPC-Ghost implementiert werden. Dieser soll als NPC den Spieler verfolgen und zusätzlich zufällig durch das Level "fliegen". Außerdem soll ein Grabstein generiert werden. Wenn der Spieler den Grabstein findet, soll dieser dafür belohnt bzw. bestraft werden. 
+Es soll der Levelaufstieg implementiert werden. Dazu soll der Hero verschiedene Fähigkeiten bekommen.
+
+### Codeanalyse des Skill-Systems:
+
+Das Skillsystem updatet den Verlauf des Cooldowns für die entsprechenden Skills. Der FireballSkill ist eine Unterklasse von DamageProjectileSkill, weil der Feuerball eine spezielle Art eines DamageProjectiles ist. Es werden also noch weitere Sachen, wie zum Beispiel die Geschwindigkeit oder der Schaden des Feuerballs spezifiziert. Diese Klasse implementiert das Interface ISkillFunction. Infolgedessen muss die Methode `execute()` überschrieben werden. Die Methode wird immer dann aufgerufen, wenn der Skill benutzt wird (AI-Component oder Playable-Component). Im konkreten Fall des Fireballs wird diese aufgerufen, wenn der Spieler "q" auf der Tastatur drückt.  
+
+### Codeanalyse des XP-Systems:
+
+Die XP-Component verwaltet die Erfahrungspunkte des Heros. Das XP-System updatet die XP-Component. Wenn der Hero genug XP hat, um ein Level aufzusteigen, wird dies durch das XP-System erkannt und das Level des Heros wird erhöht, indem die `performLevelUp()`-Methode aufgerufen wird.  
 
 # Beschreibung der Lösung
 
-## Aufgabe 1 - Fallen
+## Aufgabe 1 - Monster
 
-Wir wollen zwei Arten von Fallen erstellen. Bei der einen bekommt der Hero eine zufällig generierte Anzahl an Schaden. Bei der anderen Art der Falle wird der Hero an einen zufälligen Ort im Level teleportiert. Außerdem gibt es eine gewisse Anzahl an Schaltern, die benutzt werden können, um eine Falle zu deaktivieren. Die Falle soll als bodenähnliche Druckplatte auf dem Boden zu sehen sein. 
+Wir wollen drei verschiedene Monster implementieren. Ein Monster trägt den Namen Darkheart, ein anderes Monster heißt Imp und das letzte Monster heißt Andromalius.
+Die Monster bewegen sich zufällig im Dungeon. Dazu nutzen wir eine bereits implementierte IdleAi-Component. Zusätzlich implementieren wir eine eigene AI-Component. Diese soll das Monster den Ausgang des Levels "bewachen" lassen. 
 
-## Aufgabe 2 - Game-Over
+## Aufgabe 2 - Fähigkeiten
 
-Wenn die Health-Points des Spielers (aus welchem Grund auch immer) auf 0 fallen, stirbt der Spieler, d.h. es wird ein "Game Over"-Screen (ähnlich wie das Pause-Menu) eingeblendet. Dort erscheinen dann noch zusätzlich zwei Buttons. Mit diesen kann der Spieler auswählen, ob er das Spiel beenden oder neustarten möchte. Beim Beenden wird die Java-Applikation ordnungsgemäß nach beendet. Beim Neustart wird ein neuer Run gestartet. 
-
-## Aufgabe 3 - NPC-Ghost
-
-Wir wollen einen Geist in Form eines verstorbenen Heros implementieren (also ein Hero-Skin mit weißer Umrandung). Dieser kann den Spieler anhand seiner Koordinaten verfolgen. Zusätzlich kann dieser frei durch das Level wandern. Dieser soll in jedem Level spawnen. Wenn der Spieler den dazugehörigen Grabstein findet, soll er mit einem Wahrscheinlichkeitsverhältnis von 70%/30% belohnt/bestraft werden. Als Belohnung/Bestrafung werden dem Spieler HP gegeben bzw. abgezogen.
+Wir wollen zwei verschiedene Zaubersprüche implementieren. Ein Zauberspruch ist ein Heilzauber, der den Hero heilt. Der andrere Zauber kann Eiszapfen verschiessen. Wenn dieser auf ein Monster trifft, wird dieses für eine gewisse Zeit eingefroren. Der Hero kann die Zaubersprüche benutzen, indem er die Tasten "q" bzw. "e" drückt. Der Hero bekommt Erfahrungspunkte, wenn er ein Level im Dungeon beendet. Wenn er genug Erfahrungspunkte hat, steigt er ein Level auf. Beim Levelaufstieg schaltet er dann einen Skill frei, den er benutzen kann. Wenn der Skill schon freigeschaltet ist, wird er verbessert.
 
 # Methoden und Techniken
 
 ## Für alle Aufgaben
 
-Der Code wird mit JavaDoc dokumentiert. Dabei werden die entsprechenden Regeln eingehalten. Außerdem haben wir uns entschieden für jedes Feature einen eigenen Branch zu machen (siehe GitHub-Flow). 
+Der Code wird mit JavaDoc dokumentiert. Dabei werden die entsprechenden Regeln eingehalten. Außerdem haben wir uns entschieden für jedes Feature einen eigenen Branch zu machen (siehe GitHub-Flow). Wenn es sich anbietet, wollen wir Methodenreferenzen und Lambda-Ausdrücke nutzen.
 
 
 # Ansatz und Modellierung
 
-## Aufgabe 1 - Fallen
+## Aufgabe 1 - Monster
 
-Wir erstellen eine `Fallen`-Klasse, die von `Entity` erbt. Diese hat die grundlegenden Komponenten einer Falle. Diese sind:
-- HitboxComponent (der Hero bekommt ebenfalls eine HitBoxComponent, damit eine Kollision zwischen zwei Entities möglich ist)
-- PositionComponent (wir nehmen den Konstruktor, der die Falle an eine zufällige Position setzt)
+Wir erstellen eine Oberklasse `Monster` von der dann alle drei oben genannten Monster erben sollen. Die Monster benötigen folgende Components:
+ - `PositionComponent` -> Position im Dungeon
+ - `AnimationComponent` -> Animation des Monsters
+ - `AIComponent` -> Steuerung des Monsters
+ - `VelocityComponent` -> Geschwindigkeit des Monsters
+ - `HitboxComponent` -> Hitbox des Monsters (vorbereitend für weitere Aufgaben)
+ - `HealthComponent` -> Lebenspunkte des Monsters
 
-Die Fallen Klasse hat folgende Attribute:
-- `int damage` : Gib die HP an, die beim Betreten der Falle abgezogen werden.
-- `String pathToSkin` : Speicher den Pfad in dem das Bild für die Falle gespeichert ist. 
-- `Hebel hebel`
 
-Der Hero bekommt zusätzlich eine Methode `getHit()`, die ihm die entsprechende Anzahl an HP abzieht. 
+ Die Monster haben folgende Attribute:
+ - `hp` -> Lebenspunkte
+ - `dmg` -> Schaden
+ - `xSpeed` -> Geschwindigkeit in x-Richtung
+ - `ySpeed` -> Geschwindigkeit in y-Richtung
+ - `pathtoIdleLeft` -> Pfad zur Idle-Animation nach links
+ - `pathtoIdleRight` -> Pfad zur Idle-Animation nach rechts
 
-Zusätzlich wird noch eine `Hebel`-Klasse implementiert. Wenn der Hebel benutzt wird, dann wird die zugehörige Falle deaktiviert. 
-Der Hebel braucht folgende Components:
-- InteractionComponent
-- PositionComponent
-- AnimationComponent
+ Außerdem benutzen wir seperate `setup()`-Methoden für die einzelnen Components. Diese werden dann im Konstruktor aufgerufen.
 
-Der Hebel hat eine `toogle()`-Methode und ein `isToggled`-Attribut.
+ Beschreibung der konkreten Monster:
 
-## Aufgabe 2 - Game-Over
+Darkheart:
 
-Der Game-Over-Screen soll ähnlich wie das Pausen-Menu realisiert werden. Dazu legen wir eine neue `GameOver`-Klasse im Ordner Hud an. Außerdem wird die Methode `frame()` aus der `starter.game`-Klasse erweitert. Es soll bei jedem Neuladen des Screens die HP des Heros überprüft werden. Wenn diese unter 1 fallen, wird die `showGameOverMenu`-Methode aufgerufen. Der Spieler bekommt dann die Möglichkeit über 2 Tasten auf der Tastatur auszuwählen, ob er das Spiel beenden oder neustarten will. Dafür nutzen wir die `(Gdx.input.isKeyJustPressed())`-Methode.
+![Test](https://opengameart.org/sites/default/files/styles/medium/public/threeformsPJ2.png)
 
-## Aufgabe 3 - NPC-Ghost
+Imp:
 
-Wir erstellen eine `Ghost`-Klasse, die von `Entity` erbt. Diese hat die grundlegenden Komponenten eines NPC-Ghosts. Diese sind:
-- AnimationComponent (zur Animation des Ghosts)
-- PositionComponent
-- VelocityComponent
-- AiComponent -> zum Verfolgen des Heros
+![Imp](https://opengameart.org/sites/default/files/styles/medium/public/animated%20imp.gif)
 
-Folgende Methoden sollen implementiert werden:
-- `setupVelocityComponent()`
-- `setupAnimationComponent()`
-- `setupPositionComponent()`
-- `setupAiComponent()`
+Andromalius:
 
-Die Klasse `Ghost` hat folgende Attribute:
-- `float xSpeed` : Die Geschwindigkeit, in der sich der Geist in x-Richtung bewegt.
-- `float ySpeed` : Die Geschwindigkeit, in der sich der Geist in y-Richtung bewegt.
-- `String pathToIdleLeft` : Hier wird der Pfad zu den Assets der Ghost-Animationen gespeichert.
-- `String pathToIdleRight` 
-- `String pathToRunLeft`
-- `String pathToRunRight`
+![Andromalius](https://opengameart.org/sites/default/files/styles/medium/public/minion-45x66.png)
 
-Um den Grabstein zu realisieren erstellen wir eine neue Klasse `Grabstein`, die von der Klasse `Fallen` erbt, da diese ähnliche Eigenschaften wie der Grabstein hat. Der Unterschied zu den Fallen ist, dass der Grabstein den Spieler belohnen kann. Hier beträgt die Chance einer Belohnung 60%. Eine geeignete Methode könnte wie folgt aussehen:
-```java
-int damage;
-if (getRandomZahl(0,100) > 60){
-    damage = -20; 
-} 
-else {
-    damage = 20;
-}
-```
-Wir arbeiten mit folgenden Components für den Grabstein:
-- HitboxComponent 
-- PositionComponent (wir nehmen den Konstruktor, der die Falle an eine zufällige Position setzt)
+UML:
 
-Der Grabstein hat folgende Attribute: 
-- `pathToSkin`
+![UML](https://i.ibb.co/K9D1Tyq/Monster-UML.png)
 
-Der Grabstein hat folgende Methoden:
-- `setDamage()` -> mit dieser kann die Variable damage überschrieben werden
+
+## Aufgabe 2 - Fähigkeiten
+
+### Heilzauber
+
+### Eiszapfen
+
+Wir erstellen eine Klasse `EiszapfenSkill`, die von DamageProjectileSkill erbt. Die Klasse `EiszapfenSkill` ist ähnlich wie die Klasse `FireballSkill` aufgebaut. 
+### Levelaufstieg
+
