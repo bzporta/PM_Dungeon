@@ -91,9 +91,39 @@ UML:
 
 ### Heilzauber
 
+![Heilzauber](https://i.ibb.co/r2zBs0w/shield-Green-Edit.png)
+
+Wir erstellen eine Klasse `HealSkill`, die das Interface `ISkillFunction` implementiert. Wir heilen den Hero, indem wir die `execute()`-Methode überschreiben und in dieser die `hp`-Attribute des Heros anpassen.
+Der `HealSkill` braucht nur eine `AnimationComponent`.
+Der `HealSkill` hat folgende Attribute:
+- `healAmount` -> Heilung des Heros (in HP)
+- `pathToAnimation` -> Pfad zur Animation des Heilzaubers
+
 ### Eiszapfen
 
-Wir erstellen eine Klasse `EiszapfenSkill`, die von DamageProjectileSkill erbt. Die Klasse `EiszapfenSkill` ist ähnlich wie die Klasse `FireballSkill` aufgebaut. Wir ändern die Darstellung des 
+![Eiszapfen](https://opengameart.org/sites/default/files/icicle.png)
+
+Wir erstellen eine Klasse `EiszapfenSkill` und eine neue Klasse `SlowProjectileSkill`-Klasse, die das Interface `ISkillFunction`implementiert. Wir verlangsamen das Ziel, indem wir die `execute()`-Methode überschreiben und in dieser die Attribute `xSpeed` und `ySpeed` anpassen. Der `EiszapfenSkill` soll ähnlich wie der `FireballSkill` umgesetzt werden. Der `EiszapfenSkill` hat nur einen Konstruktor. In diesem werden die Attribute des Eiszapfens gesetzt. Diese sind:
+- `xSpeed` -> Geschwindigkeit in x-Richtung
+- `ySpeed` -> Geschwindigkeit in y-Richtung
+- `slowAmount` -> Verlangsamung des Ziels (in Prozent)
+- `slowDuration` -> Dauer der Verlangsamung (in Sekunden)
+- `pathToAnimation` -> Pfad zur Animation des Eiszapfens
+- `cost` -> Kosten des Eiszapfens (in HP)
+
+Der `SlowProjectileSkill` benötigt folgende Komponenten:
+- `PositionComponent` -> Position des Eiszapfens
+- `AnimationComponent` -> Animation des Eiszapfens
+- `VelocityComponent` -> Geschwindigkeit des Eiszapfens
+- `HitboxComponent` -> Hitbox des Eiszapfens
+- `ProjectileComponent` -> Projectile-Component des Eiszapfens
+
+Desweiteren wird die `Hero`-Klasse entsprechend erweitert. 
 
 ### Levelaufstieg
 
+Wir initialisieren in `starter.Game` eine XP-Component. Die Component wird über die `starter.Game`-Klasse organisiert. In der Methode `onLevelUp` aus dem `ILevelUp`-Interface wird ein Screen eingeblendet, in dem der Spieler auswählen kann, welche Fähigkeiten sein Hero erlernen soll. Außerdem soll beim LevelUp die Anzahl der HP auf das Maximum gesetzt werden, d.h. der Hero hat wieder volle HP. Dies soll ähnlich wie das GameOverMenu realisiert werden.  
+
+UML:
+
+![UML](https://i.ibb.co/Svz47yB/Screenshot-2023-05-02-140325.png)
