@@ -93,6 +93,7 @@ UML:
 
 ### Eiszapfen
 
-Wir erstellen eine Klasse `EiszapfenSkill`, die von DamageProjectileSkill erbt. Die Klasse `EiszapfenSkill` ist ähnlich wie die Klasse `FireballSkill` aufgebaut. 
+Wir erstellen eine Klasse `EiszapfenSkill`, die von DamageProjectileSkill erbt. Die Klasse `EiszapfenSkill` ist ähnlich wie die Klasse `FireballSkill` aufgebaut. Wir ändern die Darstellung des 
+
 ### Levelaufstieg
 
