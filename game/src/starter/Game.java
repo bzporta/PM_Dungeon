@@ -15,6 +15,8 @@ import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.*;
+import ecs.entities.monster.Imp;
+import ecs.entities.monster.Monster;
 import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
@@ -69,6 +71,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Entity hero;
     private static Ghost ghost;
     private static Grave grave;
+    private static Monster imp;
+
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
     /** All entities to be added from the dungeon in the next frame */
@@ -136,6 +140,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
+        imp = new Imp();
         //ghost = new Ghost(grave);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
@@ -163,6 +168,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
+
+        entities.add(imp);
+        imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
     }
 
     private void manageEntitiesSets() {

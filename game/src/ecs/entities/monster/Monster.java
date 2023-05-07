@@ -6,6 +6,7 @@ import ecs.damage.Damage;
 import ecs.entities.Entity;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
+import tools.Point;
 
 public abstract class Monster extends Entity {
 
@@ -15,26 +16,32 @@ public abstract class Monster extends Entity {
     private PositionComponent pc;
     private HealthComponent hp;
 
-    private final String pathToIdleLeft = "ghost/idleleft.png";
-    private final String pathToIdleRight = "ghost/idleright.png";
-    private final String pathToRunLeft = "ghost/runleft.png";
-    private final String pathToRunRight = "ghost/runright.png";
+    private String pathToIdleLeft;
+    private String pathToIdleRight;
+    private String pathToRunLeft;
+    private String pathToRunRight;
 
-    public Monster(){
+    public Monster(float xSpeed, float ySpeed, String idleLeft, String idleRight, String runLeft, String runRight){
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
+        this.pathToIdleLeft = idleLeft;
+        this.pathToIdleRight = idleRight;
+        this.pathToRunLeft = runLeft;
+        this.pathToRunRight = runRight;
         pc = new PositionComponent(this);
-        setupVelocityComponent();
-        setupAnimationComponent();
         setupHealthComponent();
         setupHitboxComponent();
+        setupVelocityComponent();
+        setupAnimationComponent();
     }
 
-    private void setupVelocityComponent() {
+    public void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
         new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
     }
 
-    private void setupAnimationComponent() {
+    public void setupAnimationComponent() {
         Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
         Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
         new AnimationComponent(this, idleLeft, idleRight);
@@ -55,4 +62,10 @@ public abstract class Monster extends Entity {
     public void onDeath(Entity entity){
         System.out.println("Monster toooot");
     }
+
+    public void setPosition(Point p){
+        pc.setPosition(p);
+    }
+
+
 }
