@@ -15,6 +15,7 @@ import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.*;
+import ecs.entities.monster.Andromalius;
 import ecs.entities.monster.Imp;
 import ecs.entities.monster.Monster;
 import ecs.entities.trap.*;
@@ -72,6 +73,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Ghost ghost;
     private static Grave grave;
     private static Monster imp;
+
+    private static Monster andromalius;
 
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
@@ -172,6 +175,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         imp = new Imp();
         entities.add(imp);
         imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+        andromalius = new Andromalius();
+        entities.add(andromalius);
+        andromalius.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
     }
 
     private void manageEntitiesSets() {

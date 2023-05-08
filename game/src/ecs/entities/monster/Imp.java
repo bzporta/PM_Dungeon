@@ -6,6 +6,8 @@ import ecs.components.VelocityComponent;
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.components.ai.idle.ProtectTileRadiusWalk;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import graphic.Animation;
 import starter.Game;
 
@@ -16,6 +18,7 @@ public class Imp extends Monster{
     public Imp(){
         super(0.15F,
             0.15F,
+            new Damage(5, DamageType.FIRE, null),
             "character/monster/imp/idleLeft",
             "character/monster/imp/idleRight",
             "character/monster/imp/runLeft",
