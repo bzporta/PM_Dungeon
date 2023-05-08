@@ -140,10 +140,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
-        imp = new Imp();
+
         //ghost = new Ghost(grave);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
+
         createSystems();
 
     }
@@ -168,7 +169,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-
+        imp = new Imp();
         entities.add(imp);
         imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
     }

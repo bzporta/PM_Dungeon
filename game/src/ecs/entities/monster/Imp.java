@@ -5,7 +5,9 @@ import ecs.components.AnimationComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.idle.PatrouilleWalk;
+import ecs.components.ai.idle.ProtectTileRadiusWalk;
 import graphic.Animation;
+import starter.Game;
 
 public class Imp extends Monster{
 
@@ -23,7 +25,8 @@ public class Imp extends Monster{
 
     private void setupAiComponent() {
         ai = new AIComponent(this);
-        PatrouilleWalk pw = new PatrouilleWalk(1f, 3, 5, PatrouilleWalk.MODE.RANDOM);
+        ProtectTileRadiusWalk ptrw = new ProtectTileRadiusWalk(Game.currentLevel.getEndTile(), 1.5f, 2);
+        ai.setIdleAI(ptrw);
     }
 
 

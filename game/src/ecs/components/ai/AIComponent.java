@@ -39,7 +39,7 @@ public class AIComponent extends Component {
     public AIComponent(@DSLContextMember(name = "entity") Entity entity) {
         super(entity);
         idleAI = new RadiusWalk(5, 2);
-        transitionAI = new RangeTransition(5f);
+        transitionAI = new RangeTransition(0);
         fightAI = new CollideAI(2f);
     }
 
