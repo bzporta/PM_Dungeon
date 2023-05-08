@@ -13,7 +13,7 @@ import starter.Game;
 
 public class Imp extends Monster{
 
-    AIComponent ai;
+    private AIComponent ai;
 
     public Imp(){
         super(0.15F,

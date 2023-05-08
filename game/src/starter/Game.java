@@ -14,8 +14,10 @@ import controller.AbstractController;
 import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.damage.Damage;
 import ecs.entities.*;
 import ecs.entities.monster.Andromalius;
+import ecs.entities.monster.DarkHeart;
 import ecs.entities.monster.Imp;
 import ecs.entities.monster.Monster;
 import ecs.entities.trap.*;
@@ -27,6 +29,8 @@ import graphic.hud.PauseMenu;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+
 import level.IOnLevelLoader;
 import level.LevelAPI;
 import level.elements.ILevel;
@@ -41,7 +45,7 @@ import tools.Point;
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
-    private final LevelSize LEVELSIZE = LevelSize.MEDIUM;
+    private final LevelSize LEVELSIZE = LevelSize.SMALL;
 
     /**
      * The batch is necessary to draw ALL the stuff. Every object that uses draw need to know the
@@ -73,7 +77,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Ghost ghost;
     private static Grave grave;
     private static Monster imp;
-
+    private static Monster darkheart;
     private static Monster andromalius;
 
     /** All entities to be removed from the dungeon in the next frame */
@@ -93,7 +97,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** List of Tile positions for entities
      */
     public static ArrayList<Tile> positionList = new ArrayList<>();
-
+    public static int levelCounter;
+    private static int spawnRate;
+    private static int dmgBuff;
+    private static int hpBuff;
 
     public static void main(String[] args) {
         // start the game
@@ -143,8 +150,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
-
-        //ghost = new Ghost(grave);
+        hpBuff = 0;
+        dmgBuff = 0;
+        levelCounter = 0;
+        spawnRate = 1;
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
 
@@ -172,12 +181,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-        imp = new Imp();
-        entities.add(imp);
-        imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
-        andromalius = new Andromalius();
-        entities.add(andromalius);
-        andromalius.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+        createMonster();
     }
 
     private void manageEntitiesSets() {
@@ -358,5 +362,42 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private void clearPositionlist() {
         positionList.removeAll(positionList);
+    }
+
+    private void createMonster(){
+        levelCounter++;
+        if(levelCounter % 3 == 0){
+            dmgBuff += 1;
+            hpBuff +=
+            spawnRate++;
+        }
+        for (int i = 0; i < spawnRate; i++) {
+            Random random = new Random();
+            int rnd = random.nextInt(3) + 1;
+            if(rnd == 1){
+                imp = new Imp();
+                entities.add(imp);
+                imp.setHitDmg(imp.getHitDmg() + dmgBuff);
+                imp.getHp().setMaximalHealthpoints(100 + hpBuff);
+                imp.getHp().setCurrentHealthpoints(100 + hpBuff);
+                imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+            }
+            if(rnd == 2){
+                andromalius = new Andromalius();
+                andromalius.setHitDmg(andromalius.getHitDmg() + dmgBuff);
+                andromalius.getHp().setMaximalHealthpoints(100 + hpBuff);
+                andromalius.getHp().setCurrentHealthpoints(100 + hpBuff);
+                entities.add(andromalius);
+                andromalius.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+            }
+            if(rnd == 3){
+                darkheart = new DarkHeart();
+                darkheart.setHitDmg(darkheart.getHitDmg() + dmgBuff);
+                darkheart.getHp().setMaximalHealthpoints(100 + hpBuff);
+                darkheart.getHp().setCurrentHealthpoints(100 + hpBuff);
+                entities.add(darkheart);
+                darkheart.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package ecs.entities.monster;
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
@@ -10,21 +11,22 @@ import tools.Point;
 
 public abstract class Monster extends Entity {
 
-    private Damage dmg;
+    private Damage damage;
     private float xSpeed;
     private float ySpeed;
     private PositionComponent pc;
     private HealthComponent hp;
-
     private String pathToIdleLeft;
     private String pathToIdleRight;
     private String pathToRunLeft;
     private String pathToRunRight;
+    private int hitDmg;
 
-    public Monster(float xSpeed, float ySpeed, Damage dmg, String idleLeft, String idleRight, String runLeft, String runRight){
+    public Monster(float xSpeed, float ySpeed, int hitDmg, String idleLeft, String idleRight, String runLeft, String runRight){
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
-        this.dmg = dmg;
+        this.hitDmg = hitDmg;
+        this.damage = new Damage(hitDmg, DamageType.PHYSICAL,null);
         this.pathToIdleLeft = idleLeft;
         this.pathToIdleRight = idleRight;
         this.pathToRunLeft = runLeft;
@@ -69,4 +71,16 @@ public abstract class Monster extends Entity {
     }
 
 
+    public HealthComponent getHp() {
+        return hp;
+    }
+
+    public int getHitDmg() {
+        return hitDmg;
+    }
+
+    public void setHitDmg(int hitDmg) {
+        this.hitDmg = hitDmg;
+        damage = new Damage(hitDmg, DamageType.PHYSICAL,null);
+    }
 }

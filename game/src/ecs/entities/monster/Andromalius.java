@@ -8,11 +8,11 @@ import ecs.damage.DamageType;
 import starter.Game;
 
 public class Andromalius extends Monster{
-    AIComponent ai;
+    private AIComponent ai;
 
     public Andromalius(){
-        super(0.15F,
-            0.15F,
+        super(0.1F,
+            0.1F,
             new Damage(5, DamageType.FIRE, null),
             "game/assets/character/monster/andromalius/idleLeft.png",
             "game/assets/character/monster/andromalius/idleRight.png",
