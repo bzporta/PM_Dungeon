@@ -12,7 +12,7 @@ public class DarkHeart extends Monster{
     public DarkHeart(){
         super(0.1F,
             0.1F,
-            new Damage(5, DamageType.MAGIC, null),
+            5,
             "game/assets/character/monster/darkheart/idleLeft.png",
             "game/assets/character/monster/darkheart/idleRight.png",
             "game/assets/character/monster/darkheart/idleLeft.png",

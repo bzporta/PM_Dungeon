@@ -18,7 +18,7 @@ public class Imp extends Monster{
     public Imp(){
         super(0.15F,
             0.15F,
-            new Damage(5, DamageType.FIRE, null),
+            5,
             "character/monster/imp/idleLeft",
             "character/monster/imp/idleRight",
             "character/monster/imp/runLeft",

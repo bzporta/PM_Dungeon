@@ -13,7 +13,7 @@ public class Andromalius extends Monster{
     public Andromalius(){
         super(0.1F,
             0.1F,
-            new Damage(5, DamageType.FIRE, null),
+            5,
             "game/assets/character/monster/andromalius/idleLeft.png",
             "game/assets/character/monster/andromalius/idleRight.png",
             "game/assets/character/monster/andromalius/idleLeft.png",
