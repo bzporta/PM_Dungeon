@@ -20,7 +20,7 @@ import tools.Point;
  */
 public class Hero extends Entity implements IOnDeathFunction {
 
-    private final int fireballCoolDown = 0;
+    private final int fireballCoolDown = 5;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
 
@@ -34,7 +34,10 @@ public class Hero extends Entity implements IOnDeathFunction {
 
 
     private Skill secondSkill;
-    private final int healCooldown = 1;
+    private final int healCooldown = 3;
+
+    private Skill thirdSkill;
+    private final int iceballCooldown= 5;
 
     private PositionComponent pc;
 
@@ -49,8 +52,10 @@ public class Hero extends Entity implements IOnDeathFunction {
         PlayableComponent pc = new PlayableComponent(this);
         setupFireballSkill();
         setupHealSkill();
+        setupIceballSkill();
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
+        pc.setSkillSlot3(thirdSkill);
     }
 
     private void setupVelocityComponent() {
@@ -75,6 +80,12 @@ public class Hero extends Entity implements IOnDeathFunction {
         secondSkill =
             new Skill(
                 new HealSkill(25), healCooldown);
+    }
+
+    private void setupIceballSkill() {
+        thirdSkill =
+            new Skill(
+                new IceballSkill(SkillTools::getCursorPositionAsPoint),iceballCooldown);
     }
 
     private void setupHitboxComponent() {
