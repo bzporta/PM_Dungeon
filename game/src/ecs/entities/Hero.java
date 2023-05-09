@@ -34,12 +34,13 @@ public class Hero extends Entity implements IOnDeathFunction {
 
 
     private Skill secondSkill;
-    private final int healCooldown = 3;
+    private final int healCooldown = 15;
 
     private Skill thirdSkill;
     private final int iceballCooldown= 5;
 
     private PositionComponent pc;
+    private SkillComponent sc;
 
     /** Constructor Entity with Components */
     public Hero() {
@@ -56,6 +57,7 @@ public class Hero extends Entity implements IOnDeathFunction {
         pc.setSkillSlot1(firstSkill);
         pc.setSkillSlot2(secondSkill);
         pc.setSkillSlot3(thirdSkill);
+        setupSkillComponent();
     }
 
     private void setupVelocityComponent() {
@@ -86,6 +88,13 @@ public class Hero extends Entity implements IOnDeathFunction {
         thirdSkill =
             new Skill(
                 new IceballSkill(SkillTools::getCursorPositionAsPoint),iceballCooldown);
+    }
+
+    private void setupSkillComponent(){
+        sc = new SkillComponent(this);
+        sc.addSkill(firstSkill);
+        sc.addSkill(secondSkill);
+        sc.addSkill(thirdSkill);
     }
 
     private void setupHitboxComponent() {

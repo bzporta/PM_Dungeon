@@ -4,6 +4,7 @@ import dslToGame.AnimationBuilder;
 import ecs.components.*;
 import ecs.components.collision.ICollide;
 import ecs.entities.Entity;
+import ecs.entities.Hero;
 import graphic.Animation;
 import starter.Game;
 import tools.Point;
@@ -31,6 +32,11 @@ public class IceballSkill implements ISkillFunction {
     }
     @Override
     public void execute(Entity entity) {
+        Hero hero = (Hero) Game.getHero().orElseThrow();
+        hero.getHC().setCurrentHealthpoints(
+            hero.getHC().getCurrentHealthpoints() - spellCost
+        );
+
         Entity projectile = new Entity();
         PositionComponent epc =
             (PositionComponent)

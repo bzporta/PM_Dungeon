@@ -23,6 +23,7 @@ public class HealSkill implements ISkillFunction{
     public void execute(Entity entity) {
         Entity healshield = new Entity();
         Game.addEntity(healshield);
+
         PositionComponent epc =
             (PositionComponent)
                 entity.getComponent(PositionComponent.class)
@@ -40,6 +41,13 @@ public class HealSkill implements ISkillFunction{
             hero.getHC().getCurrentHealthpoints() + healAmount
         );
 
+        Point velocity =
+            SkillTools.calculateVelocity(epc.getPosition(), hero.getPosition(), 0f);
+        VelocityComponent vc =
+            new VelocityComponent(healshield, velocity.x, velocity.y, animation, animation);
+        new ProjectileComponent(healshield, epc.getPosition(), hero.getPosition());
+
+        /*
         ICollide collide =
             (a, b, from) -> {
                 if (b == entity) {
@@ -49,6 +57,8 @@ public class HealSkill implements ISkillFunction{
             };
 
         new HitboxComponent(healshield, collide, null);
+
+         */
 
     }
 }
