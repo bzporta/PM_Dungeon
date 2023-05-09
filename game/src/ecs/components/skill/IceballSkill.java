@@ -5,6 +5,7 @@ import ecs.components.*;
 import ecs.components.collision.ICollide;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
+import ecs.entities.monster.Monster;
 import graphic.Animation;
 import starter.Game;
 import tools.Point;
@@ -59,16 +60,21 @@ public class IceballSkill implements ISkillFunction {
         new ProjectileComponent(projectile, epc.getPosition(), targetPoint);
         ICollide collide =
             (a, b, from) -> {
-                if (b != entity) {
+                if (b instanceof Monster ) {
                     b.getComponent(VelocityComponent.class)
                         .ifPresent(
                             vec -> {
-                                ((VelocityComponent) vec).setXVelocity(
-                                    ((VelocityComponent) vec).getXVelocity() - speedpenalty
-                                );
-                                ((VelocityComponent) vec).setYVelocity(
-                                    ((VelocityComponent) vec).getYVelocity() - speedpenalty
-                                );
+                                if ((((VelocityComponent) vec).getXVelocity() - speedpenalty) > 0.0f){
+                                    ((VelocityComponent) vec).setXVelocity(
+                                        (((VelocityComponent) vec).getXVelocity() - speedpenalty)
+                                    );
+                                    ((VelocityComponent) vec).setYVelocity(
+                                        (((VelocityComponent) vec).getYVelocity() - speedpenalty)
+                                    );
+                                } else {
+                                    ((Monster) b).setFrozen();
+                                }
+
                                 Game.removeEntity(projectile);
                             });
                 }

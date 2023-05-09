@@ -37,7 +37,7 @@ public class Hero extends Entity implements IOnDeathFunction {
     private final int healCooldown = 15;
 
     private Skill thirdSkill;
-    private final int iceballCooldown= 5;
+    private final int iceballCooldown= 1;
 
     private PositionComponent pc;
     private SkillComponent sc;

@@ -5,13 +5,14 @@ import ecs.components.*;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
-import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import tools.Point;
 
 public abstract class Monster extends Entity {
 
     private Damage damage;
+
+
     private float xSpeed;
     private float ySpeed;
     private PositionComponent pc;
@@ -83,4 +84,17 @@ public abstract class Monster extends Entity {
         this.hitDmg = hitDmg;
         damage = new Damage(hitDmg, DamageType.PHYSICAL,null);
     }
+
+    public void setFrozen(){
+         String frozen = "character/monster/frozen";
+
+        Animation idleRight = AnimationBuilder.buildAnimation(frozen);
+        Animation idleLeft = AnimationBuilder.buildAnimation(frozen);
+        new AnimationComponent(this, idleLeft, idleRight);
+
+        Animation moveRight = AnimationBuilder.buildAnimation(frozen);
+        Animation moveLeft = AnimationBuilder.buildAnimation(frozen);
+        new VelocityComponent(this, 0, 0, moveLeft, moveRight);
+    }
+
 }
