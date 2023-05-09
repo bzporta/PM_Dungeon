@@ -17,7 +17,7 @@ public class TrapDmg extends Trap {
     public TrapDmg(){
         super();
         setupAnimation(pathToSkin);
-        dmg = new Damage(20, DamageType.PHYSICAL, null);
+        dmg = new Damage(25, DamageType.PHYSICAL, null);
     }
 
     /** Returns the damage of the trap
