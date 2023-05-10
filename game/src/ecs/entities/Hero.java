@@ -78,7 +78,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         setupHealSkill();
         setupIceballSkill();
         pac.setSkillSlot1(firstSkill);
-        setupSkillComponent();
+        //pac.setSkillSlot3(thirdSkill);
+
         setupXPComponent();
     }
 
@@ -193,6 +194,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         upgradeHealSkill++;
         if (pac.getSkillSlot2().isEmpty()){
             pac.setSkillSlot2(secondSkill);
+
         }
         else{
             healSkill.setHealAmount(healSkill.getHealAmount() + 5);
@@ -206,6 +208,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         upgradeIceBallSkill++;
         if (pac.getSkillSlot3().isEmpty()){
             pac.setSkillSlot3(thirdSkill);
+            setupSkillComponent();
         }
         else{
             iceballSkill.setSpeedpenalty(iceballSkill.getSpeedpenalty() + 0.01f);
