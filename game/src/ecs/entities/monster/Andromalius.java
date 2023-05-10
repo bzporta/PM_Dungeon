@@ -7,9 +7,15 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import starter.Game;
 
+/**
+ * The Andromalius monster
+ */
 public class Andromalius extends Monster{
     private AIComponent ai;
 
+    /**
+     * Constructor for the Andromalius monster
+     */
     public Andromalius(){
         super(0.1F,
             0.1F,

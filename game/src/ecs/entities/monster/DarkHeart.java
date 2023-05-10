@@ -5,10 +5,16 @@ import ecs.components.ai.idle.PatrouilleWalk;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 
+/**
+ * The DarkHeart monster
+ */
 public class DarkHeart extends Monster{
 
     private AIComponent ai;
 
+    /**
+     * Constructor for the DarkHeart monster
+     */
     public DarkHeart(){
         super(0.1F,
             0.1F,

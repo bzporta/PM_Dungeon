@@ -10,6 +10,9 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+/**
+ * IceballSkill is a skill that shoots an iceball.
+ */
 public class IceballSkill implements ISkillFunction {
 
     private String pathToTexturesOfIceball;
@@ -22,6 +25,10 @@ public class IceballSkill implements ISkillFunction {
 
     private ITargetSelection selectionFunction;
 
+    /**
+     * Constructor of IceballSkill.
+     * @param selectionFunction Function that selects the target point.
+     */
     public IceballSkill(ITargetSelection selectionFunction) {
         this.pathToTexturesOfIceball = "skills.iceball";
         this.speedpenalty = 0.05f;
@@ -31,6 +38,11 @@ public class IceballSkill implements ISkillFunction {
         this.selectionFunction = selectionFunction;
         this.spellCost = 10;
     }
+
+    /**
+     * Executes the skill.
+     * @param entity Entity that executes the skill.
+     */
     @Override
     public void execute(Entity entity) {
         Hero hero = (Hero) Game.getHero().orElseThrow();

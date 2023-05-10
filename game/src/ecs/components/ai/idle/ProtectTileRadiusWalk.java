@@ -13,6 +13,9 @@ import tools.Point;
 
 import static ecs.components.ai.AITools.getRandomAccessibleTileCoordinateInRange;
 
+/**
+ * This class is used to make an entity walk around a tile in a given radius.
+ */
 public class ProtectTileRadiusWalk implements IIdleAI {
 
     private Tile tile;
@@ -24,18 +27,33 @@ public class ProtectTileRadiusWalk implements IIdleAI {
     private final int breakTime;
     private int currentBreak = 0;
 
+    /**
+     * Konstruktor
+     * @param tile the tile to protect
+     * @param breakTimeInSeconds the time to wait between two movements
+     */
     public ProtectTileRadiusWalk(Tile tile, int breakTimeInSeconds) {
         this.tile = tile;
         this.breakTime = breakTimeInSeconds * Constants.FRAME_RATE;
         radius = 2;
     }
 
+    /**
+     * Konstruktor
+     * @param tile the tile to protect
+     * @param radius the radius to walk around the tile
+     * @param breakTimeInSeconds the time to wait between two movements
+     */
     public ProtectTileRadiusWalk(Tile tile, float radius, int breakTimeInSeconds) {
         this.tile = tile;
         this.breakTime = breakTimeInSeconds * Constants.FRAME_RATE;
         this.radius = radius;
     }
 
+    /**
+     * This method is called every frame to make the entity walk around the tile.
+     * @param entity associated entity
+     */
     @Override
     public void idle(Entity entity) {
         if (path == null || AITools.pathFinishedOrLeft(entity, path)) {
@@ -58,7 +76,4 @@ public class ProtectTileRadiusWalk implements IIdleAI {
         } else AITools.move(entity, path);
 
     }
-
-
-
 }

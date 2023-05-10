@@ -8,6 +8,9 @@ import ecs.entities.Entity;
 import graphic.Animation;
 import tools.Point;
 
+/**
+ * The abstract Monster class
+ */
 public abstract class Monster extends Entity {
 
     private Damage damage;
@@ -23,6 +26,16 @@ public abstract class Monster extends Entity {
     private String pathToRunRight;
     private int hitDmg;
 
+    /**
+     * Constructor for the Monster class
+     * @param xSpeed speed in x direction
+     * @param ySpeed speed in y direction
+     * @param hitDmg damage of the monster
+     * @param idleLeft path to the idle animation in left direction
+     * @param idleRight path to the idle animation in right direction
+     * @param runLeft path to the run animation in left direction
+     * @param runRight path to the run animation in right direction
+     */
     public Monster(float xSpeed, float ySpeed, int hitDmg, String idleLeft, String idleRight, String runLeft, String runRight){
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
@@ -39,13 +52,14 @@ public abstract class Monster extends Entity {
         setupAnimationComponent();
     }
 
-    public void setupVelocityComponent() {
+
+    private void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
         new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
     }
 
-    public void setupAnimationComponent() {
+    private void setupAnimationComponent() {
         Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
         Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
         new AnimationComponent(this, idleLeft, idleRight);
@@ -63,7 +77,7 @@ public abstract class Monster extends Entity {
     }
 
 
-    public void onDeath(Entity entity){
+    private void onDeath(Entity entity){
         System.out.println("Monster toooot");
     }
 
@@ -72,19 +86,34 @@ public abstract class Monster extends Entity {
     }
 
 
+    /**
+     * Returns the Healthcomponent of the monster
+     * @return the Healthcomponent of the monster
+     */
     public HealthComponent getHp() {
         return hp;
     }
 
+    /**
+     * Returns the damage of the monster
+     * @return the damage of the monster
+     */
     public int getHitDmg() {
         return hitDmg;
     }
 
+    /**
+     * Sets the damage of the monster
+     * @param hitDmg the damage of the monster
+     */
     public void setHitDmg(int hitDmg) {
         this.hitDmg = hitDmg;
         damage = new Damage(hitDmg, DamageType.PHYSICAL,null);
     }
 
+    /**
+     * Sets the animation of the monster to frozen and stops the movement
+     */
     public void setFrozen(){
          String frozen = "character/monster/frozen";
 

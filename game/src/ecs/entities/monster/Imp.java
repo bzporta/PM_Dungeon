@@ -11,10 +11,16 @@ import ecs.damage.DamageType;
 import graphic.Animation;
 import starter.Game;
 
+/**
+ * The Imp monster
+ */
 public class Imp extends Monster{
 
     private AIComponent ai;
 
+    /**
+     * Constructor for the Imp monster
+     */
     public Imp(){
         super(0.15F,
             0.15F,

@@ -9,16 +9,27 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+/**
+ * HealSkill is a skill that heals the hero.
+ */
 public class HealSkill implements ISkillFunction{
 
     private String pathToTexturesOfHeal;
     private int healAmount;
 
+    /**
+     * Constructor of HealSkill.
+     * @param healAmount Amount of healthpoints that the hero gets healed.
+     */
     public HealSkill(int healAmount){
         pathToTexturesOfHeal = "skills.heal";
         this.healAmount = healAmount;
     }
 
+    /**
+     * Executes the skill.
+     * @param entity Entity that executes the skill.
+     */
     @Override
     public void execute(Entity entity) {
         Entity healshield = new Entity();
