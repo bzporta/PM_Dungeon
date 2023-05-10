@@ -205,7 +205,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         ghost.setSpawn();
         createMonster();
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
-            ((Hero) hero).getXP().addXP(50);
+            ((Hero) hero).getXP().addXP(20);
         }
     }
 

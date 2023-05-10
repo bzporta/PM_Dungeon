@@ -28,6 +28,8 @@ public class IceballSkill implements ISkillFunction {
     /**
      * Constructor of IceballSkill.
      * @param selectionFunction Function that selects the target point.
+     * @param speedpenalty Speed penalty of the hero.
+     * @param spellCost Cost of the spell.
      */
     public IceballSkill(ITargetSelection selectionFunction, float speedpenalty, int spellCost) {
         this.pathToTexturesOfIceball = "skills.iceball";

@@ -75,11 +75,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         setupHitboxComponent();
         pac = new PlayableComponent(this);
         setupFireballSkill();
-        setupHealSkill();
-        setupIceballSkill();
         pac.setSkillSlot1(firstSkill);
-        //pac.setSkillSlot3(thirdSkill);
-
+        setupSkillComponent();
         setupXPComponent();
     }
 
@@ -116,8 +113,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private void setupSkillComponent(){
         sc = new SkillComponent(this);
         sc.addSkill(firstSkill);
-        sc.addSkill(secondSkill);
-        sc.addSkill(thirdSkill);
+
     }
 
     private void setupHitboxComponent() {
@@ -139,8 +135,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private void setupHealthComponent(){
         hp = new HealthComponent(this);
-        hp.setMaximalHealthpoints(1000);
-        hp.setCurrentHealthpoints(1000);
+        hp.setMaximalHealthpoints(100);
+        hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
     }
 
@@ -193,7 +189,9 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public void setHealSkill(){
         upgradeHealSkill++;
         if (pac.getSkillSlot2().isEmpty()){
+            setupHealSkill();
             pac.setSkillSlot2(secondSkill);
+            sc.addSkill(secondSkill);
 
         }
         else{
@@ -207,12 +205,15 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public void setIceBallSkill(){
         upgradeIceBallSkill++;
         if (pac.getSkillSlot3().isEmpty()){
+            System.out.println("set iceball skill");
+            setupIceballSkill();
             pac.setSkillSlot3(thirdSkill);
-            setupSkillComponent();
+            sc.addSkill(thirdSkill);
         }
         else{
             iceballSkill.setSpeedpenalty(iceballSkill.getSpeedpenalty() + 0.01f);
             iceballSkill.setSpellCost(iceballSkill.getSpellCost() + 2);
+            System.out.println("upgrade iceball skill");
         }
     }
 }
