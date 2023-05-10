@@ -8,17 +8,23 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
+import ecs.components.xp.ILevelUp;
+import ecs.components.xp.XPComponent;
 import ecs.entities.trap.TrapDmg;
+import ecs.systems.ECS_System;
 import graphic.Animation;
 import graphic.hud.GameOver;
+import graphic.hud.SkillMenu;
 import tools.Point;
+
+import java.util.function.Consumer;
 
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
  */
-public class Hero extends Entity implements IOnDeathFunction {
+public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private final int fireballCoolDown = 5;
     private final float xSpeed = 0.3f;
@@ -42,6 +48,10 @@ public class Hero extends Entity implements IOnDeathFunction {
     private PositionComponent pc;
     private SkillComponent sc;
 
+    private SkillMenu<Actor> skillMenu;
+    private XPComponent xp;
+    private PlayableComponent pac;
+
     /** Constructor Entity with Components */
     public Hero() {
         super();
@@ -50,14 +60,13 @@ public class Hero extends Entity implements IOnDeathFunction {
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
-        PlayableComponent pc = new PlayableComponent(this);
+        pac = new PlayableComponent(this);
         setupFireballSkill();
         setupHealSkill();
         setupIceballSkill();
-        pc.setSkillSlot1(firstSkill);
-        pc.setSkillSlot2(secondSkill);
-        pc.setSkillSlot3(thirdSkill);
+        pac.setSkillSlot1(firstSkill);
         setupSkillComponent();
+        setupXPComponent();
     }
 
     private void setupVelocityComponent() {
@@ -108,6 +117,12 @@ public class Hero extends Entity implements IOnDeathFunction {
                 null);
     }
 
+    private void setupXPComponent(){
+        xp = new XPComponent(this, this::onLevelUp );
+        xp.setCurrentLevel(1);
+        xp.setCurrentXP(-20);
+    }
+
     private void setupHealthComponent(){
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
@@ -115,14 +130,19 @@ public class Hero extends Entity implements IOnDeathFunction {
         hp.setOnDeath(this::onDeath);
     }
 
+    /** Is called when the hero levels up
+     * @param nextLevel is the new level of the hero
+     */
+    public void onLevelUp(long nextLevel){
+        starter.Game.getGame().toggleSkillMenu();
+    }
+
     /** Is called when the hero dies
      * @param entity which is looked for
      */
     @Override
     public void onDeath(Entity entity){
-        gameOverMenu2 = starter.Game.getGameOverMenu();
-        gameOverMenu2.showMenu();
-        System.out.println("Game Over");
+        starter.Game.getGame().toggleGameOver();
     }
 
     /** Returns the position of the hero
@@ -137,6 +157,28 @@ public class Hero extends Entity implements IOnDeathFunction {
      */
     public HealthComponent getHC(){
         return hp;
+    }
+
+    public XPComponent getXP(){
+        return xp;
+    }
+
+    public SkillComponent getSC(){
+        return sc;
+    }
+
+    /**
+     * Sets the HealSkill to the second skill slot
+     */
+    public void setHealSkill(){
+        pac.setSkillSlot2(secondSkill);
+    }
+
+    /**
+     * Sets the FreezeSkill to the third skill slot
+     */
+    public void setFreezeSkill(){
+        pac.setSkillSlot3(thirdSkill);
     }
 
 }

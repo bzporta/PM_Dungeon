@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
+import controller.ControllerLayer;
 import controller.ScreenController;
 import starter.Game;
 import tools.Constants;
@@ -36,7 +37,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
                 (Constants.WINDOW_HEIGHT) / 1.5f + screenText.getHeight(),
                 Align.center | Align.bottom);
-        add((T) screenText);
+        add((T) screenText, ControllerLayer.BOTTOM);
         ScreenButton screenButton_neustart =
             new ScreenButton(
                 "Neustart",
@@ -59,7 +60,7 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
 
 
-        add((T) screenButton_neustart);
+        add((T) screenButton_neustart, ControllerLayer.BOTTOM);
 
         ScreenButton screenButton_beenden =
             new ScreenButton(
@@ -83,7 +84,8 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
 
 
-        add((T) screenButton_beenden);
+        add((T) screenButton_beenden, ControllerLayer.BOTTOM);
+        hideMenu();
     }
 
     /** shows the Menu */
@@ -94,5 +96,9 @@ public class GameOver<T extends Actor> extends ScreenController<T> {
     /** hides the Menu */
     public void hideMenu() {
         this.forEach((Actor s) -> s.setVisible(false));
+    }
+
+    public GameOver getGameOver() {
+        return this;
     }
 }
