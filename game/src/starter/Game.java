@@ -63,6 +63,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Draws objects */
     protected Painter painter;
 
+    private boolean isSkillMenuOpen = false;
+
     /** Generates the level */
     protected static LevelAPI levelAPI;
     /** Generates the level */
@@ -146,15 +148,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         gameLogger = Logger.getLogger(this.getClass().getName());
         systems = new SystemController();
         controller.add(systems);
-        /*pauseMenu = new PauseMenu<>();
+        pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
-        gameOverMenu = new GameOver<>();
-        controller.add(gameOverMenu);
-        gameOverMenu.hideMenu();
         skillMenu = new SkillMenu<>();
         controller.add(skillMenu);
         skillMenu.hideMenu();
-         */
+        gameOverMenu = new GameOver<>();
+        controller.add(gameOverMenu);
+        gameOverMenu.hideMenu();
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
@@ -164,9 +165,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         spawnRate = 1;
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
-
         createSystems();
-
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -174,7 +173,22 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         setCameraFocus();
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+        if (!isSkillMenuOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+        }
+        if (isSkillMenuOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.H) && Hero.upgradeHealSkill <= 5) {
+                Hero hero = (Hero) Game.getHero().get();
+                hero.setHealSkill();
+                toggleSkillMenu();
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.J) && Hero.upgradeIceBallSkill <= 5) {
+                Hero hero = (Hero) Game.getHero().get();
+                hero.setIceBallSkill();
+                toggleSkillMenu();
+            }
+        }
     }
 
     @Override
@@ -190,7 +204,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
         createMonster();
-        ((Hero) hero).getXP().addXP(50);
+        if (((Hero) hero).getXP().getCurrentLevel() < 11) {
+            ((Hero) hero).getXP().addXP(50);
+        }
     }
 
     private void manageEntitiesSets() {
@@ -263,34 +279,35 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public void toggleSkillMenu() {
         //controller.add(skillMenu);
-
+        System.out.println("SkillMenu1");
         paused = !paused;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
         }
+
         if (skillMenu != null) {
             if (paused){
-
+                System.out.println("SkillMenu");
+                isSkillMenuOpen = true;
                 skillMenu.showMenu();
+
             }
             else{
+                isSkillMenuOpen = false;
                 skillMenu.hideMenu();
             }
         }
     }
 
     public void toggleGameOver(){
-        //gameOverMenu = new GameOver<>();
-        //controller.add(gameOverMenu);
-        //gameOverMenu.showMenu();
-        /*paused = !paused;
+        paused = !paused;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
         }
         if (gameOverMenu != null) {
             if (paused) gameOverMenu.showMenu();
             else gameOverMenu.hideMenu();
-        }*/
+        }
     }
 
     /** Returns the GameOverMenuObject

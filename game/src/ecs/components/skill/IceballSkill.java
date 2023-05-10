@@ -29,14 +29,14 @@ public class IceballSkill implements ISkillFunction {
      * Constructor of IceballSkill.
      * @param selectionFunction Function that selects the target point.
      */
-    public IceballSkill(ITargetSelection selectionFunction) {
+    public IceballSkill(ITargetSelection selectionFunction, float speedpenalty, int spellCost) {
         this.pathToTexturesOfIceball = "skills.iceball";
-        this.speedpenalty = 0.05f;
+        this.speedpenalty = speedpenalty;
         this.projectileSpeed = 0.3f;
         this.projectileRange = 5f;
         this.projectileHitboxSize = new Point(10, 10);
         this.selectionFunction = selectionFunction;
-        this.spellCost = 10;
+        this.spellCost = spellCost;
     }
 
     /**
@@ -95,4 +95,37 @@ public class IceballSkill implements ISkillFunction {
         new HitboxComponent(
             projectile, new Point(0.25f, 0.25f), projectileHitboxSize, collide, null);
     }
+
+    /**
+     * Gets the spell cost.
+     * @return spellCost
+     */
+    public int getSpellCost(){
+        return spellCost;
+    }
+
+    /**
+     * Sets the spell cost.
+     * @param spellCost
+     */
+    public void setSpellCost(int spellCost){
+        this.spellCost = spellCost;
+    }
+
+    /**
+     * Gets the speed penalty.
+     * @return speedpenalty
+     */
+    public float getSpeedpenalty() {
+        return speedpenalty;
+    }
+
+    /**
+     * Sets the speed penalty.
+     * @param speedpenalty
+     */
+    public void setSpeedpenalty(float speedpenalty) {
+        this.speedpenalty = speedpenalty;
+    }
+
 }

@@ -46,4 +46,11 @@ public class Skill {
     public void reduceCoolDown() {
         currentCoolDownInFrames = Math.max(0, --currentCoolDownInFrames);
     }
+
+    /**
+     * @return the skill function of this skill
+     */
+    public ISkillFunction getSkillFunction() {
+        return skillFunction;
+    }
 }

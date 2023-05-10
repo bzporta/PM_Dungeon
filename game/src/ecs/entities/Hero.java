@@ -38,8 +38,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private static GameOver<Actor> gameOverMenu2;
     private Skill firstSkill;
 
+    private IceballSkill iceballSkill;
 
     private Skill secondSkill;
+    private HealSkill healSkill;
     private final int healCooldown = 15;
 
     private Skill thirdSkill;
@@ -52,10 +54,21 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private XPComponent xp;
     private PlayableComponent pac;
 
+    /**
+     * Amount of how often the hero has upgraded the IceBallSkill.
+     */
+    public static int upgradeIceBallSkill = 0;
+    /**
+     * Amount of how often the hero has upgraded the HealSkill.
+     */
+    public static int upgradeHealSkill = 0;
+
     /** Constructor Entity with Components */
     public Hero() {
         super();
         pc = new PositionComponent(this);
+        healSkill = new HealSkill(25);
+        iceballSkill = new IceballSkill(SkillTools::getCursorPositionAsPoint, 0.05f, 10);
         setupHealthComponent();
         setupVelocityComponent();
         setupAnimationComponent();
@@ -90,13 +103,13 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private void setupHealSkill(){
         secondSkill =
             new Skill(
-                new HealSkill(25), healCooldown);
+                healSkill, healCooldown);
     }
 
     private void setupIceballSkill() {
         thirdSkill =
             new Skill(
-                new IceballSkill(SkillTools::getCursorPositionAsPoint),iceballCooldown);
+                iceballSkill, iceballCooldown);
     }
 
     private void setupSkillComponent(){
@@ -125,8 +138,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private void setupHealthComponent(){
         hp = new HealthComponent(this);
-        hp.setMaximalHealthpoints(100);
-        hp.setCurrentHealthpoints(100);
+        hp.setMaximalHealthpoints(1000);
+        hp.setCurrentHealthpoints(1000);
         hp.setOnDeath(this::onDeath);
     }
 
@@ -163,6 +176,12 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         return xp;
     }
 
+    /** Returns the playable component of the hero
+     * @return playable component of the hero
+     */
+    public PlayableComponent getPAC(){
+        return pac;
+    }
     public SkillComponent getSC(){
         return sc;
     }
@@ -171,14 +190,26 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
      * Sets the HealSkill to the second skill slot
      */
     public void setHealSkill(){
-        pac.setSkillSlot2(secondSkill);
+        upgradeHealSkill++;
+        if (pac.getSkillSlot2().isEmpty()){
+            pac.setSkillSlot2(secondSkill);
+        }
+        else{
+            healSkill.setHealAmount(healSkill.getHealAmount() + 5);
+        }
     }
 
     /**
      * Sets the FreezeSkill to the third skill slot
      */
-    public void setFreezeSkill(){
-        pac.setSkillSlot3(thirdSkill);
+    public void setIceBallSkill(){
+        upgradeIceBallSkill++;
+        if (pac.getSkillSlot3().isEmpty()){
+            pac.setSkillSlot3(thirdSkill);
+        }
+        else{
+            iceballSkill.setSpeedpenalty(iceballSkill.getSpeedpenalty() + 0.01f);
+            iceballSkill.setSpellCost(iceballSkill.getSpellCost() + 2);
+        }
     }
-
 }

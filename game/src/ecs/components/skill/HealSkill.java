@@ -72,4 +72,20 @@ public class HealSkill implements ISkillFunction{
          */
 
     }
+
+    /**
+     * Getter for the amount of healthpoints that the hero gets healed.
+     * @return Amount of healthpoints that the hero gets healed.
+     */
+    public int getHealAmount(){
+        return healAmount;
+    }
+
+    /**
+     * Setter for the amount of healthpoints that the hero gets healed.
+     * @param healAmount Amount of healthpoints that the hero gets healed.
+     */
+    public void setHealAmount(int healAmount){
+        this.healAmount = healAmount;
+    }
 }
