@@ -70,6 +70,6 @@ public abstract class DamageProjectileSkill implements ISkillFunction {
                 };
 
         new HitboxComponent(
-                projectile, new Point(0.25f, 0.25f), projectileHitboxSize, collide, null);
+                projectile, collide, null);
     }
 }

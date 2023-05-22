@@ -95,7 +95,7 @@ public class IceballSkill implements ISkillFunction {
             };
 
         new HitboxComponent(
-            projectile, new Point(0.1f, 0.1f), projectileHitboxSize, collide, null);
+            projectile, collide, null);
     }
 
     /**
