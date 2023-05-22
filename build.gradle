@@ -142,5 +142,5 @@ spotless {
 // generate ANTLR visitor and listener classes from grammar
 generateGrammarSource {
     maxHeapSize = "64m"
-    arguments += ["-visitor", "-listener" ]
+    arguments += ["-visitor", "-listener"]
 }

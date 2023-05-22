@@ -10,7 +10,7 @@ Die DSL ermöglicht…
   welche durch DSL-Interpreter in eine konkretes Szenario in einem Dungeon Level übersetzt
   werden
 - die Organisation der Aufgabenfolge und Aufgabenverschachtelung
-  - aufeinanderfolgende und parallele (Teil-)Aufgaben
+    - aufeinanderfolgende und parallele (Teil-)Aufgaben
 - Konfiguration der Bewertung von Aufgaben
 - (in einem festgelegten Rahmen) Einflussnahme auf das erstellte Szenario
 - die Definition von Entitätstypen und Ausprägungen dieser Typen

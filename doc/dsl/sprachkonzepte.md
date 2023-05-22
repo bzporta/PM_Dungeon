@@ -68,9 +68,9 @@ beteiligt sind.
 ## Sprachkonzepte
 
 - Für jedes Konzept:
-  - Was genau beschreibt das Konzept (was *tut* die Sprache)?
-  - Warum ist das wichtig?
-  - Wie sieht das in der DSL-Syntax aus?
+    - Was genau beschreibt das Konzept (was *tut* die Sprache)?
+    - Warum ist das wichtig?
+    - Wie sieht das in der DSL-Syntax aus?
 
 ## Graphendefinition
 

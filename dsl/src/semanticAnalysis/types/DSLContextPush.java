@@ -13,5 +13,5 @@ public @interface DSLContextPush {
      *
      * @return
      */
-    public String name();
+    String name();
 }

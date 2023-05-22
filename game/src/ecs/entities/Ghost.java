@@ -5,18 +5,11 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.ai.AIComponent;
-import ecs.components.ai.AITools;
 import ecs.components.ai.idle.PatrouilleWalk;
-import ecs.components.ai.idle.RadiusWalk;
-import ecs.components.ai.idle.StaticRadiusWalk;
 import graphic.Animation;
-import starter.Game;
-import tools.Point;
 
-/** Ghost class
- * This class represents a ghost which follows the hero
- * */
-public class Ghost extends Entity{
+/** Ghost class This class represents a ghost which follows the hero */
+public class Ghost extends Entity {
 
     private final float xSpeed = 0.1f;
     private final float ySpeed = 0.1f;
@@ -31,11 +24,12 @@ public class Ghost extends Entity{
 
     private Grave grave;
 
-    /** Constructor
-     * Creates a ghost-object which the Hero can be followed by
+    /**
+     * Constructor Creates a ghost-object which the Hero can be followed by
+     *
      * @param spawn Grave on which the Ghost spawns
-     * */
-    public Ghost(Grave spawn){
+     */
+    public Ghost(Grave spawn) {
         pc = new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
@@ -61,7 +55,7 @@ public class Ghost extends Entity{
     }
 
     /** Sets the position of the ghost to the position of the hero */
-    public void setSpawn(){
+    public void setSpawn() {
         pc.setPosition(grave.getPosition());
     }
 }

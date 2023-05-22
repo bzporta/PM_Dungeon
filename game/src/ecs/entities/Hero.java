@@ -1,6 +1,5 @@
 package ecs.entities;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
@@ -11,14 +10,10 @@ import ecs.components.skill.*;
 import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
 import ecs.entities.trap.TrapDmg;
-import ecs.systems.ECS_System;
 import graphic.Animation;
 import graphic.hud.GameOver;
 import graphic.hud.SkillMenu;
 import tools.Point;
-
-import java.util.function.Consumer;
-
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
@@ -45,7 +40,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private final int healCooldown = 15;
 
     private Skill thirdSkill;
-    private final int iceballCooldown= 1;
+    private final int iceballCooldown = 1;
 
     private PositionComponent pc;
     private SkillComponent sc;
@@ -54,13 +49,9 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private XPComponent xp;
     private PlayableComponent pac;
 
-    /**
-     * Amount of how often the hero has upgraded the IceBallSkill.
-     */
+    /** Amount of how often the hero has upgraded the IceBallSkill. */
     public static int upgradeIceBallSkill = 0;
-    /**
-     * Amount of how often the hero has upgraded the HealSkill.
-     */
+    /** Amount of how often the hero has upgraded the HealSkill. */
     public static int upgradeHealSkill = 0;
 
     /** Constructor Entity with Components */
@@ -98,119 +89,119 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
     }
 
-    private void setupHealSkill(){
-        secondSkill =
-            new Skill(
-                healSkill, healCooldown);
+    private void setupHealSkill() {
+        secondSkill = new Skill(healSkill, healCooldown);
     }
 
     private void setupIceballSkill() {
-        thirdSkill =
-            new Skill(
-                iceballSkill, iceballCooldown);
+        thirdSkill = new Skill(iceballSkill, iceballCooldown);
     }
 
-    private void setupSkillComponent(){
+    private void setupSkillComponent() {
         sc = new SkillComponent(this);
         sc.addSkill(firstSkill);
-
     }
 
     private void setupHitboxComponent() {
         new HitboxComponent(
                 this,
                 (hero, other, direction) -> {
-                    if(other instanceof TrapDmg){
+                    if (other instanceof TrapDmg) {
                         hp.receiveHit(TrapDmg.getDmg());
                     }
                 },
                 null);
     }
 
-    private void setupXPComponent(){
-        xp = new XPComponent(this, this::onLevelUp );
+    private void setupXPComponent() {
+        xp = new XPComponent(this, this::onLevelUp);
         xp.setCurrentLevel(1);
         xp.setCurrentXP(-20);
     }
 
-    private void setupHealthComponent(){
+    private void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
         hp.setOnDeath(this::onDeath);
     }
 
-    /** Is called when the hero levels up
+    /**
+     * Is called when the hero levels up
+     *
      * @param nextLevel is the new level of the hero
      */
-    public void onLevelUp(long nextLevel){
+    public void onLevelUp(long nextLevel) {
         starter.Game.getGame().toggleSkillMenu();
     }
 
-    /** Is called when the hero dies
+    /**
+     * Is called when the hero dies
+     *
      * @param entity which is looked for
      */
     @Override
-    public void onDeath(Entity entity){
+    public void onDeath(Entity entity) {
         starter.Game.getGame().toggleGameOver();
     }
 
-    /** Returns the position of the hero
+    /**
+     * Returns the position of the hero
+     *
      * @return position of the hero
      */
-    public Point getPosition(){
+    public Point getPosition() {
         return pc.getPosition();
     }
 
-    /** Returns the health component of the hero
+    /**
+     * Returns the health component of the hero
+     *
      * @return health component of the hero
      */
-    public HealthComponent getHC(){
+    public HealthComponent getHC() {
         return hp;
     }
 
-    public XPComponent getXP(){
+    public XPComponent getXP() {
         return xp;
     }
 
-    /** Returns the playable component of the hero
+    /**
+     * Returns the playable component of the hero
+     *
      * @return playable component of the hero
      */
-    public PlayableComponent getPAC(){
+    public PlayableComponent getPAC() {
         return pac;
     }
-    public SkillComponent getSC(){
+
+    public SkillComponent getSC() {
         return sc;
     }
 
-    /**
-     * Sets the HealSkill to the second skill slot
-     */
-    public void setHealSkill(){
+    /** Sets the HealSkill to the second skill slot */
+    public void setHealSkill() {
         upgradeHealSkill++;
-        if (pac.getSkillSlot2().isEmpty()){
+        if (pac.getSkillSlot2().isEmpty()) {
             setupHealSkill();
             pac.setSkillSlot2(secondSkill);
             sc.addSkill(secondSkill);
 
-        }
-        else{
+        } else {
             healSkill.setHealAmount(healSkill.getHealAmount() + 5);
         }
     }
 
-    /**
-     * Sets the FreezeSkill to the third skill slot
-     */
-    public void setIceBallSkill(){
+    /** Sets the FreezeSkill to the third skill slot */
+    public void setIceBallSkill() {
         upgradeIceBallSkill++;
-        if (pac.getSkillSlot3().isEmpty()){
+        if (pac.getSkillSlot3().isEmpty()) {
             System.out.println("set iceball skill");
             setupIceballSkill();
             pac.setSkillSlot3(thirdSkill);
             sc.addSkill(thirdSkill);
-        }
-        else{
+        } else {
             iceballSkill.setSpeedpenalty(iceballSkill.getSpeedpenalty() + 0.01f);
             iceballSkill.setSpellCost(iceballSkill.getSpellCost() + 2);
             System.out.println("upgrade iceball skill");

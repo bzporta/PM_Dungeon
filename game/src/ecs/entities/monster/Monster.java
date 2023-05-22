@@ -8,13 +8,10 @@ import ecs.entities.Entity;
 import graphic.Animation;
 import tools.Point;
 
-/**
- * The abstract Monster class
- */
+/** The abstract Monster class */
 public abstract class Monster extends Entity {
 
     private Damage damage;
-
 
     private float xSpeed;
     private float ySpeed;
@@ -28,6 +25,7 @@ public abstract class Monster extends Entity {
 
     /**
      * Constructor for the Monster class
+     *
      * @param xSpeed speed in x direction
      * @param ySpeed speed in y direction
      * @param hitDmg damage of the monster
@@ -36,11 +34,18 @@ public abstract class Monster extends Entity {
      * @param runLeft path to the run animation in left direction
      * @param runRight path to the run animation in right direction
      */
-    public Monster(float xSpeed, float ySpeed, int hitDmg, String idleLeft, String idleRight, String runLeft, String runRight){
+    public Monster(
+            float xSpeed,
+            float ySpeed,
+            int hitDmg,
+            String idleLeft,
+            String idleRight,
+            String runLeft,
+            String runRight) {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.hitDmg = hitDmg;
-        this.damage = new Damage(hitDmg, DamageType.PHYSICAL,null);
+        this.damage = new Damage(hitDmg, DamageType.PHYSICAL, null);
         this.pathToIdleLeft = idleLeft;
         this.pathToIdleRight = idleRight;
         this.pathToRunLeft = runLeft;
@@ -51,7 +56,6 @@ public abstract class Monster extends Entity {
         setupVelocityComponent();
         setupAnimationComponent();
     }
-
 
     private void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
@@ -65,7 +69,7 @@ public abstract class Monster extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-    private void setupHealthComponent(){
+    private void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
@@ -76,18 +80,17 @@ public abstract class Monster extends Entity {
         new HitboxComponent(this);
     }
 
-
-    private void onDeath(Entity entity){
+    private void onDeath(Entity entity) {
         System.out.println("Monster toooot");
     }
 
-    public void setPosition(Point p){
+    public void setPosition(Point p) {
         pc.setPosition(p);
     }
 
-
     /**
      * Returns the Healthcomponent of the monster
+     *
      * @return the Healthcomponent of the monster
      */
     public HealthComponent getHp() {
@@ -96,6 +99,7 @@ public abstract class Monster extends Entity {
 
     /**
      * Returns the damage of the monster
+     *
      * @return the damage of the monster
      */
     public int getHitDmg() {
@@ -104,18 +108,17 @@ public abstract class Monster extends Entity {
 
     /**
      * Sets the damage of the monster
+     *
      * @param hitDmg the damage of the monster
      */
     public void setHitDmg(int hitDmg) {
         this.hitDmg = hitDmg;
-        damage = new Damage(hitDmg, DamageType.PHYSICAL,null);
+        damage = new Damage(hitDmg, DamageType.PHYSICAL, null);
     }
 
-    /**
-     * Sets the animation of the monster to frozen and stops the movement
-     */
-    public void setFrozen(){
-         String frozen = "character/monster/frozen";
+    /** Sets the animation of the monster to frozen and stops the movement */
+    public void setFrozen() {
+        String frozen = "character/monster/frozen";
 
         Animation idleRight = AnimationBuilder.buildAnimation(frozen);
         Animation idleLeft = AnimationBuilder.buildAnimation(frozen);
@@ -125,5 +128,4 @@ public abstract class Monster extends Entity {
         Animation moveLeft = AnimationBuilder.buildAnimation(frozen);
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
-
 }

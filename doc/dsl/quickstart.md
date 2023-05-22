@@ -30,8 +30,8 @@ level_config my_config {
 
 - Hier folgt die Beschreibung der einzelnen Komponenten dieses Beispiels:
 
-  - Task-Definition
-  - Level-Config
+    - Task-Definition
+    - Level-Config
 
 - Hier wird beschrieben, wie man die obige Definition in den Dungeon lädt und startet, da
   ist aktuell noch unklar, wie das funktioniert

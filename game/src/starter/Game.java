@@ -5,17 +5,16 @@ import static logging.LoggerConfig.initBaseLogger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import configuration.Configuration;
 import configuration.KeyboardConfig;
 import controller.AbstractController;
-import controller.ControllerLayer;
 import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
-import ecs.damage.Damage;
 import ecs.entities.*;
 import ecs.entities.monster.Andromalius;
 import ecs.entities.monster.DarkHeart;
@@ -24,16 +23,13 @@ import ecs.entities.monster.Monster;
 import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
-import graphic.hud.GameOver;
 import graphic.Painter;
+import graphic.hud.GameOver;
 import graphic.hud.PauseMenu;
+import graphic.hud.SkillMenu;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
-import  com.badlogic.gdx.InputMultiplexer;
-import java.util.stream.Stream;
-
-import graphic.hud.SkillMenu;
 import level.IOnLevelLoader;
 import level.LevelAPI;
 import level.elements.ILevel;
@@ -71,6 +67,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected static LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
+
     public static InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     private static TrapDmgCreator trapDmgCreator;
@@ -82,6 +79,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     /** All entities that are currently active in the dungeon */
     private static final Set<Entity> entities = new HashSet<>();
+
     private static Entity hero;
     private static Ghost ghost;
     private static Grave grave;
@@ -105,9 +103,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static SkillMenu<Actor> skillMenu;
     private Logger gameLogger;
 
-    /** List of Tile positions for entities
-     */
+    /** List of Tile positions for entities */
     public static ArrayList<Tile> positionList = new ArrayList<>();
+
     public static int levelCounter;
     private static int spawnRate;
     private static int dmgBuff;
@@ -206,9 +204,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-        trapTeleportCreator.creator(1,entities,currentLevel);
-        trapDmgCreator.creator(1,entities,currentLevel);
-        entities.add(grave = new Grave((Hero)hero));
+        trapTeleportCreator.creator(1, entities, currentLevel);
+        trapDmgCreator.creator(1, entities, currentLevel);
+        entities.add(grave = new Grave((Hero) hero));
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
@@ -283,11 +281,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /**
-     * Toggles the SkillMenu
-     */
+    /** Toggles the SkillMenu */
     public void toggleSkillMenu() {
-        //controller.add(skillMenu);
+        // controller.add(skillMenu);
         System.out.println("SkillMenu1");
         toggleSkillMenue = !toggleSkillMenue;
         if (systems != null) {
@@ -295,20 +291,19 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
 
         if (skillMenu != null) {
-            if (toggleSkillMenue){
+            if (toggleSkillMenue) {
                 System.out.println("SkillMenu");
                 isSkillMenuOpen = true;
                 skillMenu.showMenu();
 
-            }
-            else{
+            } else {
                 isSkillMenuOpen = false;
                 skillMenu.hideMenu();
             }
         }
     }
 
-    public void toggleGameOver(){
+    public void toggleGameOver() {
         toggleGameOverMenue = !toggleGameOverMenue;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
@@ -319,8 +314,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 gameOverMenu.createGameOverMenue();
                 gameOverMenu.showMenu();
                 isGameOverMenueOpen = true;
-            }
-            else {
+            } else {
                 System.out.println("RemoveMenue");
                 gameOverMenu.removeGameOverMenu();
                 gameOverMenu.hideMenu();
@@ -329,7 +323,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Returns the GameOverMenuObject
+    /**
+     * Returns the GameOverMenuObject
      *
      * @return GameOverMenuObject
      */
@@ -337,7 +332,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return gameOverMenu;
     }
 
-    /** Returns the SkillMenuObject
+    /**
+     * Returns the SkillMenuObject
      *
      * @return SkillMenuObject
      */
@@ -391,11 +387,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return Optional.ofNullable(hero);
     }
 
-
-    /** Returns the current game-Object
+    /**
+     * Returns the current game-Object
+     *
      * @return the current game-Object
      */
-
     public static Game getGame() {
         return game;
     }
@@ -440,11 +436,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new ProjectileSystem();
     }
 
-    /** Restarts the game
+    /**
+     * Restarts the game
      *
-     * <p> Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all important parameters.</p>
+     * <p>Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all
+     * important parameters.
      */
-    public static void restartGame(){
+    public static void restartGame() {
         getGame().setup();
     }
 
@@ -452,17 +450,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         positionList.removeAll(positionList);
     }
 
-    private void createMonster(){
+    private void createMonster() {
         levelCounter++;
-        if(levelCounter % 3 == 0){
+        if (levelCounter % 3 == 0) {
             dmgBuff += 1;
-            hpBuff +=
-            spawnRate++;
+            hpBuff += spawnRate++;
         }
         for (int i = 0; i < spawnRate; i++) {
             Random random = new Random();
             int rnd = random.nextInt(3) + 1;
-            if(rnd == 1){
+            if (rnd == 1) {
                 imp = new Imp();
                 entities.add(imp);
                 imp.setHitDmg(imp.getHitDmg() + dmgBuff);
@@ -470,7 +467,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 imp.getHp().setCurrentHealthpoints(100 + hpBuff);
                 imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
             }
-            if(rnd == 2){
+            if (rnd == 2) {
                 andromalius = new Andromalius();
                 andromalius.setHitDmg(andromalius.getHitDmg() + dmgBuff);
                 andromalius.getHp().setMaximalHealthpoints(100 + hpBuff);
@@ -478,7 +475,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 entities.add(andromalius);
                 andromalius.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
             }
-            if(rnd == 3){
+            if (rnd == 3) {
                 darkheart = new DarkHeart();
                 darkheart.setHitDmg(darkheart.getHitDmg() + dmgBuff);
                 darkheart.getHp().setMaximalHealthpoints(100 + hpBuff);

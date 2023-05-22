@@ -3,8 +3,9 @@ title: "AI Component"
 ---
 
 ## Wofür
+
 - Wofür braucht es diese Comonent?
-- Was macht es? 
+- Was macht es?
 
 ## Aufbau
 
@@ -12,11 +13,14 @@ title: "AI Component"
 - Aufbau Erklären
 
 ## Wie nutzt man es
-- Welche Prameter gibt es, was machen diese? 
+
+- Welche Prameter gibt es, was machen diese?
 
 ## Implentierungen der Strategien
+
 - FÜr jede Implementierung einen eigenen Header mit: Wofür,Aufbau,Nutzen
 
 ## Testabdeckung
+
 - Wie ist die Testabdeckung?
 - Welche Methode/Funktionalitäten können nicht geteste werden, warum? 

@@ -13,7 +13,7 @@ import runtime.Value;
 // TODO: handle complex adapted types
 
 public class TypeInstantiator {
-    private HashMap<String, Object> context = new HashMap<>();
+    private final HashMap<String, Object> context = new HashMap<>();
 
     /**
      * Push an object as part of the context (so it can be looked up, if it is referenced by {@link

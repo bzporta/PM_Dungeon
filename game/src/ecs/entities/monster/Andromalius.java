@@ -2,28 +2,21 @@ package ecs.entities.monster;
 
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.idle.PatrouilleWalk;
-import ecs.components.ai.idle.ProtectTileRadiusWalk;
-import ecs.damage.Damage;
-import ecs.damage.DamageType;
-import starter.Game;
 
-/**
- * The Andromalius monster
- */
-public class Andromalius extends Monster{
+/** The Andromalius monster */
+public class Andromalius extends Monster {
     private AIComponent ai;
 
-    /**
-     * Constructor for the Andromalius monster
-     */
-    public Andromalius(){
-        super(0.1F,
-            0.1F,
-            5,
-            "game/assets/character/monster/andromalius/idleLeft.png",
-            "game/assets/character/monster/andromalius/idleRight.png",
-            "game/assets/character/monster/andromalius/idleLeft.png",
-            "game/assets/character/monster/andromalius/idleRight.png");
+    /** Constructor for the Andromalius monster */
+    public Andromalius() {
+        super(
+                0.1F,
+                0.1F,
+                5,
+                "game/assets/character/monster/andromalius/idleLeft.png",
+                "game/assets/character/monster/andromalius/idleRight.png",
+                "game/assets/character/monster/andromalius/idleLeft.png",
+                "game/assets/character/monster/andromalius/idleRight.png");
         setupAiComponent();
     }
 
@@ -31,5 +24,4 @@ public class Andromalius extends Monster{
         ai = new AIComponent(this);
         ai.setIdleAI(new PatrouilleWalk(3f, 5, 1, PatrouilleWalk.MODE.RANDOM));
     }
-
 }

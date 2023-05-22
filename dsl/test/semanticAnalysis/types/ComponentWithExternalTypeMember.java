@@ -4,5 +4,5 @@ import tools.Point;
 
 @DSLType
 public class ComponentWithExternalTypeMember {
-    @DSLTypeMember public Point point;
+  @DSLTypeMember public Point point;
 }

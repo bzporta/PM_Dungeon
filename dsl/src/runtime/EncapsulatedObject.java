@@ -9,14 +9,14 @@ import semanticAnalysis.types.IType;
 import semanticAnalysis.types.TypeBuilder;
 
 public class EncapsulatedObject extends Value implements IMemorySpace {
-    private IMemorySpace parent;
-    private AggregateType type;
-    private HashMap<String, Field> typeMemberToField;
+    private final IMemorySpace parent;
+    private final AggregateType type;
+    private final HashMap<String, Field> typeMemberToField;
 
     // TODO: should probably abstract all that away in a TypeFactory, which
     //  handles creation of encapsulated objects and other stuff
     private IEvironment environment;
-    private HashMap<String, EncapsulatedObject> objectCache;
+    private final HashMap<String, EncapsulatedObject> objectCache;
 
     /**
      * Constructor

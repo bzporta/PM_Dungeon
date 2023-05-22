@@ -2,5 +2,5 @@ package quest;
 
 public interface IEvaluable {
 
-    public void evaluate();
+    void evaluate();
 }

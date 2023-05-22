@@ -20,6 +20,7 @@ public class ExampleClass {
 ```
 
 - `Configuration.loadAndGetConfiguration()`
-  lädt die angegebene Konfigurationsdatei und läd ihre Inhalte in die in ConfigMapA und ConfigMapB definierten [ConfigKeys\<T>](./ConfigKey.md).
+  lädt die angegebene Konfigurationsdatei und läd ihre Inhalte in die in ConfigMapA und ConfigMapB
+  definierten [ConfigKeys\<T>](./ConfigKey.md).
 
 - `Configuration.saveConfiguration()` speichert die Konfiguration in die beim Laden angegebene Datei.

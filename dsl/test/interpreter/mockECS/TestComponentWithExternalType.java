@@ -5,8 +5,8 @@ import semanticAnalysis.types.DSLTypeMember;
 
 @DSLType
 public class TestComponentWithExternalType {
-    @DSLTypeMember private int member1;
-    @DSLTypeMember private ExternalType memberExternalType;
+    @DSLTypeMember private final int member1;
+    @DSLTypeMember private final ExternalType memberExternalType;
 
     public ExternalType getMemberExternalType() {
         return memberExternalType;

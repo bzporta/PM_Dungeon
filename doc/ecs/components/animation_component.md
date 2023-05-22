@@ -3,8 +3,9 @@ title: "Animation Component"
 ---
 
 ## Wofür
+
 - Wofür braucht es diese Comonent?
-- Was macht es? 
+- Was macht es?
 
 ## Aufbau
 
@@ -13,8 +14,10 @@ title: "Animation Component"
 - Erklären warum Animationen auch in anderen Components gespeichert werden
 
 ## Wie nutzt man es
-- Welche Prameter gibt es, was machen diese? 
+
+- Welche Prameter gibt es, was machen diese?
 
 ## Testabdeckung
+
 - Wie ist die Testabdeckung?
 - Welche Methode/Funktionalitäten können nicht geteste werden, warum? 

@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import tools.Constants;
 import starter.Game;
+import tools.Constants;
 
 /** A class to manage <code>Actor</code> and <code>Removable<code>s.
  * <p>Provides methods for add, remove, update and reorder elements.</p>
@@ -31,7 +31,7 @@ public class ScreenController<T extends Actor> extends AbstractController<T> {
                                 Scaling.stretch, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT),
                         batch);
 
-        //Gdx.input.setInputProcessor(stage);
+        // Gdx.input.setInputProcessor(stage);
         Game.inputMultiplexer.addProcessor(stage);
     }
 

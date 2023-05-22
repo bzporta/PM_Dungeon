@@ -7,7 +7,7 @@ import semanticAnalysis.types.DSLTypeMember;
 public class ComponentWithDefaultCtor {
     @DSLTypeMember private String member1;
     @DSLTypeMember private int member2;
-    @DSLTypeMember private String memberWithDefaultValue;
+    @DSLTypeMember private final String memberWithDefaultValue;
 
     public ComponentWithDefaultCtor() {
         this.memberWithDefaultValue = "DEFAULT VALUE";
