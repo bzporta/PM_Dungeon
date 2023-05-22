@@ -28,4 +28,10 @@ public class Imp extends Monster {
                 new ProtectTileRadiusWalk(Game.currentLevel.getEndTile(), 1.5f, 2);
         ai.setIdleAI(ptrw);
     }
+
+    @Override
+    public void knockback(float knockbackamount) {
+        super.knockback(knockbackamount);
+        setupAiComponent();
+    }
 }

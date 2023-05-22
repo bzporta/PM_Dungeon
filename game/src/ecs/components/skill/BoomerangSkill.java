@@ -7,6 +7,7 @@ import ecs.components.collision.ICollide;
 import ecs.damage.Damage;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
+import ecs.entities.monster.Monster;
 import graphic.Animation;
 import starter.Game;
 import tools.Point;
@@ -60,10 +61,12 @@ public class BoomerangSkill extends Entity implements ISkillFunction {
         new ProjectileComponent(projectile, epc.getPosition(), targetPoint);
         ICollide collide =
                 (a, b, from) -> {
-                    if (b != entity) {
+                    if (b instanceof Monster) {
                         b.getComponent(HealthComponent.class)
                                 .ifPresent(
                                         hc -> {
+                                            ((HealthComponent) hc).receiveHit(projectileDamage);
+                                            ((Monster) b).knockback(1.1f);
                                             Game.removeEntity(projectile);
                                             Entity projectile_new = new Entity();
                                             PositionComponent epc_new =
@@ -80,7 +83,7 @@ public class BoomerangSkill extends Entity implements ISkillFunction {
                                                     AnimationBuilder.buildAnimation(
                                                             pathToTexturesOfProjectile);
                                             new AnimationComponent(projectile_new, animation_new);
-                                            ((HealthComponent) hc).receiveHit(projectileDamage);
+
                                             Hero hero = (Hero) Game.getHero().orElseThrow();
                                             Point targetPoint_new = hero.getPosition();
 

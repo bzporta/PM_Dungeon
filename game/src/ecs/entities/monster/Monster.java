@@ -5,6 +5,7 @@ import ecs.components.*;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import ecs.entities.Hero;
 import graphic.Animation;
 import tools.Point;
 
@@ -129,7 +130,15 @@ public abstract class Monster extends Entity {
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
 
-    public void knockback(){
-
+    public void knockback(float knockbackamount) {
+        Hero hero = (Hero) starter.Game.getHero().orElseThrow();
+        float x = pc.getPosition().x - hero.getPosition().x;
+        float y = pc.getPosition().y - hero.getPosition().y;
+        float length = (float) Math.sqrt(x * x + y * y);
+        float x_normalized = x / length;
+        float y_normalized = y / length;
+        float newx = pc.getPosition().x + x_normalized * knockbackamount;
+        float newy = pc.getPosition().y + y_normalized * knockbackamount;
+        pc = new PositionComponent(this, newx, newy);
     }
 }
