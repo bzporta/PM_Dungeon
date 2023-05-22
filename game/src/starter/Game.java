@@ -5,6 +5,7 @@ import static logging.LoggerConfig.initBaseLogger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,12 +16,17 @@ import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.*;
+import ecs.entities.monster.Andromalius;
+import ecs.entities.monster.DarkHeart;
+import ecs.entities.monster.Imp;
+import ecs.entities.monster.Monster;
 import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
-import graphic.hud.GameOver;
 import graphic.Painter;
+import graphic.hud.GameOver;
 import graphic.hud.PauseMenu;
+import graphic.hud.SkillMenu;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -38,7 +44,7 @@ import tools.Point;
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
-    private final LevelSize LEVELSIZE = LevelSize.MEDIUM;
+    private final LevelSize LEVELSIZE = LevelSize.SMALL;
 
     /**
      * The batch is necessary to draw ALL the stuff. Every object that uses draw need to know the
@@ -54,21 +60,33 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Draws objects */
     protected Painter painter;
 
+    private boolean isSkillMenuOpen = false;
+    private boolean isGameOverMenueOpen = false;
+
     /** Generates the level */
     protected static LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
 
+    public static InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
     private static TrapDmgCreator trapDmgCreator;
     private static TrapTeleportCreator trapTeleportCreator;
     private boolean doSetup = true;
     private static boolean paused = false;
+    private static boolean toggleSkillMenue = false;
+    private static boolean toggleGameOverMenue = false;
 
     /** All entities that are currently active in the dungeon */
     private static final Set<Entity> entities = new HashSet<>();
+
     private static Entity hero;
     private static Ghost ghost;
     private static Grave grave;
+    private static Monster imp;
+    private static Monster darkheart;
+    private static Monster andromalius;
+
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
     /** All entities to be added from the dungeon in the next frame */
@@ -81,12 +99,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
 
     private static GameOver<Actor> gameOverMenu;
+
+    private static SkillMenu<Actor> skillMenu;
     private Logger gameLogger;
 
-    /** List of Tile positions for entities
-     */
+    /** List of Tile positions for entities */
     public static ArrayList<Tile> positionList = new ArrayList<>();
 
+    public static int levelCounter;
+    private static int spawnRate;
+    private static int dmgBuff;
+    private static int hpBuff;
 
     public static void main(String[] args) {
         // start the game
@@ -131,16 +154,25 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
         gameOverMenu = new GameOver<>();
+        skillMenu = new SkillMenu<>();
+        controller.add(skillMenu);
         controller.add(gameOverMenu);
-        gameOverMenu.hideMenu();
+        paused = false;
+        toggleGameOverMenue = false;
+        toggleSkillMenue = false;
+        isSkillMenuOpen = false;
+        isGameOverMenueOpen = false;
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
-        //ghost = new Ghost(grave);
+        hpBuff = 0;
+        dmgBuff = 0;
+        levelCounter = 0;
+        spawnRate = 1;
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
+        Gdx.input.setInputProcessor(inputMultiplexer);
         createSystems();
-
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -148,7 +180,22 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         setCameraFocus();
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+        if (!isSkillMenuOpen && !isGameOverMenueOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
+        }
+        if (isSkillMenuOpen) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.H) && Hero.upgradeHealSkill <= 5) {
+                Hero hero = (Hero) Game.getHero().get();
+                hero.setHealSkill();
+                toggleSkillMenu();
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.J) && Hero.upgradeIceBallSkill <= 5) {
+                Hero hero = (Hero) Game.getHero().get();
+                hero.setIceBallSkill();
+                toggleSkillMenu();
+            }
+        }
     }
 
     @Override
@@ -157,12 +204,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
-        trapTeleportCreator.creator(1,entities,currentLevel);
-        trapDmgCreator.creator(1,entities,currentLevel);
-        entities.add(grave = new Grave((Hero)hero));
+        trapTeleportCreator.creator(1, entities, currentLevel);
+        trapDmgCreator.creator(1, entities, currentLevel);
+        entities.add(grave = new Grave((Hero) hero));
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
+        createMonster();
+        if (((Hero) hero).getXP().getCurrentLevel() < 11) {
+            ((Hero) hero).getXP().addXP(20);
+        }
     }
 
     private void manageEntitiesSets() {
@@ -230,12 +281,64 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Returns the GameOverMenuObject
+    /** Toggles the SkillMenu */
+    public void toggleSkillMenu() {
+        // controller.add(skillMenu);
+        System.out.println("SkillMenu1");
+        toggleSkillMenue = !toggleSkillMenue;
+        if (systems != null) {
+            systems.forEach(ECS_System::toggleRun);
+        }
+
+        if (skillMenu != null) {
+            if (toggleSkillMenue) {
+                System.out.println("SkillMenu");
+                isSkillMenuOpen = true;
+                skillMenu.showMenu();
+
+            } else {
+                isSkillMenuOpen = false;
+                skillMenu.hideMenu();
+            }
+        }
+    }
+
+    public void toggleGameOver() {
+        toggleGameOverMenue = !toggleGameOverMenue;
+        if (systems != null) {
+            systems.forEach(ECS_System::toggleRun);
+        }
+        if (gameOverMenu != null) {
+            if (toggleGameOverMenue) {
+                System.out.println("CreateMenue");
+                gameOverMenu.createGameOverMenue();
+                gameOverMenu.showMenu();
+                isGameOverMenueOpen = true;
+            } else {
+                System.out.println("RemoveMenue");
+                gameOverMenu.removeGameOverMenu();
+                gameOverMenu.hideMenu();
+                isGameOverMenueOpen = false;
+            }
+        }
+    }
+
+    /**
+     * Returns the GameOverMenuObject
      *
      * @return GameOverMenuObject
      */
     public static GameOver getGameOverMenu() {
         return gameOverMenu;
+    }
+
+    /**
+     * Returns the SkillMenuObject
+     *
+     * @return SkillMenuObject
+     */
+    public static SkillMenu getSkillMenu() {
+        return skillMenu;
     }
 
     /**
@@ -284,11 +387,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return Optional.ofNullable(hero);
     }
 
-
-    /** Returns the current game-Object
+    /**
+     * Returns the current game-Object
+     *
      * @return the current game-Object
      */
-
     public static Game getGame() {
         return game;
     }
@@ -333,15 +436,53 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new ProjectileSystem();
     }
 
-    /** Restarts the game
+    /**
+     * Restarts the game
      *
-     * <p> Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all important parameters.</p>
+     * <p>Used for the "Restart"-Function of the GameOverMenu. Creates a new level and resets all
+     * important parameters.
      */
-    public static void restartGame(){
+    public static void restartGame() {
         getGame().setup();
     }
 
     private void clearPositionlist() {
         positionList.removeAll(positionList);
+    }
+
+    private void createMonster() {
+        levelCounter++;
+        if (levelCounter % 3 == 0) {
+            dmgBuff += 1;
+            hpBuff += spawnRate++;
+        }
+        for (int i = 0; i < spawnRate; i++) {
+            Random random = new Random();
+            int rnd = random.nextInt(3) + 1;
+            if (rnd == 1) {
+                imp = new Imp();
+                entities.add(imp);
+                imp.setHitDmg(imp.getHitDmg() + dmgBuff);
+                imp.getHp().setMaximalHealthpoints(100 + hpBuff);
+                imp.getHp().setCurrentHealthpoints(100 + hpBuff);
+                imp.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+            }
+            if (rnd == 2) {
+                andromalius = new Andromalius();
+                andromalius.setHitDmg(andromalius.getHitDmg() + dmgBuff);
+                andromalius.getHp().setMaximalHealthpoints(100 + hpBuff);
+                andromalius.getHp().setCurrentHealthpoints(100 + hpBuff);
+                entities.add(andromalius);
+                andromalius.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+            }
+            if (rnd == 3) {
+                darkheart = new DarkHeart();
+                darkheart.setHitDmg(darkheart.getHitDmg() + dmgBuff);
+                darkheart.getHp().setMaximalHealthpoints(100 + hpBuff);
+                darkheart.getHp().setCurrentHealthpoints(100 + hpBuff);
+                entities.add(darkheart);
+                darkheart.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
+            }
+        }
     }
 }

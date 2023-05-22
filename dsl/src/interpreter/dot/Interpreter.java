@@ -106,7 +106,7 @@ public class Interpreter implements AstVisitor<dslToGame.graph.Node<String>> {
             assert (edge.type.equals(Node.Type.DotEdgeRHS));
 
             EdgeRhsNode edgeRhs = (EdgeRhsNode) edge;
-            rhsDotNode = (dslToGame.graph.Node<String>) edgeRhs.getIdNode().accept(this);
+            rhsDotNode = edgeRhs.getIdNode().accept(this);
 
             Edge.Type edgeType =
                     edgeRhs.getEdgeOpType().equals(EdgeOpNode.Type.arrow)

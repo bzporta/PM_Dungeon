@@ -1,11 +1,12 @@
-
-
 ## Was bedeutet Typebuilding im Kontext der DSL?
 
 Das Dungeon Framework verwendet einen komponentenbasierten Ansatz (vgl. [ECS](./../game/ecs.md)), um Entitäten im
-Level zu definieren. Die DSL ermöglicht das Definieren von Enitäten in textueller Form (vgl. hierfür [Entitätsdefinition](./sprachkonzepte.md#entitätsdefinition)), indem für einen Entitätstypen festgelegt wird, welche Komponenten in ihm enthalten sein sollen. Hierbei können die Member der Komponenten konfiguriert werden.
+Level zu definieren. Die DSL ermöglicht das Definieren von Enitäten in textueller Form (vgl.
+hierfür [Entitätsdefinition](./sprachkonzepte.md#entitätsdefinition)), indem für einen Entitätstypen festgelegt wird,
+welche Komponenten in ihm enthalten sein sollen. Hierbei können die Member der Komponenten konfiguriert werden.
 
-Ein Beispiel für einen Entitätstypen names `my_object`, der ein `PositionComponent` und ein `AnimationComponent` hat, könnte so aussehen:
+Ein Beispiel für einen Entitätstypen names `my_object`, der ein `PositionComponent` und ein `AnimationComponent` hat,
+könnte so aussehen:
 
 ```
 game_object my_object {
@@ -24,23 +25,29 @@ dargestellt wird.
 
 ![UML: Java-Klasse und DSL-Datentyp](./img/java_to_dsl_type.png)
 
-Um die DSL Typen, die auf diese Weise benötigt werden, nicht manuell implementieren zu müssen, übernimmt der `TypeBuiler` diese Aufgabe automatisch.
+Um die DSL Typen, die auf diese Weise benötigt werden, nicht manuell implementieren zu müssen, übernimmt
+der `TypeBuiler` diese Aufgabe automatisch.
 Hierzu wird ein Annotation-basierter Ansatz verfolgt.
 
 ## Beispiel(e) aus User-Sicht
 
 Die wesentlichen Annotationen sind:
+
 - `DSLType`: Markierung für die Java-Klasse, für die ein DSL Typ erzeugt werden soll
 - `DSLTypeMember`: Markierung für die Member der Java-Klasse, welche in dem DSL Typ enthalten sein sollen
 
 Eine Java-Klasse, für die ein DSL Typ generiert werden soll, könnte so aussehen:
 
 ```java
+
 @DSLType
 public class ComponentClass {
-    @DSLTypeMember int member1;
-    @DSLTypeMember String member2;
-    @DSLTypeMember float member3;
+    @DSLTypeMember
+    int member1;
+    @DSLTypeMember
+    String member2;
+    @DSLTypeMember
+    float member3;
     int member4;
 }
 ```
@@ -48,13 +55,15 @@ public class ComponentClass {
 Aus dieser Klasse kann mit der Methode `TypeBuilder::createTypeFromClass` ein DSL Typ erzeugt werden:
 
 ```java
-TypeBuilder tp = new TypeBuilder();
-AggregateType dslType = tp.createTypeFromClass(Scope.NULL, ComponentClass.class);
+TypeBuilder tp=new TypeBuilder();
+        AggregateType dslType=tp.createTypeFromClass(Scope.NULL,ComponentClass.class);
 ```
 
-Der `dslType` enthält drei Symbole, welche `member1`, `member2` und `member3` representieren, die in `ComponentClass` markiert sind.
+Der `dslType` enthält drei Symbole, welche `member1`, `member2` und `member3` representieren, die in `ComponentClass`
+markiert sind.
 Die Datentypen sind `BuiltInType.intType`, `BuiltInType.stringType` und `BuiltInType.floatType` respektive.
-Der so erzeugte Datentyp kann (nachdem er über ein `IEnvironment` geladen wurde, siehe [Laden von Datentypen](#laden-von-datentypen)) wie folgt in einer Entitätsdefinition verwendet werden:
+Der so erzeugte Datentyp kann (nachdem er über ein `IEnvironment` geladen wurde,
+siehe [Laden von Datentypen](#laden-von-datentypen)) wie folgt in einer Entitätsdefinition verwendet werden:
 
 ```
 game_ojbect my_obj {
@@ -68,14 +77,22 @@ game_ojbect my_obj {
 
 ### Typ- und Membernamen
 
-Standardmäßig konvertiert der `TypeBuilder` die Namen der Java-Klassen in [snake case](https://en.wikipedia.org//wiki/Snake_case), um ein zu den restlichen DSL Keywords konsistentes Namensschema zu verfolgen. Alternativ akzeptieren `DSLType` und `DSLTypeMember` einen `name`-Parameter, der dieses Standardverhalten überschreibt. Für die oben bereits genutzte `ComponentClass` könnte dies entsprechend verwendet werden:
+Standardmäßig konvertiert der `TypeBuilder` die Namen der Java-Klassen
+in [snake case](https://en.wikipedia.org//wiki/Snake_case), um ein zu den restlichen DSL Keywords konsistentes
+Namensschema zu verfolgen. Alternativ akzeptieren `DSLType` und `DSLTypeMember` einen `name`-Parameter, der dieses
+Standardverhalten überschreibt. Für die oben bereits genutzte `ComponentClass` könnte dies entsprechend verwendet
+werden:
 
 ```java
-@DSLType(name="my_component")
+
+@DSLType(name = "my_component")
 public class ComponentClass {
-    @DSLTypeMember int member1;
-    @DSLTypeMember(name="my_member") String member2;
-    @DSLTypeMember float member3;
+    @DSLTypeMember
+    int member1;
+    @DSLTypeMember(name = "my_member")
+    String member2;
+    @DSLTypeMember
+    float member3;
     int member4;
 }
 ```
@@ -94,60 +111,70 @@ game_ojbect my_obj {
 
 ### Laden von Datentypen
 
-Der mit `TypeBuilder::createTypeFromClass` erzeugte Datentyp muss in die [DSL Pipeline](./ueberblick.md#dsl-pipeline) integriert werden.
-Hierzu muss der DSL Typ über ein `IEnvironment` Objekt geladen werden. Die Standard `IEnvironment`-Implementierung ist das `GameEnvironment` ([GameEnvironment.java](./../../dsl/src/runtime/GameEnvironment.java)), welches
+Der mit `TypeBuilder::createTypeFromClass` erzeugte Datentyp muss in die [DSL Pipeline](./ueberblick.md#dsl-pipeline)
+integriert werden.
+Hierzu muss der DSL Typ über ein `IEnvironment` Objekt geladen werden. Die Standard `IEnvironment`-Implementierung ist
+das `GameEnvironment` ([GameEnvironment.java](./../../dsl/src/runtime/GameEnvironment.java)), welches
 bereits alle BuiltIn-Datentypen und standardmäßig verfügbaren komplexeren Datentypen (Komponenten-Datentypen) enthält.
 
 ```java
 // DSL Datentyp erzeugen
-TypeBuilder tp = new TypeBuilder();
-AggregateType dslType = tp.createTypeFromClass(Scope.NULL, ComponentClass.class);
+TypeBuilder tp=new TypeBuilder();
+        AggregateType dslType=tp.createTypeFromClass(Scope.NULL,ComponentClass.class);
 
 // DSL Datentyp ins GameEnvironment laden
-var env = new GameEnvironment();
-env.loadTypes(new IType[] {dslType});
+        var env=new GameEnvironment();
+        env.loadTypes(new IType[]{dslType});
 
 // Vorbereiten des SymbolTableParsers für die semantische Analyse, indem
 // das modifiziertei GameEnvironment geladen wird
-SymbolTableParser symbolTableParser = new SymbolTableParser();
-symbolTableParser.setup(env);
+        SymbolTableParser symbolTableParser=new SymbolTableParser();
+        symbolTableParser.setup(env);
 
-/*
- *  Parsing und AST Erzeugung aus einem DSL Programm (hier ausgelassen)
- */
+        /*
+         *  Parsing und AST Erzeugung aus einem DSL Programm (hier ausgelassen)
+         */
 
 // Ausführung der semantischen Analyse; die semantischen Informationen werden im
 // `IEnvironment` gespeichert, mit dem der `SymbolTableParsers` per `setup`-Methode
 // vorbereitet wurde
-symbolTableParser.walk(ast);
+        symbolTableParser.walk(ast);
 
 // Initialisierung der Laufzeitumgebung des DSLInterpreters mit dem `IEnvironment`,
 // welches nun die semantischen Informationen des Programms enthält
-DSLInterpreter interpreter = new DSLInterpreter();
-interpreter.initializeRuntime(env);
+        DSLInterpreter interpreter=new DSLInterpreter();
+        interpreter.initializeRuntime(env);
 
 // Interpretation des DSL Programms
-var questConfig = interpreter.generateQuestConfig(ast);
+        var questConfig=interpreter.generateQuestConfig(ast);
 ```
 
 ### Einschränkungen
 
-Mit dem oben beschriebenen Mechanismus können DSL Datentypen aus Java-Klassen erstellt werden. Für beide Anwendungsfälle sind folgende Einschränkungen zu beachten:
+Mit dem oben beschriebenen Mechanismus können DSL Datentypen aus Java-Klassen erstellt werden. Für beide Anwendungsfälle
+sind folgende Einschränkungen zu beachten:
 
 **Einschränkungen Java-Klasse**
 
 Eine Java-Klasse, die mit `@DSLType` markiert wird, muss folgende Kriterien erfüllen:
-- sie muss über einen Default-Konstruktor ohne Parameter verfügen
-- falls sie über keinen Default-Konstruktor verfügt, muss sie über einen Konstruktor verfügen, dessen Parameter alle mit `@DSLContextMember` (siehe [Typinstanziierung](interpretation-laufzeit.md#typinstanziierung)) markiert sind
-- die Datentypen aller Member, die mit `@DSLTypeMember` markiert sind, müssen entweder Datentypen sein, die mit `@DSLType` markiert oder adaptiert sind, oder sich auf die `BuiltIn`-Datentypen zurückführen lassen (siehe [Typsystem](typsystem.md))
 
-Falls diese Kriterien nicht erfüllt sind, kann der `TypeInstantiator` keine Instanzen der Klasse anlegen. Für weitere Details siehe [Typinstanziierung](interpreation-laufzeit.md#typinstanziierung).
+- sie muss über einen Default-Konstruktor ohne Parameter verfügen
+- falls sie über keinen Default-Konstruktor verfügt, muss sie über einen Konstruktor verfügen, dessen Parameter alle
+  mit `@DSLContextMember` (siehe [Typinstanziierung](interpretation-laufzeit.md#typinstanziierung)) markiert sind
+- die Datentypen aller Member, die mit `@DSLTypeMember` markiert sind, müssen entweder Datentypen sein, die
+  mit `@DSLType` markiert oder adaptiert sind, oder sich auf die `BuiltIn`-Datentypen zurückführen lassen (
+  siehe [Typsystem](typsystem.md))
+
+Falls diese Kriterien nicht erfüllt sind, kann der `TypeInstantiator` keine Instanzen der Klasse anlegen. Für weitere
+Details siehe [Typinstanziierung](interpreation-laufzeit.md#typinstanziierung).
 
 **Einschränkungen Java-Record**
 
 Ein Java-Record, der mit `DSLType` markiert ist, muss folgende Kriterien erfüllen:
+
 - alle Member des Records müssen mit `DSLTypeMember` markiert sein
-- die Datentypen aller Member müssen entweder Datentypen sein, die mit `@DSLType` markiert oder adaptiert sind, oder sich auf die `BuiltIn`-Datentypen zurückführen lassen (siehe [Typsystem](typsystem.md))
+- die Datentypen aller Member müssen entweder Datentypen sein, die mit `@DSLType` markiert oder adaptiert sind, oder
+  sich auf die `BuiltIn`-Datentypen zurückführen lassen (siehe [Typsystem](typsystem.md))
 
 ### Was, wenn eine Klasse nicht ohne Parameter instanziiert werden kann?
 
@@ -158,11 +185,11 @@ die Entität benötigen, von der die Komponente ein Teil sein soll. Siehe hierzu
 Beispiel aus dem `PositionComponent`:
 
 ```java
-public PositionComponent(Entity entity) {
-    super(entity);
-    this.position =
+public PositionComponent(Entity entity){
+        super(entity);
+        this.position=
         ECS.currentLevel.getRandomTile(LevelElement.FLOOR).getCoordinate().toPoint();
-}
+        }
 ```
 
 **Wichtige Anmerkung: Die Verwendung des `TypeBuilder`-Kontextes setzt (aktuell) zwingend voraus,
@@ -189,12 +216,13 @@ Der Name des hinzugefügten Kontextmembers muss über das `name`-Attribut der
 die erstellte Instanz zugreifen. Das folgende Beispiel zeigt diese Verwendung in der `Entity`-Klasse:
 
 ```java
+
 @DSLType(name = "game_object")
 @DSLContextPush(name = "entity")
 public class Entity {
     private static int nextId = 0;
     public final int id = nextId++;
-    // ...
+// ...
 ```
 
 Mit der `DSLContextMember` Annotation kann ein Konstruktorparameter markiert werden, den der
@@ -205,11 +233,11 @@ Dieser Wert muss dem Wert entsprechen, der auch der `DSLContextPush`-Annotation 
 die Erstellung des Kontextmembers übergeben wurde.
 
 ```java
-public PositionComponent(@DSLContextMember(name = "entity") Entity entity) {
-    super(entity);
-    this.position =
+public PositionComponent(@DSLContextMember(name = "entity") Entity entity){
+        super(entity);
+        this.position=
         ECS.currentLevel.getRandomTile(LevelElement.FLOOR).getCoordinate().toPoint();
-}
+        }
 ```
 
 ## Typadaptierung
@@ -226,13 +254,16 @@ die direkte Abbildung dieser externen Datentypen im DSL Typsystem. Daraus folgt,
 Datentyp verwendet.
 
 Ein Beispiel ist im folgenden Snippet zu sehen. Hier verwendet `member2` einen Datentyp aus einer externen Bibliothek.
+
 ```java
 import some.external.library.ExternalType;
 
 @DSLType
 public class Component {
-    @DSLTypeMember int member1;
-    @DSLTypeMember ExternalType member2;
+    @DSLTypeMember
+    int member1;
+    @DSLTypeMember
+    ExternalType member2;
 }
 ```
 
@@ -242,6 +273,7 @@ Hierzu kann eine statische Methode mit `@DSLTypeAdapter` markiert werden. Dabei 
 definiert werden, welcher Java-Datentyp über die Methode adaptiert werden soll.
 
 Das weitere Vorgehen für die Typadaptierung unterscheidet zwischen zwei Fällen
+
 1. es ist nur ein Parameter nötig, um eine Instanz des zu adaptierenden Datentypen zu erzeugen
 2. es sind mehr als ein Parameter nötig, um eine Instanz des zu adaptierenden Datentypen zu erzeugen
 
@@ -262,8 +294,8 @@ Die Klasse, in der die so markierte Builder-Methode definiert ist, muss im `Type
 die `registerTypeAdapter`-Methode registriert werden.
 
 ```java
-TypeBuilder tb = new TypeBuilder();
-tb.registerTypeAdapter(ExternalTypeBuilder.class, Scope.NULL);
+TypeBuilder tb=new TypeBuilder();
+        tb.registerTypeAdapter(ExternalTypeBuilder.class,Scope.NULL);
 ```
 
 Für alle standardmäßig verfügbaren adaptierten Datentypen ist dies
@@ -293,7 +325,7 @@ Repräsentation dieses Parameters in der DSL verwendet werden soll, vorzugeben.
 ```java
 public class ExternalTypeBuilder {
     @DSLTypeAdapter(t = ExternalType.class)
-    public static ExternalType buildExternalType(@DSLTypeMember(name="number") int n, @DSLTypeMember(name="str") String param) {
+    public static ExternalType buildExternalType(@DSLTypeMember(name = "number") int n, @DSLTypeMember(name = "str") String param) {
         return new ExternalType(n, param);
     }
 }
@@ -312,7 +344,6 @@ game_object my_obj {
     }
 }
 ```
-
 
 ## Implementierung
 

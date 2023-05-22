@@ -13,7 +13,7 @@ package controller;
  */
 public record ControllerLayer(int value) implements Comparable<ControllerLayer> {
     public static final int BOTTOM_VALUE = 100;
-    public static final int DEFAULT_VALUE = 200;
+    public static final int DEFAULT_VALUE = 250;
     public static final int TOP_VALUE = 300;
     public static final ControllerLayer BOTTOM = new ControllerLayer(BOTTOM_VALUE);
     public static final ControllerLayer DEFAULT = new ControllerLayer(DEFAULT_VALUE);

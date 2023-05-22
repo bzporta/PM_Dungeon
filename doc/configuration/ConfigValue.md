@@ -3,8 +3,11 @@ title: ConfigValue\<T>
 ---
 
 ## Intro
-Die ConfigValue-Klasse repräsentiert einen Datentypen in der Konfigurationsdatei. Die Klasse ist abstrakt und muss von einer konkreten Klasse abgeleitet werden, die den Datentypen repräsentiert.
-Sollte es komplexere Typen geben, die gespeichert werden, muss eine eigene ConfigValue-Klasse erstellt werden, die den Wert in einen String serialisiert und wieder aus einem String deserialisiert.
+
+Die ConfigValue-Klasse repräsentiert einen Datentypen in der Konfigurationsdatei. Die Klasse ist abstrakt und muss von
+einer konkreten Klasse abgeleitet werden, die den Datentypen repräsentiert.
+Sollte es komplexere Typen geben, die gespeichert werden, muss eine eigene ConfigValue-Klasse erstellt werden, die den
+Wert in einen String serialisiert und wieder aus einem String deserialisiert.
 
 ## Beispiel anhand der ConfigIntValue-Klasse
 

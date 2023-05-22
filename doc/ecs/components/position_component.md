@@ -3,8 +3,9 @@ title: "Position Component"
 ---
 
 ## Wofür
+
 - Wofür braucht es diese Comonent?
-- Was macht es? 
+- Was macht es?
 
 ## Aufbau
 
@@ -12,9 +13,11 @@ title: "Position Component"
 - Aufbau Erklären
 
 ## Wie nutzt man es
-- Welche Prameter gibt es, was machen diese? 
+
+- Welche Prameter gibt es, was machen diese?
 
 ## Testabdeckung
+
 - Wie ist die Testabdeckung?
 - Welche Methode/Funktionalitäten können nicht geteste werden, warum? 
 

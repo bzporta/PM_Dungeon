@@ -2,7 +2,6 @@
 title: "Head-up-Display"
 ---
 
-
 ## Basics
 
 ## Text im HUD

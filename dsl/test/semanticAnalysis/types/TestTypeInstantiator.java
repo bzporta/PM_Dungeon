@@ -26,7 +26,7 @@ public class TestTypeInstantiator {
         // map from member to
         // field name
         HashMap<String, String> typeMemberNameToJavaFieldName =
-                tb.typeMemberNameToJavaFieldMap(QuestConfig.class);
+                TypeBuilder.typeMemberNameToJavaFieldMap(QuestConfig.class);
 
         int memberCounter = 0;
         for (var member : type.getSymbols()) {
@@ -82,7 +82,7 @@ public class TestTypeInstantiator {
         // map from member to
         // field name
         HashMap<String, String> typeMemberNameToJavaFieldName =
-                tb.typeMemberNameToJavaFieldMap(TestClassOuter.class);
+                TypeBuilder.typeMemberNameToJavaFieldMap(TestClassOuter.class);
 
         int memberCounter = 0;
         for (var member : type.getSymbols()) {

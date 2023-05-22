@@ -4,14 +4,17 @@ title: Configuration
 
 ## Intro
 
-Verknüpfung zwischen einem Schlüssel und einem [ConfigValue\<T>](./ConfigValue.md). Wird von der Klasse [Configuration](./Configuration.md) verwendet und verwaltet.
+Verknüpfung zwischen einem Schlüssel und einem [ConfigValue\<T>](./ConfigValue.md). Wird von der
+Klasse [Configuration](./Configuration.md) verwendet und verwaltet.
 
 ## Einen neuen Config Schlüssel erstellen
 
 1. Erstellen einer neuen ConfigMap-Klasse, optional mit der Annotation `@ConfigMap` und der gewünschten Prefix.
-2. Erstellen einer neuen `ConfigKey`-Instanz mit dem gewünschten Schlüssel und dem gewünschten [ConfigValue\<T>](./ConfigValue.md).
+2. Erstellen einer neuen `ConfigKey`-Instanz mit dem gewünschten Schlüssel und dem
+   gewünschten [ConfigValue\<T>](./ConfigValue.md).
 3. Die `ConfigKey`-Instanz muss in der ConfigMap-Klasse als `public static`-Feld deklariert werden.
-4. Die ConfigMap-Klasse muss in der `Configuration.loadAndGetConfiguration()`-Methode übergeben werden, damit die Felder der ConfigMap-Klasse initialisiert werden.
+4. Die ConfigMap-Klasse muss in der `Configuration.loadAndGetConfiguration()`-Methode übergeben werden, damit die Felder
+   der ConfigMap-Klasse initialisiert werden.
 
 ## Konstruktor
 
@@ -42,6 +45,7 @@ public class GraphicsConfigMap {
 
 }
 ```
+
 ```java
 package example;
 
@@ -59,8 +63,10 @@ public class KeyboardConfigMap {
 }
 ```
 
-Wenn beide ConfigMaps via [`Configuration.loadAndGetConfiguration()`](./Configuration.md) geladen werden, werden die Felder der ConfigMaps mit den entsprechenden Werten aus der Konfigurationsdatei initialisiert.
-Sollte die Konfigurationsdatei nicht existieren, werden die Felder mit dem Standardwert aus der ConfigValue initialisiert und gespeichert werden.
+Wenn beide ConfigMaps via [`Configuration.loadAndGetConfiguration()`](./Configuration.md) geladen werden, werden die
+Felder der ConfigMaps mit den entsprechenden Werten aus der Konfigurationsdatei initialisiert.
+Sollte die Konfigurationsdatei nicht existieren, werden die Felder mit dem Standardwert aus der ConfigValue
+initialisiert und gespeichert werden.
 Die produzierte Konfigurationsdatei würde so, oder ähnlich aussehen:
 
 ```json

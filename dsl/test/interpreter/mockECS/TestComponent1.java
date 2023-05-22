@@ -6,7 +6,7 @@ import semanticAnalysis.types.DSLTypeMember;
 
 @DSLType
 public class TestComponent1 {
-    private Entity entity;
+    private final Entity entity;
 
     public Entity getEntity() {
         return entity;
@@ -14,7 +14,7 @@ public class TestComponent1 {
 
     @DSLTypeMember private int member1;
     @DSLTypeMember private float member2;
-    @DSLTypeMember private String member3;
+    @DSLTypeMember private final String member3;
 
     public TestComponent1(@DSLContextMember(name = "entity") Entity entity) {
         this.entity = entity;

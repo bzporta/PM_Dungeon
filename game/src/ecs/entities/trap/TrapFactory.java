@@ -1,26 +1,18 @@
 package ecs.entities.trap;
 
 import ecs.entities.Entity;
-import level.elements.ILevel;
-import level.elements.tile.FloorTile;
-import level.elements.tile.Tile;
-import tools.Point;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import level.elements.ILevel;
 
-/** An interface for Trap Factories
- */
+/** An interface for Trap Factories */
 public interface TrapFactory {
 
-
-    /** Creates a Trap
+    /**
+     * Creates a Trap
+     *
      * @param anzahl number of traps to be created
      * @param entity set of entities
      * @param currentLevel current level
      */
     void creator(int anzahl, Set<Entity> entity, ILevel currentLevel);
-
-
 }

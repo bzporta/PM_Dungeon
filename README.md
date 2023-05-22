@@ -3,13 +3,15 @@
 ## About
 
 The Dungeon is a tool to gamify classroom content and integrate it into a 2D Rogue-Like role-playing game.
-It provides its own description language (the Dungeon Description Language) with which tasks and game content can be defined and loaded into the game. 
+It provides its own description language (the Dungeon Description Language) with which tasks and game content can be
+defined and loaded into the game.
 
-The Dungeon uses the [PM-Dungeon](https://github.com/Programmiermethoden/PM-Dungeon) as a framework for game development.  
+The Dungeon uses the [PM-Dungeon](https://github.com/Programmiermethoden/PM-Dungeon) as a framework for game
+development.
 
 ## Requirements
 
--   Java SE Development Kit 17.0.x LTS
+- Java SE Development Kit 17.0.x LTS
 
 ## Contributing
 
@@ -24,7 +26,6 @@ courses and is therefore aimed at German-speaking students. Please keep in
 mind that the English documentation may therefore not be available or may be
 slightly out of date. If you have any questions, problems or suggestions, please
 feel free to contact us in English or German.
-
 
 ## Credits
 

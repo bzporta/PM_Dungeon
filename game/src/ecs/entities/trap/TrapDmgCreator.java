@@ -1,17 +1,16 @@
 package ecs.entities.trap;
 
 import ecs.entities.Entity;
+import java.util.Set;
 import level.elements.ILevel;
 import level.elements.tile.Tile;
 
-import java.util.Set;
+/** A class that creates Damage Traps */
+public class TrapDmgCreator implements TrapFactory {
 
-/**
- * A class that creates Damage Traps
- */
-public class TrapDmgCreator implements TrapFactory{
-
-    /** Creates a Damage Trap
+    /**
+     * Creates a Damage Trap
+     *
      * @param anzahl number of traps to be created
      * @param entity set of entities
      * @param currentLevel current level
@@ -22,24 +21,23 @@ public class TrapDmgCreator implements TrapFactory{
         Tile tile;
 
         starter.Game.positionList.add(currentLevel.getStartTile());
-        for(int i = 0; i < anzahl; i++) {
+        for (int i = 0; i < anzahl; i++) {
             Trap falle = new TrapDmg();
             entity.add(falle);
-            do{
+            do {
                 tile = currentLevel.getRandomFloorTile();
                 falle.setTrapTile(tile.getCoordinate().toPoint());
-            }while(starter.Game.positionList.contains(tile));
+            } while (starter.Game.positionList.contains(tile));
             starter.Game.positionList.add(tile);
 
-            if (falle.getLever() != null){
+            if (falle.getLever() != null) {
                 entity.add(falle.getLever());
-                do{
+                do {
                     tile = currentLevel.getRandomFloorTile();
                     falle.getLever().setLever(tile.getCoordinate().toPoint());
-                }while(starter.Game.positionList.contains(tile));
+                } while (starter.Game.positionList.contains(tile));
                 starter.Game.positionList.add(tile);
             }
         }
     }
-
 }

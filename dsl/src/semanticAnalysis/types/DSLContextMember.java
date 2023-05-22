@@ -13,5 +13,5 @@ public @interface DSLContextMember {
      *
      * @return
      */
-    public String name();
+    String name();
 }
