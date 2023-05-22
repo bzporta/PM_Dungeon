@@ -30,6 +30,7 @@ import graphic.hud.PauseMenu;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+import  com.badlogic.gdx.InputMultiplexer;
 import java.util.stream.Stream;
 
 import graphic.hud.SkillMenu;
@@ -64,16 +65,20 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected Painter painter;
 
     private boolean isSkillMenuOpen = false;
+    private boolean isGameOverMenueOpen = false;
 
     /** Generates the level */
     protected static LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
+    public static InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
     private static TrapDmgCreator trapDmgCreator;
     private static TrapTeleportCreator trapTeleportCreator;
     private boolean doSetup = true;
     private static boolean paused = false;
+    private static boolean toggleSkillMenue = false;
+    private static boolean toggleGameOverMenue = false;
 
     /** All entities that are currently active in the dungeon */
     private static final Set<Entity> entities = new HashSet<>();
@@ -150,12 +155,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(systems);
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
+        gameOverMenu = new GameOver<>();
         skillMenu = new SkillMenu<>();
         controller.add(skillMenu);
-        skillMenu.hideMenu();
-        gameOverMenu = new GameOver<>();
         controller.add(gameOverMenu);
-        gameOverMenu.hideMenu();
+        paused = false;
+        toggleGameOverMenue = false;
+        toggleSkillMenue = false;
+        isSkillMenuOpen = false;
+        isGameOverMenueOpen = false;
         trapDmgCreator = new TrapDmgCreator();
         trapTeleportCreator = new TrapTeleportCreator();
         hero = new Hero();
@@ -165,6 +173,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         spawnRate = 1;
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
+        Gdx.input.setInputProcessor(inputMultiplexer);
         createSystems();
     }
 
@@ -173,7 +182,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         setCameraFocus();
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
-        if (!isSkillMenuOpen) {
+        if (!isSkillMenuOpen && !isGameOverMenueOpen) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
         }
         if (isSkillMenuOpen) {
@@ -280,13 +289,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public void toggleSkillMenu() {
         //controller.add(skillMenu);
         System.out.println("SkillMenu1");
-        paused = !paused;
+        toggleSkillMenue = !toggleSkillMenue;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
         }
 
         if (skillMenu != null) {
-            if (paused){
+            if (toggleSkillMenue){
                 System.out.println("SkillMenu");
                 isSkillMenuOpen = true;
                 skillMenu.showMenu();
@@ -300,13 +309,23 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
     public void toggleGameOver(){
-        paused = !paused;
+        toggleGameOverMenue = !toggleGameOverMenue;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
         }
         if (gameOverMenu != null) {
-            if (paused) gameOverMenu.showMenu();
-            else gameOverMenu.hideMenu();
+            if (toggleGameOverMenue) {
+                System.out.println("CreateMenue");
+                gameOverMenu.createGameOverMenue();
+                gameOverMenu.showMenu();
+                isGameOverMenueOpen = true;
+            }
+            else {
+                System.out.println("RemoveMenue");
+                gameOverMenu.removeGameOverMenu();
+                gameOverMenu.hideMenu();
+                isGameOverMenueOpen = false;
+            }
         }
     }
 
