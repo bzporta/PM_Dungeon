@@ -54,6 +54,9 @@ public class ProjectileSystem extends ECS_System {
     }
 
     private void removeEntitiesOnEndpoint(PSData data) {
+        System.out.println("Aufgerufen");
+        System.out.println(data.prc.getEntity());
+
         Game.removeEntity(data.pc.getEntity());
     }
 

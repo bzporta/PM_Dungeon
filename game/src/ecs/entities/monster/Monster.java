@@ -128,4 +128,8 @@ public abstract class Monster extends Entity {
         Animation moveLeft = AnimationBuilder.buildAnimation(frozen);
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
+
+    public void knockback(){
+
+    }
 }

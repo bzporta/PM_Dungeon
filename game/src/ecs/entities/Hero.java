@@ -9,6 +9,8 @@ import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
 import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import graphic.hud.GameOver;
@@ -41,6 +43,9 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private Skill thirdSkill;
     private final int iceballCooldown = 1;
+    private Skill fourthSkill;
+    private final int boomerangCooldown = 1;
+    private BoomerangSkill boomerangSkill;
 
     private PositionComponent pc;
     private SkillComponent sc;
@@ -60,13 +65,19 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         pc = new PositionComponent(this);
         healSkill = new HealSkill(25);
         iceballSkill = new IceballSkill(SkillTools::getCursorPositionAsPoint, 0.05f, 10);
+        boomerangSkill =
+                new BoomerangSkill(
+                        SkillTools::getCursorPositionAsPoint,
+                        new Damage(50, DamageType.PHYSICAL, null));
         setupHealthComponent();
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
         pac = new PlayableComponent(this);
         setupFireballSkill();
+        setupBoomerangSkill();
         pac.setSkillSlot1(firstSkill);
+        pac.setSkillSlot4(fourthSkill);
         setupSkillComponent();
         setupXPComponent();
     }
@@ -89,6 +100,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
     }
 
+    private void setupBoomerangSkill() {
+        fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
+    }
+
     private void setupHealSkill() {
         secondSkill = new Skill(healSkill, healCooldown);
     }
@@ -100,6 +115,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private void setupSkillComponent() {
         sc = new SkillComponent(this);
         sc.addSkill(firstSkill);
+        sc.addSkill(fourthSkill);
     }
 
     private void setupHitboxComponent() {
