@@ -23,7 +23,6 @@ import tools.Point;
  */
 public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
-    private final int fireballCoolDown = 5;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
 
@@ -49,6 +48,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private Skill fifthSkill;
     private final int sawCooldown = 1;
     private SawSkill sawSkill;
+    private SwordSkill swordSkill;
 
     private PositionComponent pc;
     private SkillComponent sc;
@@ -71,9 +71,9 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         setupAnimationComponent();
         setupHitboxComponent();
         pac = new PlayableComponent(this);
-        setupFireballSkill();
         setupBoomerangSkill();
         setupSawSkill();
+        setupSwordSkill();
         pac.setSkillSlot1(firstSkill);
         pac.setSkillSlot4(fourthSkill);
         pac.setSkillSlot5(fifthSkill);
@@ -93,11 +93,6 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-    private void setupFireballSkill() {
-        firstSkill =
-                new Skill(
-                        new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
-    }
 
     private void setupBoomerangSkill() {
         boomerangSkill =
@@ -112,8 +107,13 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
             new SawSkill(
                 SkillTools::getCursorPositionAsPoint,
                 new Damage(50, DamageType.PHYSICAL, null));
-        fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
+        //fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
         fifthSkill = new Skill(sawSkill, sawCooldown);
+    }
+
+    private void setupSwordSkill(){
+        swordSkill = new SwordSkill(new Damage(50, DamageType.PHYSICAL, null));
+        firstSkill = new Skill(swordSkill, 1);
     }
 
     private void setupHealSkill() {

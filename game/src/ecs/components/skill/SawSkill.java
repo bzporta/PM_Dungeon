@@ -29,6 +29,7 @@ public class SawSkill implements ISkillFunction{
 
     @Override
     public void execute(Entity entity) {
+        System.out.println("Saw_executed");
     Entity projectile = new Entity();
         PositionComponent epc =
             (PositionComponent)
@@ -52,10 +53,11 @@ public class SawSkill implements ISkillFunction{
 
         ICollide collide =
             (a, b, from) -> {
-                if (b != entity) {
+                if (b instanceof Monster) {
                     b.getComponent(HealthComponent.class)
                         .ifPresent(
                             hc -> {
+                                ((Monster) b).knockback(1.1f);
                                 ((HealthComponent) hc).receiveHit(projectileDamage);
                                 Game.removeEntity(projectile);
                             });
