@@ -29,6 +29,7 @@ public class SawSkill implements ISkillFunction{
 
     @Override
     public void execute(Entity entity) {
+    System.out.println("saw_executed");
     Entity projectile = new Entity();
         PositionComponent epc =
             (PositionComponent)

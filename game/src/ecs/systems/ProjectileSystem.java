@@ -53,7 +53,7 @@ public class ProjectileSystem extends ECS_System {
     private PSData setVelocity(PSData data) {
         data.vc.setCurrentYVelocity(data.vc.getYVelocity());
         data.vc.setCurrentXVelocity(data.vc.getXVelocity());
-        if (Gdx.input.isButtonPressed(KeyboardConfig.FITH_Skill.get()) || sawProjectile){
+        if (Gdx.input.isButtonPressed(KeyboardConfig.FIFTH_Skill.get()) || sawProjectile){
             sawProjectile = true;
             data.pc.getPosition().y = data.pc.getPosition().y - 0.12f;
         }
