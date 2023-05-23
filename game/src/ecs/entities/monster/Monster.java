@@ -143,6 +143,9 @@ public abstract class Monster extends Entity {
         float y_normalized = y / length;
         float newx = pc.getPosition().x + x_normalized * knockbackamount;
         float newy = pc.getPosition().y + y_normalized * knockbackamount;
-        pc = new PositionComponent(this, newx, newy);
+        Point newPosition = new Point(newx, newy);
+        if (Game.currentLevel.getTileAt(newPosition.toCoordinate()).isAccessible()) {
+            pc = new PositionComponent(this, newx, newy);
+        }
     }
 }
