@@ -7,6 +7,10 @@ import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import graphic.Animation;
+import level.elements.ILevel;
+import level.elements.tile.Tile;
+import level.tools.Coordinate;
+import starter.Game;
 import tools.Point;
 
 /** The abstract Monster class */

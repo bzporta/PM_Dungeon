@@ -12,15 +12,13 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
-public class BoomerangSkill extends Entity implements ISkillFunction {
+public class BoomerangSkill implements ISkillFunction {
     private final String pathToTexturesOfProjectile;
     private final float projectileSpeed;
 
     private final float projectileRange;
     private final Damage projectileDamage;
-    private final Point projectileHitboxSize;
     private final ITargetSelection selectionFunction;
-    public String name = "Boomerang";
 
     /**
      * Konstruktor für BoomerangSkill
@@ -33,7 +31,6 @@ public class BoomerangSkill extends Entity implements ISkillFunction {
         this.projectileDamage = projectileDamage;
         this.projectileSpeed = 0.3f;
         this.projectileRange = 5f;
-        this.projectileHitboxSize = new Point(10, 10);
         this.selectionFunction = selectionFunction;
     }
 

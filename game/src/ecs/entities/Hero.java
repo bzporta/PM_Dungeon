@@ -46,6 +46,9 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private Skill fourthSkill;
     private final int boomerangCooldown = 1;
     private BoomerangSkill boomerangSkill;
+    private Skill fifthSkill;
+    private final int sawCooldown = 1;
+    private SawSkill sawSkill;
 
     private PositionComponent pc;
     private SkillComponent sc;
@@ -63,12 +66,6 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public Hero() {
         super();
         pc = new PositionComponent(this);
-        healSkill = new HealSkill(25);
-        iceballSkill = new IceballSkill(SkillTools::getCursorPositionAsPoint, 0.05f, 10);
-        boomerangSkill =
-                new BoomerangSkill(
-                        SkillTools::getCursorPositionAsPoint,
-                        new Damage(50, DamageType.PHYSICAL, null));
         setupHealthComponent();
         setupVelocityComponent();
         setupAnimationComponent();
@@ -76,8 +73,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         pac = new PlayableComponent(this);
         setupFireballSkill();
         setupBoomerangSkill();
+        setupSawSkill();
         pac.setSkillSlot1(firstSkill);
         pac.setSkillSlot4(fourthSkill);
+        pac.setSkillSlot5(fifthSkill);
         setupSkillComponent();
         setupXPComponent();
     }
@@ -101,14 +100,29 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     }
 
     private void setupBoomerangSkill() {
+        boomerangSkill =
+            new BoomerangSkill(
+                SkillTools::getCursorPositionAsPoint,
+                new Damage(20, DamageType.PHYSICAL, null));
         fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
     }
 
+    private void setupSawSkill(){
+        sawSkill =
+            new SawSkill(
+                SkillTools::getCursorPositionAsPoint,
+                new Damage(50, DamageType.PHYSICAL, null));
+        fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
+        fifthSkill = new Skill(sawSkill, sawCooldown);
+    }
+
     private void setupHealSkill() {
+        healSkill = new HealSkill(25);
         secondSkill = new Skill(healSkill, healCooldown);
     }
 
     private void setupIceballSkill() {
+        iceballSkill = new IceballSkill(SkillTools::getCursorPositionAsPoint, 0.05f, 10);
         thirdSkill = new Skill(iceballSkill, iceballCooldown);
     }
 
@@ -116,6 +130,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         sc = new SkillComponent(this);
         sc.addSkill(firstSkill);
         sc.addSkill(fourthSkill);
+        sc.addSkill(fifthSkill);
     }
 
     private void setupHitboxComponent() {
