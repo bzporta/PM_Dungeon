@@ -22,34 +22,30 @@ public class PlayerSystem extends ECS_System {
                 .forEach(this::checkKeystroke);
     }
 
-  private void checkKeystroke(KSData ksd) {
-    if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_UP.get()))
-      ksd.vc.setCurrentYVelocity(1 * ksd.vc.getYVelocity());
-    else if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_DOWN.get()))
-      ksd.vc.setCurrentYVelocity(-1 * ksd.vc.getYVelocity());
-    else if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_RIGHT.get()))
-      ksd.vc.setCurrentXVelocity(1 * ksd.vc.getXVelocity());
-    else if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_LEFT.get()))
-      ksd.vc.setCurrentXVelocity(-1 * ksd.vc.getXVelocity());
-    System.out.println(KeyboardConfig.FOURTH_SKILL.get());
-    if (Gdx.input.isKeyPressed(KeyboardConfig.INTERACT_WORLD.get()))
-      InteractionTool.interactWithClosestInteractable(ksd.e);
+    private void checkKeystroke(KSData ksd) {
+        if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_UP.get()))
+            ksd.vc.setCurrentYVelocity(1 * ksd.vc.getYVelocity());
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_DOWN.get()))
+            ksd.vc.setCurrentYVelocity(-1 * ksd.vc.getYVelocity());
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_RIGHT.get()))
+            ksd.vc.setCurrentXVelocity(1 * ksd.vc.getXVelocity());
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.MOVEMENT_LEFT.get()))
+            ksd.vc.setCurrentXVelocity(-1 * ksd.vc.getXVelocity());
 
-    // check skills
-    else if (Gdx.input.isKeyPressed(KeyboardConfig.FIRST_SKILL.get()))
-      ksd.pc.getSkillSlot1().ifPresent(skill -> skill.execute(ksd.e));
-    else if (Gdx.input.isKeyPressed(KeyboardConfig.SECOND_SKILL.get()))
-      ksd.pc.getSkillSlot2().ifPresent(skill -> skill.execute(ksd.e));
-    else if (Gdx.input.isKeyPressed(KeyboardConfig.THIRD_SKILL.get()))
-      ksd.pc.getSkillSlot3().ifPresent(skill -> skill.execute(ksd.e));
-    else if (Gdx.input.isButtonPressed(KeyboardConfig.FOURTH_SKILL.get()))
-      ksd.pc.getSkillSlot4().ifPresent(skill -> skill.execute(ksd.e));
-    else if (Gdx.input.isButtonPressed(KeyboardConfig.FIFTH_Skill.get()))
-      ksd.pc.getSkillSlot5().ifPresent(skill -> skill.execute(ksd.e));
-    else if (Gdx.input.isButtonPressed(KeyboardConfig.SIXTH_SKILL.get())) {
-      System.out.println("Button is pressed");
-      ksd.pc.getSkillSlot6().ifPresent(skill -> skill.execute(ksd.e));
-    }
+        if (Gdx.input.isKeyPressed(KeyboardConfig.INTERACT_WORLD.get()))
+            InteractionTool.interactWithClosestInteractable(ksd.e);
+
+        // check skills
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.FIRST_SKILL.get()))
+            ksd.pc.getSkillSlot1().ifPresent(skill -> skill.execute(ksd.e));
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.SECOND_SKILL.get()))
+            ksd.pc.getSkillSlot2().ifPresent(skill -> skill.execute(ksd.e));
+        else if (Gdx.input.isKeyPressed(KeyboardConfig.THIRD_SKILL.get()))
+            ksd.pc.getSkillSlot3().ifPresent(skill -> skill.execute(ksd.e));
+        else if (Gdx.input.isButtonPressed(KeyboardConfig.FOURTH_SKILL.get()))
+            ksd.pc.getSkillSlot4().ifPresent(skill -> skill.execute(ksd.e));
+        else if (Gdx.input.isButtonPressed(KeyboardConfig.FITH_Skill.get()))
+            ksd.pc.getSkillSlot5().ifPresent(skill -> skill.execute(ksd.e));
     }
 
     private KSData buildDataObject(PlayableComponent pc) {

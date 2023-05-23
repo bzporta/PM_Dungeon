@@ -45,13 +45,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private final int iceballCooldown = 1;
     private Skill fourthSkill;
     private final int boomerangCooldown = 1;
-    private final int swordCooldown = 1;
     private BoomerangSkill boomerangSkill;
     private Skill fifthSkill;
-    private Skill sixthSkill;
     private final int sawCooldown = 1;
     private SawSkill sawSkill;
-    private SwordSkill swordSkill;
 
     private PositionComponent pc;
     private SkillComponent sc;
@@ -77,12 +74,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         setupFireballSkill();
         setupBoomerangSkill();
         setupSawSkill();
-        setupSwordSkill();
-        setupSkillComponent();
         pac.setSkillSlot1(firstSkill);
         pac.setSkillSlot4(fourthSkill);
         pac.setSkillSlot5(fifthSkill);
-        pac.setSkillSlot6(sixthSkill);
+        setupSkillComponent();
         setupXPComponent();
     }
 
@@ -117,12 +112,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
             new SawSkill(
                 SkillTools::getCursorPositionAsPoint,
                 new Damage(50, DamageType.PHYSICAL, null));
+        fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
         fifthSkill = new Skill(sawSkill, sawCooldown);
-    }
-
-    private void setupSwordSkill(){
-        swordSkill = new SwordSkill(new Damage(50, DamageType.PHYSICAL, null), SkillTools::getCursorPositionAsPoint);
-        sixthSkill = new Skill(swordSkill, swordCooldown);
     }
 
     private void setupHealSkill() {
@@ -135,14 +126,11 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         thirdSkill = new Skill(iceballSkill, iceballCooldown);
     }
 
-
-
     private void setupSkillComponent() {
         sc = new SkillComponent(this);
         sc.addSkill(firstSkill);
         sc.addSkill(fourthSkill);
         sc.addSkill(fifthSkill);
-        sc.addSkill(sixthSkill);
     }
 
     private void setupHitboxComponent() {
