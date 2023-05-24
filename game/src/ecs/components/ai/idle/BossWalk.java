@@ -1,17 +1,13 @@
 package ecs.components.ai.idle;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
-import ecs.components.PositionComponent;
 import ecs.components.ai.AITools;
 import ecs.entities.Entity;
-import ecs.entities.monster.BossMonster;
 import level.elements.tile.Tile;
 import starter.Game;
 import tools.Point;
 
-import static ecs.components.ai.AITools.getRandomAccessibleTileCoordinateInRange;
-
-public class BossWalk implements  IIdleAI{
+public class BossWalk implements IIdleAI {
 
     private Tile tile;
     private float radius;
@@ -22,10 +18,20 @@ public class BossWalk implements  IIdleAI{
     private final int breakTime;
     private int currentBreak = 0;
 
-    public BossWalk(int breakTime){
+    /**
+     * BossWalk constructor
+     *
+     * @param breakTime time to wait before changing direction
+     */
+    public BossWalk(int breakTime) {
         this.breakTime = breakTime;
     }
 
+    /**
+     * Implements the idle behavior of an AI controlled entity
+     *
+     * @param entity associated entity
+     */
     @Override
     public void idle(Entity entity) {
         if (path == null || AITools.pathFinishedOrLeft(entity, path)) {

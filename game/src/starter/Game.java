@@ -109,6 +109,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static int dmgBuff;
     private static int hpBuff;
 
+    /**
+     * Constructor for the game. Initializes the batch and the camera.
+     *
+     * @throws IOException if the configuration file could not be loaded
+     */
     public static void main(String[] args) {
         // start the game
         try {
@@ -301,6 +306,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Toggles the GameOverMenu */
     public void toggleGameOver() {
         toggleGameOverMenue = !toggleGameOverMenue;
         if (systems != null) {
@@ -450,8 +456,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private void createMonster() {
         levelCounter++;
-        boss = new BossMonster();
-        entities.add(boss);
+        if (levelCounter == 15) {
+            boss = new BossMonster();
+            entities.add(boss);
+        }
         if (levelCounter % 3 == 0) {
             dmgBuff += 1;
             hpBuff += spawnRate++;

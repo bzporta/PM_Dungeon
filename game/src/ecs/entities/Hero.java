@@ -113,7 +113,6 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private void setupSwordSkill() {
         swordSkill = new SwordSkill(new Damage(50, DamageType.PHYSICAL, null));
         firstSkill = new Skill(swordSkill, 1);
-
     }
 
     private void setupHealSkill() {
@@ -194,6 +193,11 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         return hp;
     }
 
+    /**
+     * Returns the XP component of the hero
+     *
+     * @return xp component of the hero
+     */
     public XPComponent getXP() {
         return xp;
     }
@@ -207,6 +211,11 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         return pac;
     }
 
+    /**
+     * Returns the skill component of the hero
+     *
+     * @return skill component of the hero
+     */
     public SkillComponent getSC() {
         return sc;
     }

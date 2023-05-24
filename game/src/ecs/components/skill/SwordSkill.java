@@ -1,21 +1,21 @@
 package ecs.components.skill;
 
-import dslToGame.AnimationBuilder;
 import ecs.components.*;
-import ecs.components.collision.ICollide;
 import ecs.damage.Damage;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import ecs.entities.monster.Monster;
-import graphic.Animation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import starter.Game;
-import tools.Point;
 
 /** The SwordSkill class */
 public class SwordSkill implements ISkillFunction {
 
     private final Damage projectileDamage;
     private String pathToAnimation;
+    private float range = 1.5f;
 
     /**
      * Konstruktor für SwordSkill
@@ -35,40 +35,51 @@ public class SwordSkill implements ISkillFunction {
      */
     @Override
     public void execute(Entity entity) {
-        Hero hero = (Hero) Game.getHero().orElseThrow();
-        System.out.println("Sword_executed");
-        Entity projectile = new Entity();
-        Animation animation = AnimationBuilder.buildAnimation(pathToAnimation);
-        new AnimationComponent(projectile, animation);
-        PositionComponent epc =
-                (PositionComponent)
-                        entity.getComponent(PositionComponent.class)
-                                .orElseThrow(
-                                        () -> new MissingComponentException("PositionComponent"));
+        checkHit(entity);
+    }
 
+    private List<Entity> getEnemyOnLVL(Entity caster) {
+        List<Entity> entities = new ArrayList<>();
+        if (caster instanceof Monster) {
+            entities =
+                    Game.getEntities().stream()
+                            .filter(mo -> mo instanceof Hero)
+                            .collect(Collectors.toList());
 
-        new PositionComponent(projectile, new Point(epc.getPosition().x, epc.getPosition().y + 0.4f));
+        } else if (caster instanceof Hero) {
+            entities =
+                    Game.getEntities().stream()
+                            .filter(mo -> mo instanceof Monster)
+                            .collect(Collectors.toList());
+        }
+        return entities;
+    }
 
-        ICollide collide =
-                (a, b, from) -> {
-                    if (b instanceof Monster) {
-                        b.getComponent(HealthComponent.class)
-                                .ifPresent(
-                                        hc -> {
-                                            ((Monster) b).knockback(1.1f);
-                                            ((HealthComponent) hc).receiveHit(projectileDamage);
-                                            System.out.println("hit");
-                                            Game.removeEntity(projectile);
-                                        });
-                    }
-                    if (b instanceof Hero) {
-                        Game.removeEntity(projectile);
-                    }
-                };
+    private void checkHit(Entity caster) {
+        List<Entity> entities = getEnemyOnLVL(caster);
+        entities.stream().filter(e -> checkCord(e, caster)).forEach(entity -> attack(entity));
+    }
 
-        new HitboxComponent(
-                projectile, new Point(0.25f, 0.25f), new Point(0.34f, 0.75f), collide, null);
+    private Boolean checkCord(Entity entities, Entity caster) {
+        PositionComponent pcE =
+                (PositionComponent) entities.getComponent(PositionComponent.class).orElseThrow();
+        PositionComponent pcC =
+                (PositionComponent) caster.getComponent(PositionComponent.class).orElseThrow();
+        System.out.println("Entiti: " + entities + "PC: " + pcE.getPosition().y);
+        System.out.println("Caster: " + caster + "PC: " + pcC.getPosition().y);
+        boolean checkFront =
+                (Math.abs(pcC.getPosition().y - pcE.getPosition().y) <= range
+                        && Math.abs(pcC.getPosition().x - pcE.getPosition().x) <= 1);
+        return checkFront;
+    }
 
-
+    private void attack(Entity entities) {
+        HealthComponent hc =
+                (HealthComponent) entities.getComponent(HealthComponent.class).orElseThrow();
+        hc.receiveHit(projectileDamage);
+        System.out.println("Attacked");
+        if (entities instanceof Monster) {
+            ((Monster) entities).knockback(1.1f);
+        }
     }
 }

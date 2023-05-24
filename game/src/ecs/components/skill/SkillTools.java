@@ -61,7 +61,12 @@ public class SkillTools {
         return new Point(mousePosition.x, mousePosition.y);
     }
 
-    public static Point getHeroPositionAsPoint(){
+    /**
+     * gets the current hero position as Point
+     *
+     * @return hero position as Point
+     */
+    public static Point getHeroPositionAsPoint() {
         Hero hero = (Hero) Game.getHero().orElseThrow();
         return hero.getPosition();
     }
