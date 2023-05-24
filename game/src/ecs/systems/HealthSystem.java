@@ -8,8 +8,6 @@ import ecs.components.xp.XPComponent;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.monster.BossMonster;
-
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 import starter.Game;
 
@@ -97,7 +95,6 @@ public class HealthSystem extends ECS_System {
         // reset all damage objects in health component and apply damage
         hsd.hc.clearDamage();
         hsd.hc.setCurrentHealthpoints(hsd.hc.getCurrentHealthpoints() - dmgAmount);
-
     }
 
     private void removeDeadEntities(HSData hsd) {

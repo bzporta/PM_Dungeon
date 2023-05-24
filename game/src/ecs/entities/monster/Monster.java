@@ -11,10 +11,9 @@ import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import graphic.Animation;
+import java.util.logging.Logger;
 import starter.Game;
 import tools.Point;
-
-import java.util.logging.Logger;
 
 /** The abstract Monster class */
 public abstract class Monster extends Entity {

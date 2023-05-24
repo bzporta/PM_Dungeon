@@ -81,7 +81,8 @@ public class HealthComponent extends Component {
                         + entity.getClass().getSimpleName()
                         + "': "
                         + damage.damageAmount()
-                        + " Current health: " + currentHealthpoints);
+                        + " Current health: "
+                        + currentHealthpoints);
     }
 
     /** Triggers the onDeath Function */
