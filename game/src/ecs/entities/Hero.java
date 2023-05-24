@@ -113,6 +113,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private void setupSwordSkill() {
         swordSkill = new SwordSkill(new Damage(50, DamageType.PHYSICAL, null));
         firstSkill = new Skill(swordSkill, 1);
+
     }
 
     private void setupHealSkill() {
