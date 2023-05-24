@@ -16,10 +16,7 @@ import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.*;
-import ecs.entities.monster.Andromalius;
-import ecs.entities.monster.DarkHeart;
-import ecs.entities.monster.Imp;
-import ecs.entities.monster.Monster;
+import ecs.entities.monster.*;
 import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
@@ -86,6 +83,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Monster imp;
     private static Monster darkheart;
     private static Monster andromalius;
+    private static Monster boss;
 
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
@@ -452,6 +450,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private void createMonster() {
         levelCounter++;
+        boss = new BossMonster();
+        entities.add(boss);
         if (levelCounter % 3 == 0) {
             dmgBuff += 1;
             hpBuff += spawnRate++;

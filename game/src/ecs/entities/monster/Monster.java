@@ -75,7 +75,7 @@ public abstract class Monster extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-    private void setupHealthComponent() {
+    public void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
