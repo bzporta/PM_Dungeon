@@ -9,6 +9,7 @@ import ecs.components.ai.transition.RangeTransition;
 import ecs.components.skill.*;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import java.util.logging.Logger;
 import starter.Game;
 
 public class BossMonster extends Monster {
@@ -21,6 +22,7 @@ public class BossMonster extends Monster {
     private Skill firstSkill;
     private Skill secondSkill;
     private boolean phase2activated = false;
+    private Logger logger;
 
     /** Creates a new BossMonster. */
     public BossMonster() {
@@ -32,6 +34,7 @@ public class BossMonster extends Monster {
                 "game/assets/character/monster/boss/idleRight.png",
                 "game/assets/character/monster/boss/idleLeft.png",
                 "game/assets/character/monster/boss/idleRight.png");
+        logger = Logger.getLogger(getClass().getName());
         setupHealthComponent();
         setupAiComponent();
         setupSkillComponent();
@@ -66,8 +69,8 @@ public class BossMonster extends Monster {
 
     /** Activates the second phase of the boss fight. */
     public void phase2() {
+        logger.info("Phase 2 activated");
         if (!phase2activated) {
-
             fireballSkill = new FireballSkill(SkillTools::getHeroPositionAsPoint);
             secondSkill = new Skill(fireballSkill, 1);
             skillComponent.addSkill(secondSkill);

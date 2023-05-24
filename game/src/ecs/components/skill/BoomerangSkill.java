@@ -9,6 +9,7 @@ import ecs.entities.Entity;
 import ecs.entities.Hero;
 import ecs.entities.monster.Monster;
 import graphic.Animation;
+import java.util.logging.Logger;
 import starter.Game;
 import tools.Point;
 
@@ -20,6 +21,7 @@ public class BoomerangSkill implements ISkillFunction {
     private final float projectileRange;
     private final Damage projectileDamage;
     private final ITargetSelection selectionFunction;
+    private Logger logger;
 
     /**
      * Konstruktor für BoomerangSkill
@@ -28,6 +30,7 @@ public class BoomerangSkill implements ISkillFunction {
      * @param projectileDamage
      */
     public BoomerangSkill(ITargetSelection selectionFunction, Damage projectileDamage) {
+        logger = Logger.getLogger(getClass().getName());
         this.pathToTexturesOfProjectile = "skills.boomerang";
         this.projectileDamage = projectileDamage;
         this.projectileSpeed = 0.3f;
@@ -69,6 +72,12 @@ public class BoomerangSkill implements ISkillFunction {
                                 .ifPresent(
                                         hc -> {
                                             ((HealthComponent) hc).receiveHit(projectileDamage);
+                                            logger.info(
+                                                    "Monster "
+                                                            + b
+                                                            + " got hit by "
+                                                            + projectileDamage
+                                                            + " damage");
                                             ((Monster) b).knockback(1.1f);
                                             Game.removeEntity(projectile);
                                             Entity projectile_new = new Entity();
@@ -79,6 +88,7 @@ public class BoomerangSkill implements ISkillFunction {
                                                                             () ->
                                                                                     new MissingComponentException(
                                                                                             "PositionComponent"));
+                                            logger.info("Boomerang returns to hero");
                                             new PositionComponent(
                                                     projectile_new, epc_new.getPosition());
 

@@ -7,6 +7,7 @@ import ecs.entities.Hero;
 import ecs.entities.monster.Monster;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import starter.Game;
 
@@ -16,6 +17,7 @@ public class SwordSkill implements ISkillFunction {
     private final Damage projectileDamage;
     private String pathToAnimation;
     private float range = 1.5f;
+    private Logger logger;
 
     /**
      * Konstruktor für SwordSkill
@@ -23,7 +25,7 @@ public class SwordSkill implements ISkillFunction {
      * @param projectileDamage
      */
     public SwordSkill(Damage projectileDamage) {
-
+        logger = Logger.getLogger(this.getClass().getName());
         this.projectileDamage = projectileDamage;
         this.pathToAnimation = "skills.sword";
     }
@@ -77,9 +79,12 @@ public class SwordSkill implements ISkillFunction {
         HealthComponent hc =
                 (HealthComponent) entities.getComponent(HealthComponent.class).orElseThrow();
         hc.receiveHit(projectileDamage);
-        System.out.println("Attacked");
+
         if (entities instanceof Monster) {
             ((Monster) entities).knockback(1.1f);
+            logger.info("Monster: " + entities.getClass().getSimpleName() + " got hit");
+        } else {
+            logger.info("Hero: " + entities.getClass().getSimpleName() + " got hit");
         }
     }
 }

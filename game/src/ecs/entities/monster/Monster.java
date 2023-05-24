@@ -14,6 +14,8 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+import java.util.logging.Logger;
+
 /** The abstract Monster class */
 public abstract class Monster extends Entity {
 
@@ -28,6 +30,7 @@ public abstract class Monster extends Entity {
     private String pathToRunLeft;
     private String pathToRunRight;
     private int hitDmg;
+    private Logger logger;
 
     /**
      * Constructor for the Monster class
@@ -48,6 +51,7 @@ public abstract class Monster extends Entity {
             String idleRight,
             String runLeft,
             String runRight) {
+        logger = Logger.getLogger(getClass().getName());
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.hitDmg = hitDmg;
@@ -146,6 +150,7 @@ public abstract class Monster extends Entity {
      * @param knockbackamount
      */
     public void knockback(float knockbackamount) {
+        logger.info(this.getClass().getSimpleName() + " got knocked back");
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
         float x = pc.getPosition().x - hero.getPosition().x;
         float y = pc.getPosition().y - hero.getPosition().y;

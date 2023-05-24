@@ -12,6 +12,7 @@ import ecs.damage.Damage;
 import ecs.entities.Entity;
 import ecs.entities.monster.Monster;
 import graphic.Animation;
+import java.util.logging.Logger;
 import starter.Game;
 import tools.Point;
 
@@ -24,6 +25,7 @@ public class SawSkill implements ISkillFunction {
     private final float projectileRange;
     private final Damage projectileDamage;
     private final ITargetSelection selectionFunction;
+    private Logger logger;
 
     /**
      * Konstruktor für SawSkill
@@ -32,6 +34,7 @@ public class SawSkill implements ISkillFunction {
      * @param projectileDamage
      */
     public SawSkill(ITargetSelection selectionFunction, Damage projectileDamage) {
+        logger = Logger.getLogger(getClass().getName());
         this.pathToTexturesOfProjectile = "skills.saw";
         this.projectileDamage = projectileDamage;
         this.projectileSpeed = 0.3f;
@@ -76,6 +79,10 @@ public class SawSkill implements ISkillFunction {
                                         hc -> {
                                             ((Monster) b).knockback(1.1f);
                                             ((HealthComponent) hc).receiveHit(projectileDamage);
+                                            logger.info(
+                                                    "Monster "
+                                                            + b.getClass().getSimpleName()
+                                                            + " got hit by saw");
                                             Game.removeEntity(projectile);
                                         });
                     }
