@@ -10,6 +10,10 @@ import ecs.components.ai.idle.BossWalk;
 import ecs.components.ai.idle.IIdleAI;
 import ecs.components.ai.transition.ITransition;
 import ecs.components.ai.transition.RangeTransition;
+import ecs.components.skill.FireballSkill;
+import ecs.components.skill.Skill;
+import ecs.components.skill.SkillTools;
+import ecs.entities.Hero;
 import level.elements.tile.Tile;
 import starter.Game;
 import tools.Point;
@@ -44,11 +48,11 @@ public class BossMonster extends Monster{
     }
 
     public void setupAiComponent(){
-    ai = new AIComponent(this, new RangeAI(10), new BossWalk(2), new RangeTransition(5));
-
+    ai =
+        new AIComponent(
+            this,
+            new RangeAI(9, new Skill(new FireballSkill(SkillTools::getHeroPositionAsPoint), 2f)),
+            new BossWalk(2),
+            new RangeTransition(10));
     }
-
-
-
-
 }

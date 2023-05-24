@@ -3,6 +3,7 @@ package ecs.components.skill;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import ecs.entities.Hero;
 import starter.Game;
 import tools.Point;
 
@@ -58,5 +59,10 @@ public class SkillTools {
         Vector3 mousePosition =
                 Game.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         return new Point(mousePosition.x, mousePosition.y);
+    }
+
+    public static Point getHeroPositionAsPoint(){
+        Hero hero = (Hero) Game.getHero().orElseThrow();
+        return hero.getPosition();
     }
 }

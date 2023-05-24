@@ -1,15 +1,18 @@
 package ecs.components.ai.fight;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
+import ecs.components.PositionComponent;
 import ecs.components.ai.AITools;
 import ecs.components.skill.ITargetSelection;
 import ecs.components.skill.Skill;
 import ecs.entities.Entity;
+import ecs.entities.Hero;
 import level.elements.tile.Tile;
+import starter.Game;
 import tools.Constants;
 import tools.Point;
 
-public class RangeAI implements IFightAI, ITargetSelection {
+public class RangeAI implements IFightAI {
 
     private final float distance;
     private final int delay = Constants.FRAME_RATE;
@@ -23,12 +26,20 @@ public class RangeAI implements IFightAI, ITargetSelection {
     }
     @Override
     public void fight(Entity entity) {
+        PositionComponent poc = (PositionComponent) entity.getComponent(PositionComponent.class).orElseThrow();
+        Hero hero = (Hero) Game.getHero().orElseThrow();
+        Point p = null;
         if (AITools.playerInRange(entity, distance)){
             fightSkill.execute(entity);
-            path = AITools.calculatePathToHero(entity);
+
+            if (distance/2 < Point.calculateDistance(poc.getPosition(), hero.getPosition()))
+                do{
+                    p = AITools.getRandomAccessibleTileCoordinateInRange(poc.getPosition(), 5).toPoint();
+                } while(Point.calculateDistance(hero.getPosition(), p) < distance/2);
+            path = AITools.calculatePath(poc.getPosition(), p);
             AITools.move(entity, path);
             timeSinceLastUpdate = delay;
-        } else {
+        } /*else {
             // check if new pathing update
             if (timeSinceLastUpdate >= delay) {
                 path = AITools.calculatePathToHero(entity);
@@ -36,12 +47,7 @@ public class RangeAI implements IFightAI, ITargetSelection {
             }
             timeSinceLastUpdate++;
             AITools.move(entity, path);
-        }
+        }*/
 
-    }
-
-    @Override
-    public Point selectTargetPoint() {
-        return null;
     }
 }
