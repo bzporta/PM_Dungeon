@@ -28,5 +28,6 @@ public class KeyboardConfig {
             new ConfigKey<>(
                     new String[] {"skill", "fourth"}, new ConfigIntValue(Input.Buttons.LEFT));
     public static final ConfigKey<Integer> FITH_Skill =
-            new ConfigKey<>(new String[] {"skill", "fith"}, new ConfigIntValue(Input.Buttons.RIGHT));
+            new ConfigKey<>(
+                    new String[] {"skill", "fith"}, new ConfigIntValue(Input.Buttons.RIGHT));
 }

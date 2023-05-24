@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import configuration.KeyboardConfig;
 import ecs.components.*;
 import ecs.components.skill.ProjectileComponent;
-import ecs.components.skill.SawSkill;
 import ecs.entities.Entity;
 import starter.Game;
 import tools.Point;
@@ -53,14 +52,13 @@ public class ProjectileSystem extends ECS_System {
     private PSData setVelocity(PSData data) {
         data.vc.setCurrentYVelocity(data.vc.getYVelocity());
         data.vc.setCurrentXVelocity(data.vc.getXVelocity());
-        if (Gdx.input.isButtonPressed(KeyboardConfig.FITH_Skill.get()) || sawProjectile){
+        if (Gdx.input.isButtonPressed(KeyboardConfig.FITH_Skill.get()) || sawProjectile) {
             sawProjectile = true;
             data.pc.getPosition().y = data.pc.getPosition().y - 0.12f;
         }
 
         return data;
     }
-
 
     private void removeEntitiesOnEndpoint(PSData data) {
         sawProjectile = false;

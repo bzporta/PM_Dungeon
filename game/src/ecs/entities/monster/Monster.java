@@ -1,15 +1,16 @@
 package ecs.entities.monster;
 
 import dslToGame.AnimationBuilder;
-import ecs.components.*;
+import ecs.components.AnimationComponent;
+import ecs.components.HealthComponent;
+import ecs.components.HitboxComponent;
+import ecs.components.PositionComponent;
+import ecs.components.VelocityComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import graphic.Animation;
-import level.elements.ILevel;
-import level.elements.tile.Tile;
-import level.tools.Coordinate;
 import starter.Game;
 import tools.Point;
 
@@ -89,6 +90,11 @@ public abstract class Monster extends Entity {
         System.out.println("Monster toooot");
     }
 
+    /**
+     * Sets the position of the monster
+     *
+     * @param p
+     */
     public void setPosition(Point p) {
         pc.setPosition(p);
     }
@@ -134,6 +140,11 @@ public abstract class Monster extends Entity {
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
 
+    /**
+     * Knocks the monster back
+     *
+     * @param knockbackamount
+     */
     public void knockback(float knockbackamount) {
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
         float x = pc.getPosition().x - hero.getPosition().x;

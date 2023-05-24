@@ -12,6 +12,7 @@ import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+/** The BoomerangSkill class */
 public class BoomerangSkill implements ISkillFunction {
     private final String pathToTexturesOfProjectile;
     private final float projectileSpeed;
@@ -34,6 +35,11 @@ public class BoomerangSkill implements ISkillFunction {
         this.selectionFunction = selectionFunction;
     }
 
+    /**
+     * Führt die BoomerangSkill aus
+     *
+     * @param entity
+     */
     @Override
     public void execute(Entity entity) {
         Entity projectile = new Entity();

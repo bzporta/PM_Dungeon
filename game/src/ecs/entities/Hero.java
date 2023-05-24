@@ -93,25 +93,24 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-
     private void setupBoomerangSkill() {
         boomerangSkill =
-            new BoomerangSkill(
-                SkillTools::getCursorPositionAsPoint,
-                new Damage(20, DamageType.PHYSICAL, null));
+                new BoomerangSkill(
+                        SkillTools::getCursorPositionAsPoint,
+                        new Damage(20, DamageType.PHYSICAL, null));
         fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
     }
 
-    private void setupSawSkill(){
+    private void setupSawSkill() {
         sawSkill =
-            new SawSkill(
-                SkillTools::getCursorPositionAsPoint,
-                new Damage(50, DamageType.PHYSICAL, null));
-        //fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
+                new SawSkill(
+                        SkillTools::getCursorPositionAsPoint,
+                        new Damage(50, DamageType.PHYSICAL, null));
+        // fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
         fifthSkill = new Skill(sawSkill, sawCooldown);
     }
 
-    private void setupSwordSkill(){
+    private void setupSwordSkill() {
         swordSkill = new SwordSkill(new Damage(50, DamageType.PHYSICAL, null));
         firstSkill = new Skill(swordSkill, 1);
     }

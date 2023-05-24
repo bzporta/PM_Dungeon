@@ -29,6 +29,11 @@ public class Imp extends Monster {
         ai.setIdleAI(ptrw);
     }
 
+    /**
+     * Knocks the Imp back
+     *
+     * @param knockbackamount
+     */
     @Override
     public void knockback(float knockbackamount) {
         super.knockback(knockbackamount);

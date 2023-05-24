@@ -1,23 +1,36 @@
 package ecs.components.skill;
 
-import dslToGame.AnimationBuilder;
-import ecs.components.*;
+import ecs.components.HealthComponent;
+import ecs.components.HitboxComponent;
+import ecs.components.MissingComponentException;
+import ecs.components.PositionComponent;
 import ecs.components.collision.ICollide;
 import ecs.damage.Damage;
 import ecs.entities.Entity;
 import ecs.entities.monster.Monster;
-import graphic.Animation;
 import starter.Game;
 import tools.Point;
 
+/** The SwordSkill class */
 public class SwordSkill implements ISkillFunction {
 
     private final Damage projectileDamage;
 
+    /**
+     * Konstruktor für SwordSkill
+     *
+     * @param projectileDamage
+     */
     public SwordSkill(Damage projectileDamage) {
 
         this.projectileDamage = projectileDamage;
     }
+
+    /**
+     * Führt die SwordSkill aus
+     *
+     * @param entity
+     */
     @Override
     public void execute(Entity entity) {
         System.out.println("Sword_executed");
@@ -41,6 +54,8 @@ public class SwordSkill implements ISkillFunction {
                                         });
                     }
                 };
-        new HitboxComponent(projectile,new Point(0.25f, 0.25f), new Point(0.34f, 0.75f), collide, null);
+
+        new HitboxComponent(
+                projectile, new Point(0.25f, 0.25f), new Point(0.34f, 0.75f), collide, null);
     }
 }
