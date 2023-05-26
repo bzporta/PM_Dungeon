@@ -16,10 +16,7 @@ import controller.SystemController;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.*;
-import ecs.entities.monster.Andromalius;
-import ecs.entities.monster.DarkHeart;
-import ecs.entities.monster.Imp;
-import ecs.entities.monster.Monster;
+import ecs.entities.monster.*;
 import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
@@ -44,7 +41,7 @@ import tools.Point;
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
-    private final LevelSize LEVELSIZE = LevelSize.SMALL;
+    private final LevelSize LEVELSIZE = LevelSize.MEDIUM;
 
     /**
      * The batch is necessary to draw ALL the stuff. Every object that uses draw need to know the
@@ -86,6 +83,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Monster imp;
     private static Monster darkheart;
     private static Monster andromalius;
+    private static Monster boss;
 
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
@@ -111,6 +109,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static int dmgBuff;
     private static int hpBuff;
 
+    /**
+     * Constructor for the game. Initializes the batch and the camera.
+     *
+     * @throws IOException if the configuration file could not be loaded
+     */
     public static void main(String[] args) {
         // start the game
         try {
@@ -303,6 +306,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Toggles the GameOverMenu */
     public void toggleGameOver() {
         toggleGameOverMenue = !toggleGameOverMenue;
         if (systems != null) {
@@ -452,6 +456,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private void createMonster() {
         levelCounter++;
+        if (levelCounter == 15) {
+            boss = new BossMonster();
+            entities.add(boss);
+        }
         if (levelCounter % 3 == 0) {
             dmgBuff += 1;
             hpBuff += spawnRate++;

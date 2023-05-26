@@ -75,6 +75,14 @@ public class HealthComponent extends Component {
     public void receiveHit(Damage damage) {
         damageToGet.add(damage);
         this.lastCause = damage.cause() != null ? damage.cause() : this.lastCause;
+        healthLogger.info(
+                this.getClass().getSimpleName()
+                        + " received damage for entity '"
+                        + entity.getClass().getSimpleName()
+                        + "': "
+                        + damage.damageAmount()
+                        + " Current health: "
+                        + currentHealthpoints);
     }
 
     /** Triggers the onDeath Function */

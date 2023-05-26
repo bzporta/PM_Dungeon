@@ -25,9 +25,11 @@ public class Skill {
      */
     public void execute(Entity entity) {
         if (!isOnCoolDown()) {
+            System.out.println("Execute");
             skillFunction.execute(entity);
             activateCoolDown();
         }
+        reduceCoolDown();
     }
 
     /**

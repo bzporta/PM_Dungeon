@@ -7,6 +7,7 @@ import ecs.components.stats.StatsComponent;
 import ecs.components.xp.XPComponent;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import ecs.entities.monster.BossMonster;
 import java.util.stream.Stream;
 import starter.Game;
 
@@ -21,6 +22,13 @@ public class HealthSystem extends ECS_System {
 
     @Override
     public void update() {
+        Game.getEntities().stream()
+                .filter(f -> f instanceof BossMonster)
+                .flatMap(e -> e.getComponent(HealthComponent.class).stream())
+                .filter(hc -> ((HealthComponent) hc).getCurrentHealthpoints() <= 50)
+                .map(boss -> (BossMonster) boss.getEntity())
+                .forEach(BossMonster::phase2);
+
         Game.getEntities().stream()
                 // Consider only entities that have a HealthComponent
                 .flatMap(e -> e.getComponent(HealthComponent.class).stream())

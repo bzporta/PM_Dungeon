@@ -13,6 +13,7 @@ public class RangeTransition implements ITransition {
      * @param range Range of the entity.
      */
     public RangeTransition(float range) {
+
         this.range = range;
     }
 

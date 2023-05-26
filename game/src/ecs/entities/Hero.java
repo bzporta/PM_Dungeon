@@ -9,6 +9,8 @@ import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
 import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
+import ecs.damage.Damage;
+import ecs.damage.DamageType;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import graphic.hud.GameOver;
@@ -21,7 +23,6 @@ import tools.Point;
  */
 public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
-    private final int fireballCoolDown = 5;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
 
@@ -41,6 +42,13 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private Skill thirdSkill;
     private final int iceballCooldown = 1;
+    private Skill fourthSkill;
+    private final int boomerangCooldown = 1;
+    private BoomerangSkill boomerangSkill;
+    private Skill fifthSkill;
+    private final int sawCooldown = 1;
+    private SawSkill sawSkill;
+    private SwordSkill swordSkill;
 
     private PositionComponent pc;
     private SkillComponent sc;
@@ -58,15 +66,17 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public Hero() {
         super();
         pc = new PositionComponent(this);
-        healSkill = new HealSkill(25);
-        iceballSkill = new IceballSkill(SkillTools::getCursorPositionAsPoint, 0.05f, 10);
         setupHealthComponent();
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
         pac = new PlayableComponent(this);
-        setupFireballSkill();
+        setupBoomerangSkill();
+        setupSawSkill();
+        setupSwordSkill();
         pac.setSkillSlot1(firstSkill);
+        pac.setSkillSlot4(fourthSkill);
+        pac.setSkillSlot5(fifthSkill);
         setupSkillComponent();
         setupXPComponent();
     }
@@ -83,23 +93,43 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-    private void setupFireballSkill() {
-        firstSkill =
-                new Skill(
-                        new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+    private void setupBoomerangSkill() {
+        boomerangSkill =
+                new BoomerangSkill(
+                        SkillTools::getCursorPositionAsPoint,
+                        new Damage(20, DamageType.PHYSICAL, null));
+        fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
+    }
+
+    private void setupSawSkill() {
+        sawSkill =
+                new SawSkill(
+                        SkillTools::getCursorPositionAsPoint,
+                        new Damage(50, DamageType.PHYSICAL, null));
+        // fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
+        fifthSkill = new Skill(sawSkill, sawCooldown);
+    }
+
+    private void setupSwordSkill() {
+        swordSkill = new SwordSkill(new Damage(50, DamageType.PHYSICAL, null));
+        firstSkill = new Skill(swordSkill, 1);
     }
 
     private void setupHealSkill() {
+        healSkill = new HealSkill(25);
         secondSkill = new Skill(healSkill, healCooldown);
     }
 
     private void setupIceballSkill() {
+        iceballSkill = new IceballSkill(SkillTools::getCursorPositionAsPoint, 0.05f, 10);
         thirdSkill = new Skill(iceballSkill, iceballCooldown);
     }
 
     private void setupSkillComponent() {
         sc = new SkillComponent(this);
         sc.addSkill(firstSkill);
+        sc.addSkill(fourthSkill);
+        sc.addSkill(fifthSkill);
     }
 
     private void setupHitboxComponent() {
@@ -163,6 +193,11 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         return hp;
     }
 
+    /**
+     * Returns the XP component of the hero
+     *
+     * @return xp component of the hero
+     */
     public XPComponent getXP() {
         return xp;
     }
@@ -176,6 +211,11 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         return pac;
     }
 
+    /**
+     * Returns the skill component of the hero
+     *
+     * @return skill component of the hero
+     */
     public SkillComponent getSC() {
         return sc;
     }

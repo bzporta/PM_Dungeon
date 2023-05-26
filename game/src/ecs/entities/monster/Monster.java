@@ -1,11 +1,18 @@
 package ecs.entities.monster;
 
 import dslToGame.AnimationBuilder;
-import ecs.components.*;
+import ecs.components.AnimationComponent;
+import ecs.components.HealthComponent;
+import ecs.components.HitboxComponent;
+import ecs.components.PositionComponent;
+import ecs.components.VelocityComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import ecs.entities.Hero;
 import graphic.Animation;
+import java.util.logging.Logger;
+import starter.Game;
 import tools.Point;
 
 /** The abstract Monster class */
@@ -22,6 +29,7 @@ public abstract class Monster extends Entity {
     private String pathToRunLeft;
     private String pathToRunRight;
     private int hitDmg;
+    private Logger logger;
 
     /**
      * Constructor for the Monster class
@@ -42,6 +50,7 @@ public abstract class Monster extends Entity {
             String idleRight,
             String runLeft,
             String runRight) {
+        logger = Logger.getLogger(getClass().getName());
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.hitDmg = hitDmg;
@@ -69,7 +78,7 @@ public abstract class Monster extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-    private void setupHealthComponent() {
+    public void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);
@@ -84,6 +93,11 @@ public abstract class Monster extends Entity {
         System.out.println("Monster toooot");
     }
 
+    /**
+     * Sets the position of the monster
+     *
+     * @param p
+     */
     public void setPosition(Point p) {
         pc.setPosition(p);
     }
@@ -127,5 +141,26 @@ public abstract class Monster extends Entity {
         Animation moveRight = AnimationBuilder.buildAnimation(frozen);
         Animation moveLeft = AnimationBuilder.buildAnimation(frozen);
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
+    }
+
+    /**
+     * Knocks the monster back
+     *
+     * @param knockbackamount
+     */
+    public void knockback(float knockbackamount) {
+        logger.info(this.getClass().getSimpleName() + " got knocked back");
+        Hero hero = (Hero) starter.Game.getHero().orElseThrow();
+        float x = pc.getPosition().x - hero.getPosition().x;
+        float y = pc.getPosition().y - hero.getPosition().y;
+        float length = (float) Math.sqrt(x * x + y * y);
+        float x_normalized = x / length;
+        float y_normalized = y / length;
+        float newx = pc.getPosition().x + x_normalized * knockbackamount;
+        float newy = pc.getPosition().y + y_normalized * knockbackamount;
+        Point newPosition = new Point(newx, newy);
+        if (Game.currentLevel.getTileAt(newPosition.toCoordinate()).isAccessible()) {
+            pc = new PositionComponent(this, newx, newy);
+        }
     }
 }

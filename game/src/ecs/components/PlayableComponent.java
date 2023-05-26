@@ -19,18 +19,31 @@ public class PlayableComponent extends Component {
     private Skill skillSlot1;
     private Skill skillSlot2;
     private Skill skillSlot3;
+    private Skill skillSlot4;
+    private Skill skillSlot5;
 
     /**
      * @param entity associated entity
      * @param skillSlot1 skill that will be on the first skillslot
      * @param skillSlot2 skill that will be on the second skillslot
+     * @param skillSlot3 skill that will be on the third skillslot
+     * @param skillSlot4 skill that will be on the fourth skillslot
+     * @param skillSlot5 skill that will be on the fifth skillslot
      */
-    public PlayableComponent(Entity entity, Skill skillSlot1, Skill skillSlot2, Skill skillSlot3) {
+    public PlayableComponent(
+            Entity entity,
+            Skill skillSlot1,
+            Skill skillSlot2,
+            Skill skillSlot3,
+            Skill skillSlot4,
+            Skill skillSlot5) {
         super(entity);
         playable = true;
         this.skillSlot1 = skillSlot1;
         this.skillSlot2 = skillSlot2;
         this.skillSlot3 = skillSlot3;
+        this.skillSlot4 = skillSlot4;
+        this.skillSlot5 = skillSlot5;
     }
 
     /** {@inheritDoc} */
@@ -81,6 +94,20 @@ public class PlayableComponent extends Component {
     }
 
     /**
+     * @param skillSlot4 skill that will be on the fourth skillslot
+     */
+    public void setSkillSlot4(Skill skillSlot4) {
+        this.skillSlot4 = skillSlot4;
+    }
+
+    /**
+     * @param skillSlot5 skill that will be on the fifth skillslot
+     */
+    public void setSkillSlot5(Skill skillSlot5) {
+        this.skillSlot5 = skillSlot5;
+    }
+
+    /**
      * @return skill on first skill slot
      */
     public Optional<Skill> getSkillSlot1() {
@@ -99,5 +126,19 @@ public class PlayableComponent extends Component {
      */
     public Optional<Skill> getSkillSlot3() {
         return Optional.ofNullable(skillSlot3);
+    }
+
+    /**
+     * @return skill on fourth skill slot
+     */
+    public Optional<Skill> getSkillSlot4() {
+        return Optional.ofNullable(skillSlot4);
+    }
+
+    /**
+     * @return skill on fifth skill slot
+     */
+    public Optional<Skill> getSkillSlot5() {
+        return Optional.ofNullable(skillSlot5);
     }
 }
