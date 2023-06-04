@@ -42,7 +42,7 @@ import tools.Point;
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
-    private final LevelSize LEVELSIZE = LevelSize.MEDIUM;
+    private final LevelSize LEVELSIZE = LevelSize.SMALL;
 
     /**
      * The batch is necessary to draw ALL the stuff. Every object that uses draw need to know the
@@ -186,7 +186,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         setCameraFocus();
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
-        if (!isSkillMenuOpen && !isGameOverMenueOpen) {
+        if (!isSkillMenuOpen && !isGameOverMenueOpen && !getDialogMenu().getIsOpen()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
         }
         if (isSkillMenuOpen) {
@@ -220,8 +220,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
         }
-        dialogMenu.createDialogMenu();
-        dialogMenu.showMenu();
     }
 
     private void manageEntitiesSets() {
@@ -292,7 +290,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     /** Toggles the SkillMenu */
     public void toggleSkillMenu() {
         // controller.add(skillMenu);
-        System.out.println("SkillMenu1");
         toggleSkillMenue = !toggleSkillMenue;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
@@ -300,7 +297,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
         if (skillMenu != null) {
             if (toggleSkillMenue) {
-                System.out.println("SkillMenu");
                 isSkillMenuOpen = true;
                 skillMenu.showMenu();
 
@@ -348,6 +344,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static SkillMenu getSkillMenu() {
         return skillMenu;
+    }
+
+    public static DialogMenu getDialogMenu() {
+        return dialogMenu;
     }
 
     /**

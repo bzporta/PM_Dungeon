@@ -2,11 +2,14 @@ package ecs.entities;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
+import ecs.components.InteractionComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.idle.PatrouilleWalk;
+import ecs.systems.ECS_System;
 import graphic.Animation;
+import starter.Game;
 
 /** Ghost class This class represents a ghost which follows the hero */
 public class Ghost extends Entity {
@@ -21,6 +24,7 @@ public class Ghost extends Entity {
 
     private PositionComponent pc;
     private AIComponent ai;
+    private InteractionComponent ic;
 
     private Grave grave;
 
@@ -35,6 +39,7 @@ public class Ghost extends Entity {
         setupAnimationComponent();
         this.grave = spawn;
         setupAiComponent();
+        setupInteractionComponent();
     }
 
     private void setupAiComponent() {
@@ -54,6 +59,19 @@ public class Ghost extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
+    private void setupInteractionComponent() {
+        ic = new InteractionComponent(this, 1f, true, this::callDialogMenu);
+    }
+
+    private void callDialogMenu(Entity entity) {
+        if (Game.systems != null) {
+            Game.systems.forEach(ECS_System::toggleRun);
+        }
+        if (!starter.Game.getDialogMenu().getIsOpen()) {
+            starter.Game.getDialogMenu().createDialogMenu();
+            starter.Game.getDialogMenu().showMenu();
+        }
+    }
     /** Sets the position of the ghost to the position of the hero */
     public void setSpawn() {
         pc.setPosition(grave.getPosition());
