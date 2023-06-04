@@ -21,6 +21,7 @@ import ecs.entities.trap.*;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
+import graphic.hud.DialogMenu;
 import graphic.hud.GameOver;
 import graphic.hud.PauseMenu;
 import graphic.hud.SkillMenu;
@@ -97,7 +98,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
 
     private static GameOver<Actor> gameOverMenu;
-
+    private static DialogMenu<Actor> dialogMenu;
     private static SkillMenu<Actor> skillMenu;
     private Logger gameLogger;
 
@@ -158,8 +159,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOver<>();
         skillMenu = new SkillMenu<>();
+        dialogMenu = new DialogMenu<>();
         controller.add(skillMenu);
         controller.add(gameOverMenu);
+        controller.add(dialogMenu);
         paused = false;
         toggleGameOverMenue = false;
         toggleSkillMenue = false;
@@ -217,6 +220,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
         }
+        dialogMenu.createDialogMenu();
+        dialogMenu.showMenu();
     }
 
     private void manageEntitiesSets() {
