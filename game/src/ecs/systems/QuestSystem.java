@@ -1,5 +1,6 @@
 package ecs.systems;
 
+import com.badlogic.gdx.graphics.Color;
 import ecs.entities.Hero;
 import ecs.quests.Quest;
 import starter.Game;
@@ -9,25 +10,24 @@ public class QuestSystem extends ECS_System {
     @Override
     public void update() {
         Game.getQuestList().stream()
-                .filter(q -> q.isActive())
-                .filter(q -> q.checkIfDone())
-                .forEach(this::setReward);
+            .filter(q -> q.isActive())
+            .forEach(this::refreshQuestMenu);
 
         Game.getQuestList().stream()
                 .filter(q -> q.isActive())
-                .forEach(q -> refreshQuestMenu());
+                .filter(q -> q.checkIfDone())
+                .forEach(this::setReward);
     }
 
     public void setReward(Quest quest){
         Hero hero = (Hero) Game.getHero().orElseThrow();
         hero.getXP().addXP(100);
         quest.setActive(false);
-        Game.getQuestList().remove(quest);
         System.out.println("Got Rewarded");
     }
 
-    public void refreshQuestMenu(){
-
+    public void refreshQuestMenu(Quest quest){
+        quest.getScreenText().setText(quest.getName() + " " + quest.getStatus());
     }
 
 }

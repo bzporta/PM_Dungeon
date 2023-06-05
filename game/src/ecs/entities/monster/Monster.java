@@ -93,7 +93,7 @@ public abstract class Monster extends Entity {
     private void onDeath(Entity entity) {
         KillQuest killQuest = Game.getKillQuest();
         if (killQuest.isActive()) {
-            killQuest.setKilledMonsters(killQuest.getKilledMonsters() + 1);
+            killQuest.countKilledMonsters();
         }
     }
 

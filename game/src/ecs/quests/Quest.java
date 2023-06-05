@@ -1,12 +1,17 @@
 package ecs.quests;
 
+import ecs.entities.Hero;
 import graphic.hud.QuestMenu;
+import graphic.hud.ScreenText;
+import starter.Game;
 
 public abstract class Quest {
     private String name;
     private String description;
     private int reward;
     private String status;
+
+    protected ScreenText screenText;
 
     private boolean active;
 
@@ -17,13 +22,8 @@ public abstract class Quest {
         this.status = status;
     }
 
-    public void activateQuest() {
-        if (!active) {
-            QuestMenu qm = starter.Game.getQuestMenu();
-            qm.addActiveQuest(this.name, 0, 10);
-            active = true;
-        }
-    }
+    public abstract void activateQuest();
+
 
     public abstract boolean checkIfDone();
 
@@ -55,8 +55,8 @@ public abstract class Quest {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(int current, int goal) {
+        this.status = ""+current + "/" + goal;
     }
 
     public boolean isActive() {
@@ -65,5 +65,9 @@ public abstract class Quest {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public ScreenText getScreenText() {
+        return screenText;
     }
 }

@@ -188,11 +188,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        createSystems();
-        graveQuest = new GraveQuest();
         killQuest = new KillQuest();
+        graveQuest = new GraveQuest();
         questList.add(graveQuest);
         questList.add(killQuest);
+        createSystems();
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -461,6 +461,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
+        new QuestSystem();
     }
 
     /**

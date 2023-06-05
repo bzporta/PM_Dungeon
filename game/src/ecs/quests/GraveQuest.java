@@ -1,6 +1,8 @@
 package ecs.quests;
 
+import ecs.entities.Hero;
 import graphic.hud.QuestMenu;
+import starter.Game;
 
 public class GraveQuest extends Quest {
 
@@ -8,7 +10,7 @@ public class GraveQuest extends Quest {
     private int activatedGravesGoal;
 
     public GraveQuest() {
-        super("GraveQuest", "Activate 10 Graves", 10, "inactive");
+        super("GraveQuest", "Activate 10 Graves", 10, "0/2");
         activatedGraves = 0;
         activatedGravesGoal = 2;
     }
@@ -17,7 +19,7 @@ public class GraveQuest extends Quest {
     public void activateQuest() {
     if (!isActive()) {
       QuestMenu qm = starter.Game.getQuestMenu();
-      qm.addActiveQuest(super.getName(), activatedGraves, activatedGravesGoal);
+      screenText = qm.addActiveQuest(super.getName(), getStatus());
       setActive(true);
         }
     }
@@ -26,14 +28,14 @@ public class GraveQuest extends Quest {
         return activatedGraves;
     }
 
-    public void setActivatedGraves(int activatedGraves) {
-        this.activatedGraves = activatedGraves;
+    public void countActivatedGraves() {
+        this.activatedGraves++;
+        setStatus(activatedGraves,activatedGravesGoal);
     }
 
     @Override
     public boolean checkIfDone(){
-        System.out.println("Done?");
-        System.out.println(activatedGraves == activatedGravesGoal);
         return activatedGraves == activatedGravesGoal;
     }
+
 }

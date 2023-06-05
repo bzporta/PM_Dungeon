@@ -7,16 +7,16 @@ public class KillQuest extends Quest {
     private int killedMonstersGoal;
 
     public KillQuest() {
-        super("KillQuest", "Kill 10 Monsters", 10, "inactive");
+        super("KillQuest", "Kill 10 Monsters", 10, "0/2");
         this.killedMonsters = 0;
-        this.killedMonstersGoal = 10;
+        this.killedMonstersGoal = 2;
     }
 
     @Override
     public void activateQuest() {
         if (!isActive()) {
             QuestMenu qm = starter.Game.getQuestMenu();
-            qm.addActiveQuest(super.getName(), killedMonsters, killedMonstersGoal);
+            screenText = qm.addActiveQuest(super.getName(), getStatus());
             setActive(true);
         }
     }
@@ -25,8 +25,9 @@ public class KillQuest extends Quest {
         return killedMonsters;
     }
 
-    public void setKilledMonsters(int killedMonsters) {
-        this.killedMonsters = killedMonsters;
+    public void countKilledMonsters() {
+        this.killedMonsters++;
+        setStatus(killedMonsters,killedMonstersGoal);
     }
 
     @Override
