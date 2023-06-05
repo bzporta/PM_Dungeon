@@ -18,13 +18,13 @@ import ecs.components.PositionComponent;
 import ecs.entities.*;
 import ecs.entities.monster.*;
 import ecs.entities.trap.*;
+import ecs.quests.GraveQuest;
+import ecs.quests.KillQuest;
+import ecs.quests.Quest;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
-import graphic.hud.DialogMenu;
-import graphic.hud.GameOver;
-import graphic.hud.PauseMenu;
-import graphic.hud.SkillMenu;
+import graphic.hud.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -85,6 +85,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Monster darkheart;
     private static Monster andromalius;
     private static Monster boss;
+    private static KillQuest killQuest;
+    private static GraveQuest graveQuest;
+
+
+
+    private static Set<Quest> questList = new HashSet<>();
 
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
@@ -100,6 +106,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static GameOver<Actor> gameOverMenu;
     private static DialogMenu<Actor> dialogMenu;
     private static SkillMenu<Actor> skillMenu;
+    private static QuestMenu<Actor> questMenu;
     private Logger gameLogger;
 
     /** List of Tile positions for entities */
@@ -163,6 +170,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(skillMenu);
         controller.add(gameOverMenu);
         controller.add(dialogMenu);
+        questMenu = new QuestMenu<>();
+        controller.add(questMenu);
+        questMenu.showMenu();
         paused = false;
         toggleGameOverMenue = false;
         toggleSkillMenue = false;
@@ -179,6 +189,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelAPI.loadLevel(LEVELSIZE);
         Gdx.input.setInputProcessor(inputMultiplexer);
         createSystems();
+        graveQuest = new GraveQuest();
+        killQuest = new KillQuest();
+        questList.add(graveQuest);
+        questList.add(killQuest);
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -433,6 +447,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         // https://stackoverflow.com/questions/52011592/libgdx-set-ortho-camera
     }
 
+    public static QuestMenu getQuestMenu() {
+        return questMenu;
+    }
+
     private void createSystems() {
         new VelocitySystem();
         new DrawSystem(painter);
@@ -453,6 +471,18 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static void restartGame() {
         getGame().setup();
+    }
+
+    public static GraveQuest getGraveQuest() {
+        return graveQuest;
+    }
+
+    public static KillQuest getKillQuest() {
+        return killQuest;
+    }
+
+    public static Set<Quest> getQuestList() {
+        return questList;
     }
 
     private void clearPositionlist() {

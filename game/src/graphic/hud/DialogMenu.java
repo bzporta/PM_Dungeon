@@ -148,9 +148,9 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
             }
             case questList -> {
                 if (textInput.getText().matches("1")) {
-                    // Starte Grave Quest
+                    starter.Game.getGraveQuest().activateQuest();
                 } else if (textInput.getText().matches("2")) {
-                    // Starte Kill Quest
+                    starter.Game.getKillQuest().activateQuest();
                 }
             }
         }

@@ -10,6 +10,7 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
+import ecs.quests.KillQuest;
 import graphic.Animation;
 import java.util.logging.Logger;
 import starter.Game;
@@ -90,7 +91,10 @@ public abstract class Monster extends Entity {
     }
 
     private void onDeath(Entity entity) {
-        System.out.println("Monster toooot");
+        KillQuest killQuest = Game.getKillQuest();
+        if (killQuest.isActive()) {
+            killQuest.setKilledMonsters(killQuest.getKilledMonsters() + 1);
+        }
     }
 
     /**
