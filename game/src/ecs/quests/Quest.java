@@ -8,7 +8,7 @@ public abstract class Quest {
     private int reward;
     private String status;
 
-    private static boolean active;
+    private boolean active;
 
     public Quest(String name, String description, int reward, String status) {
         this.name = name;
@@ -59,7 +59,7 @@ public abstract class Quest {
         this.status = status;
     }
 
-    public static boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 

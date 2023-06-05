@@ -62,8 +62,7 @@ public class Grave extends Entity {
             setupAnimation("dungeon/grave/graveused.png");
         }
         GraveQuest graveQuest = Game.getGraveQuest();
-        if(GraveQuest.isActive()) {
-      System.out.println("Hochgesetzt");
+    if (starter.Game.getGraveQuest().isActive()) {
             graveQuest.setActivatedGraves((graveQuest.getActivatedGraves())+1);
         }
     }

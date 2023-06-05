@@ -14,10 +14,10 @@ public class KillQuest extends Quest {
 
     @Override
     public void activateQuest() {
-        if (!super.isActive()) {
+        if (!isActive()) {
             QuestMenu qm = starter.Game.getQuestMenu();
             qm.addActiveQuest(super.getName(), killedMonsters, killedMonstersGoal);
-            super.setActive(true);
+            setActive(true);
         }
     }
 

@@ -15,10 +15,10 @@ public class GraveQuest extends Quest {
 
     @Override
     public void activateQuest() {
-    if (!super.isActive()) {
+    if (!isActive()) {
       QuestMenu qm = starter.Game.getQuestMenu();
       qm.addActiveQuest(super.getName(), activatedGraves, activatedGravesGoal);
-      super.setActive(true);
+      setActive(true);
         }
     }
 
@@ -32,6 +32,7 @@ public class GraveQuest extends Quest {
 
     @Override
     public boolean checkIfDone(){
+        System.out.println("Done?");
         System.out.println(activatedGraves == activatedGravesGoal);
         return activatedGraves == activatedGravesGoal;
     }
