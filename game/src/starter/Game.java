@@ -36,6 +36,8 @@ import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
 import level.tools.LevelSize;
+import saveGame.SaveData;
+import saveGame.SaveGame;
 import tools.Constants;
 import tools.Point;
 
@@ -79,8 +81,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static final Set<Entity> entities = new HashSet<>();
 
     private static Entity hero;
-    private static Ghost ghost;
-    private static Grave grave;
+    private Ghost ghost;
+    private Grave grave;
     private static Monster imp;
     private static Monster darkheart;
     private static Monster andromalius;
@@ -230,7 +232,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-        createMonster();
+        SaveGame.readObject("ABC.txt");
+        //createMonster();
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
         }
@@ -333,6 +336,22 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 gameOverMenu.createGameOverMenue();
                 gameOverMenu.showMenu();
                 isGameOverMenueOpen = true;
+
+                SaveData save = new SaveData();
+                save.setEntities();
+                Hero h = (Hero) hero;
+                /*
+                save.setSkillslot2(h.getPAC().getSkillSlot2().orElseThrow());
+                save.setSkillslot3(h.getPAC().getSkillSlot3().orElseThrow());
+
+
+                save.setHerolevel(h.getXP().getCurrentLevel());
+                save.setHeroxp(h.getXP().getCurrentXP());
+                save.setLevelCounter(levelCounter);
+                save.setHealthpoints(h.getHC().getCurrentHealthpoints());
+
+                 */
+                SaveGame.writeObject(save, "ABC.txt");
             } else {
                 System.out.println("RemoveMenue");
                 gameOverMenu.removeGameOverMenu();
@@ -528,5 +547,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 darkheart.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
             }
         }
+    }
+
+    public static TrapDmgCreator getTrapDmgCreator() {
+        return trapDmgCreator;
+    }
+
+    public static TrapTeleportCreator getTrapTeleportCreator() {
+        return trapTeleportCreator;
     }
 }
