@@ -6,7 +6,7 @@ import ecs.damage.DamageType;
 /** TrapDmg class A trap that deals damage */
 public class TrapDmg extends Trap {
 
-    private static Damage dmg;
+    private Damage dmg;
     private String pathToSkin = "dungeon/trap/Pit_Trap_Spikes.png";
 
     /** Constructor for TrapDmg */
@@ -21,7 +21,7 @@ public class TrapDmg extends Trap {
      *
      * @return the damage of the trap
      */
-    public static Damage getDmg() {
+    public Damage getDmg() {
         return dmg;
     }
 

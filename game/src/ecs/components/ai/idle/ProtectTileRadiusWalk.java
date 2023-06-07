@@ -15,7 +15,7 @@ public class ProtectTileRadiusWalk implements IIdleAI {
 
     private Tile tile;
     private float radius;
-    private GraphPath<Tile> path;
+    private transient GraphPath<Tile> path;
     private Point center;
     private Point currentPosition;
     private Point newEndTile;

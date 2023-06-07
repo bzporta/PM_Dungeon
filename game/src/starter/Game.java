@@ -63,10 +63,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private boolean isSkillMenuOpen = false;
     private boolean isGameOverMenueOpen = false;
 
-    public static LevelAPI getLevelAPI() {
-        return levelAPI;
-    }
-
     /** Generates the level */
     protected static LevelAPI levelAPI;
     /** Generates the level */
@@ -227,8 +223,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     @Override
     public void onLevelLoad() {
         currentLevel = levelAPI.getCurrentLevel();
-        entities.add(hero);
-        getHero().ifPresent(this::placeOnLevelStart);
         clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
@@ -236,9 +230,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator.creator(1, entities, currentLevel);
         entities.add(grave = new Grave((Hero) hero));
         grave.setGrave(currentLevel);
+        createMonster();
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-        createMonster();
+
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
         }
@@ -311,7 +306,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     /** Toggles the SkillMenu */
     public void toggleSkillMenu() {
-        // controller.add(skillMenu);
         toggleSkillMenue = !toggleSkillMenue;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
@@ -544,5 +538,25 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     public static TrapTeleportCreator getTrapTeleportCreator() {
         return trapTeleportCreator;
+    }
+
+    public static LevelAPI getLevelAPI() {
+        return levelAPI;
+    }
+
+    public static void setQuestList(Set<Quest> questList) {
+        Game.questList = questList;
+    }
+
+    public static void setSpawnRate(int spawnRate) {
+        Game.spawnRate = spawnRate;
+    }
+
+    public static void setDmgBuff(int dmgBuff) {
+        Game.dmgBuff = dmgBuff;
+    }
+
+    public static void setHpBuff(int hpBuff) {
+        Game.hpBuff = hpBuff;
     }
 }

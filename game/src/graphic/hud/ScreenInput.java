@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import tools.Point;
 
+import java.io.Serializable;
+
 /** Simple one line Text input field. */
 public class ScreenInput extends TextField {
     private static final TextFieldStyle DEFAULT_TEXT_FIELD_STYLE;

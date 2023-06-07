@@ -5,13 +5,15 @@ import graphic.hud.QuestMenu;
 import graphic.hud.ScreenText;
 import starter.Game;
 
-public abstract class Quest {
+import java.io.Serializable;
+
+public abstract class Quest implements Serializable {
     private String name;
     private String description;
     private int reward;
     private String status;
 
-    protected ScreenText screenText;
+    protected transient ScreenText screenText;
 
     private boolean active;
 
@@ -69,5 +71,10 @@ public abstract class Quest {
 
     public ScreenText getScreenText() {
         return screenText;
+    }
+
+    public void setScreenText() {
+        QuestMenu qm = starter.Game.getQuestMenu();
+        this.screenText = qm.addActiveQuest(getName(), getStatus());;
     }
 }

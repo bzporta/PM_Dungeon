@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.function.Consumer;
  *
  * @param <T> generic type of elements to manage.
  */
-public abstract class AbstractController<T> implements Iterable<T> {
+public abstract class AbstractController<T> implements Iterable<T>, Serializable {
     private final Map<ControllerLayer, List<T>> layerTreeMap = new TreeMap<>();
     private final Map<T, List<T>> elementHashMap = new HashMap<>();
 

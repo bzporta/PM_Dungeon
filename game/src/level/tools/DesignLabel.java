@@ -1,5 +1,6 @@
 package level.tools;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ import java.util.Random;
  *
  * @author Andre Matutat
  */
-public enum DesignLabel {
+public enum DesignLabel implements Serializable {
     DEFAULT;
 
     private static final List<DesignLabel> VALUES = List.of(values());

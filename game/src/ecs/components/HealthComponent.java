@@ -73,6 +73,7 @@ public class HealthComponent extends Component {
      * @param damage Damage that should be inflicted
      */
     public void receiveHit(Damage damage) {
+        healthLogger = Logger.getLogger(this.getClass().getName());
         damageToGet.add(damage);
         this.lastCause = damage.cause() != null ? damage.cause() : this.lastCause;
         healthLogger.info(

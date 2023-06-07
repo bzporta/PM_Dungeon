@@ -9,7 +9,9 @@ import com.badlogic.gdx.utils.Array;
 import level.elements.astar.TileHeuristic;
 import level.elements.tile.Tile;
 
-public interface IPathable extends IndexedGraph<Tile> {
+import java.io.Serializable;
+
+public interface IPathable extends IndexedGraph<Tile>, Serializable {
 
     /**
      * For libGDX pathfinding algorithms
