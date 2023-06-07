@@ -158,6 +158,7 @@ public abstract class Tile implements Serializable {
         serializedConnections.add(tileCache);
     }
 
+    /** Restores the saved connections to the level */
     public void restoreConnection(TileConnection tlc) {
         if (connections == null) {
             connections = new Array<>();

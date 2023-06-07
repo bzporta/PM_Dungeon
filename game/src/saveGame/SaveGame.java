@@ -11,13 +11,21 @@ import level.elements.astar.TileConnection;
 import level.elements.tile.FloorTile;
 import starter.Game;
 
+/** This class is responsible for saving and loading the game. */
 public class SaveGame {
 
+    /**
+     * This method saves the current state of the game.
+     *
+     * @param saveData The SaveData object that contains all the data that needs to be saved.
+     * @param filename The name of the file to save the game to.
+     *
+     * Writes a SaveData object to a file.
+     */
     public static void writeObject(SaveData saveData, String filename) {
         try (FileOutputStream fos =
                         new FileOutputStream("game/src/saveGame/savedGames/" + filename);
                 ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            System.out.println("MOIN");
             oos.writeObject(saveData);
             oos.close();
         } catch (IOException ex) {
@@ -25,6 +33,13 @@ public class SaveGame {
         }
     }
 
+    /**
+     * This method loads a saved game.
+     *
+     * @param filename The name of the file to load the game from.
+     *
+     * Reads a SaveData object from a file and restores the game state by adding all important attributes to the game.
+     */
     public static void readObject(String filename) {
         try (FileInputStream fis = new FileInputStream("game/src/saveGame/savedGames/" + filename);
                 ObjectInputStream ois = new ObjectInputStream(fis)) {

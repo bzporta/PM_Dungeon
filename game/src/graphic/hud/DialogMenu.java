@@ -13,18 +13,17 @@ import java.util.LinkedList;
 import starter.Game;
 import tools.Point;
 
+/**
+ * DialogMenu class
+ */
 public class DialogMenu<T extends Actor> extends ScreenController<T> {
 
-    /**
-     * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
-     * resize
-     *
-     * @param batch the batch which should be used to draw with
-     */
+    /** Creates a new DialogMenu with a new Spritebatch */
     public DialogMenu(SpriteBatch batch) {
         super(batch);
     }
 
+    /** Creates a new DialogMenu and creates a new SpriteBatch */
     public DialogMenu() {
         this(new SpriteBatch());
     }
@@ -45,6 +44,10 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
             "1: Grave-Quest: Activate 10 Gravestones \n" + "2: Bounthunter-Quest: Kill 10 Monsters";
     private final String controll = "Rätsel ??? Quest ??? ... ???";
 
+    /** Creates the DialogMenu
+     *
+     * The DialogMenu is a Menu where the Player can write in a Textfield. The player is able to choose a Quest or a Riddle.
+     */
     public void createDialogMenu() {
 
         ScreenImage dialog = new ScreenImage("hud/Dialog Box.png", new Point(15, 0));
@@ -117,14 +120,22 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
         this.forEach((Actor s) -> s.setVisible(false));
     }
 
+    /** removes the Menu */
     public void removeDialogMenu() {
         this.forEach((Actor s) -> s.remove());
     }
 
+    /** checks the Answer of the Player
+     *
+     * If the Player writes in the Textfield, the answer will be checked with RegEx. If the answer is correct, the Player gets a reward.
+     *
+     * The first if-statement checks if the player wants to do a riddle or a quest. The switch-case-statement checks the answers of the riddles.
+     */
     public void checkAnswer() {
 
         if (textInput.getText().matches("[rR]([äÄ]|[aA][eE])[tT][sS][eE][lL]")) {
-            if (!questions.isEmpty()) {
+            if (!
+                    questions.isEmpty()) {
                 text.setText(questions.peek());
                 questions.pop();
             } else {
@@ -133,6 +144,7 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
         } else if (textInput.getText().matches("[qQ][uU][eE][sS][tT]")) {
             text.setText(questList);
         }
+
         switch (text.getText().toString()) {
             case question1 -> {
                 if (textInput.getText().matches("[mM][uU][tT]{2}[eE][rR]")) {
@@ -156,11 +168,19 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
         }
     }
 
+    /** gives the Player a reward
+     *
+     * The Player gets 50 XP.
+     */
     public void getReward() {
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
         hero.getXP().addXP(50);
     }
 
+    /** Returns true if the Menu is open
+     *
+     * @return isOpen true if the Menu is open
+     * */
     public boolean getIsOpen() {
         return isOpen;
     }

@@ -78,6 +78,9 @@ public abstract class Monster extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
+    /** Sets the Healthcomponent of the monster
+     *
+     *  The Monster get 100 Healthpoints and can reach 100 Healthpoints*/
     public void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
@@ -146,6 +149,7 @@ public abstract class Monster extends Entity {
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
 
+    /** Sets the AIComponent of the monster */
     public abstract void setupAiComponent();
 
     /**

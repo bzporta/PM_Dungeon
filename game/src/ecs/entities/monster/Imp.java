@@ -22,6 +22,9 @@ public class Imp extends Monster {
         setupAiComponent();
     }
 
+    /** Sets up the AI component
+     *
+     * Sets the IdleAi to ProtectTileRadiusWalk*/
     public void setupAiComponent() {
         ai = new AIComponent(this);
         ProtectTileRadiusWalk ptrw =

@@ -7,6 +7,9 @@ import controller.ScreenController;
 import tools.Constants;
 import tools.Point;
 
+/**
+ * QuestMenu class
+ */
 public class QuestMenu<T extends Actor> extends ScreenController<T> {
 
     private ScreenText screenText_quest;
@@ -45,6 +48,13 @@ public class QuestMenu<T extends Actor> extends ScreenController<T> {
         this.forEach((Actor s) -> s.setVisible(false));
     }
 
+    /**
+     * adds a new Quest to the QuestMenu
+     *
+     * @param name the name of the Quest
+     * @param status the status of the Quest
+     * @return the ScreenText of the Quest
+     */
     public ScreenText addActiveQuest(String name, String status) {
         questcounter++;
         screenText_quest =

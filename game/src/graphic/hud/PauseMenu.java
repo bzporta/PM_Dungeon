@@ -67,7 +67,7 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                             public void clicked(InputEvent event, float x, float y) {
                                 Game.getEntities().clear();
                                 Game.getQuestList().clear();
-                                SaveGame.readObject("ABC.txt");
+                                SaveGame.readObject("SavedGame.txt");
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)

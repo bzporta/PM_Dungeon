@@ -302,6 +302,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Saves the game
+     *
+     * Sets all important attributes of the game that are needed to load the game later to a SaveData object
+     */
     public void saveGame() {
         SaveData save = new SaveData();
         save.setCurrentLevel(currentLevel);
@@ -311,7 +315,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         save.setHpBuff(hpBuff);
         save.setDmgBuff(dmgBuff);
         save.setSpawnRate(spawnRate);
-        SaveGame.writeObject(save, "ABC.txt");
+        SaveGame.writeObject(save, "SavedGame.txt");
     }
 
     /** Toggles the SkillMenu */
@@ -372,6 +376,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return skillMenu;
     }
 
+    /** Returns the DialogMenu
+     *
+     * @return DialogMenu
+     */
     public static DialogMenu getDialogMenu() {
         return dialogMenu;
     }
@@ -486,22 +494,42 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         getGame().setup();
     }
 
+    /** Returns the GraveQuest
+     *
+     * @return GraveQuest
+     */
     public static GraveQuest getGraveQuest() {
         return graveQuest;
     }
 
+    /** Sets the GraveQuest
+     *
+     * @param gravequest GraveQuest
+     */
     public static void setGraveQuest(GraveQuest gravequest) {
         graveQuest = gravequest;
     }
 
+    /** Returns the KillQuest
+     *
+     * @return KillQuest
+     */
     public static KillQuest getKillQuest() {
         return killQuest;
     }
 
+    /** Sets the KillQuest
+     *
+     * @param killquest KillQuest
+     */
     public static void setKillQuest(KillQuest killquest) {
         killQuest = killquest;
     }
 
+    /** Returns a Set of all Quests
+     *
+     * @return Set of all Quests
+     */
     public static Set<Quest> getQuestList() {
         return questList;
     }
@@ -550,30 +578,58 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /** Returns the TrapDmgCreator
+     *
+     * @return TrapDmgCreator
+     */
     public static TrapDmgCreator getTrapDmgCreator() {
         return trapDmgCreator;
     }
 
+    /** Returns the TrapTeleportCreator
+     *
+     * @return TrapTeleportCreator
+     */
     public static TrapTeleportCreator getTrapTeleportCreator() {
         return trapTeleportCreator;
     }
 
+    /** Returns the LevelAPI
+     *
+     * @return LevelAPI
+     */
     public static LevelAPI getLevelAPI() {
         return levelAPI;
     }
 
+    /** Sets the Questlist of the Level
+     *
+     * @param questList Questlist
+     */
     public static void setQuestList(Set<Quest> questList) {
         Game.questList = questList;
     }
 
+    /** Sets the Spawnrate of the Level
+     *
+     * @param spawnRate Spawnrate
+     */
     public static void setSpawnRate(int spawnRate) {
         Game.spawnRate = spawnRate;
     }
 
+    /** Sets the Damagebuff of the Level
+     *
+     * @param dmgBuff Damagebuff
+     */
     public static void setDmgBuff(int dmgBuff) {
         Game.dmgBuff = dmgBuff;
     }
 
+    /** Sets the HPbuff of the Level
+     *
+     * @param hpBuff HPbuff
+     */
     public static void setHpBuff(int hpBuff) {
         Game.hpBuff = hpBuff;
     }
