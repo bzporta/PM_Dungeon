@@ -30,7 +30,7 @@ public abstract class Monster extends Entity {
     private String pathToRunLeft;
     private String pathToRunRight;
     private int hitDmg;
-    private Logger logger;
+    private transient Logger logger;
 
     /**
      * Constructor for the Monster class

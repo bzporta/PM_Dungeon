@@ -3,7 +3,9 @@ package ecs.components.skill;
 import ecs.entities.Entity;
 import tools.Constants;
 
-public class Skill {
+import java.io.Serializable;
+
+public class Skill implements Serializable {
 
     private ISkillFunction skillFunction;
     private int coolDownInFrames;

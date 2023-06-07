@@ -4,12 +4,14 @@ import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.math.Vector2;
 import level.elements.tile.Tile;
 
+import java.io.Serializable;
+
 /**
  * Represents a connection between two tile
  *
  * @author Marti Stuwe
  */
-public class TileConnection implements Connection<Tile> {
+public class TileConnection implements Connection<Tile>, Serializable {
 
     private final Tile from;
     private final Tile to;

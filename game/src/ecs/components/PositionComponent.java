@@ -12,7 +12,7 @@ import tools.Point;
 @DSLType(name = "position_component")
 public class PositionComponent extends Component {
 
-    private final Logger positionCompLogger = Logger.getLogger(this.getClass().getName());
+    private transient Logger positionCompLogger;
     private /*@DSLTypeMember(name="position")*/ Point position;
 
     /**
@@ -74,6 +74,7 @@ public class PositionComponent extends Component {
      * @return the position of the associated entity
      */
     public Point getPosition() {
+        positionCompLogger = Logger.getLogger(this.getClass().getName());
         positionCompLogger.log(
                 CustomLogLevel.DEBUG,
                 "Fetching position for entity '"

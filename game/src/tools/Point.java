@@ -1,6 +1,9 @@
 package tools;
 
 import level.tools.Coordinate;
+import saveGame.SaveGame;
+
+import java.io.Serializable;
 
 /**
  * For easy handling of positions in the dungeon. <br>
@@ -8,7 +11,7 @@ import level.tools.Coordinate;
  * Point.x to get x <br>
  * Point.y to get y <br>
  */
-public class Point {
+public class Point implements Serializable {
 
     public float x;
     public float y;

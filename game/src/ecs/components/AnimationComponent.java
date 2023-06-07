@@ -19,7 +19,7 @@ public class AnimationComponent extends Component {
     private @DSLTypeMember(name = "idle_left") Animation idleLeft;
     private @DSLTypeMember(name = "idle_right") Animation idleRight;
     private @DSLTypeMember(name = "current_animation") Animation currentAnimation;
-    private final Logger animCompLogger = Logger.getLogger(this.getClass().getName());
+    private transient Logger animCompLogger;
 
     /**
      * @param entity associated entity
@@ -76,6 +76,7 @@ public class AnimationComponent extends Component {
      * @return current animation of the entity
      */
     public Animation getCurrentAnimation() {
+        animCompLogger = Logger.getLogger(this.getClass().getName());
         if (currentAnimation.getAnimationFrames().size() > 0) {
             animCompLogger.log(
                     CustomLogLevel.DEBUG,

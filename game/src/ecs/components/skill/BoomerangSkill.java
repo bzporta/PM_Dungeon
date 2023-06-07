@@ -21,7 +21,7 @@ public class BoomerangSkill implements ISkillFunction {
     private final float projectileRange;
     private final Damage projectileDamage;
     private final ITargetSelection selectionFunction;
-    private Logger logger;
+    private transient Logger logger;
 
     /**
      * Konstruktor für BoomerangSkill

@@ -17,7 +17,7 @@ public class SwordSkill implements ISkillFunction {
     private final Damage projectileDamage;
     private String pathToAnimation;
     private float range = 1.5f;
-    private Logger logger;
+    private transient Logger logger;
 
     /**
      * Konstruktor für SwordSkill

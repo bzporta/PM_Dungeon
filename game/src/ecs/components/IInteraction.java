@@ -2,7 +2,9 @@ package ecs.components;
 
 import ecs.entities.Entity;
 
-public interface IInteraction {
+import java.io.Serializable;
+
+public interface IInteraction extends Serializable {
 
     /**
      * Implements the interaction behavior of an Interactive entity

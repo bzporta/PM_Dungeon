@@ -20,7 +20,7 @@ public class VelocityComponent extends Component {
 
     private @DSLTypeMember(name = "move_right_animation") Animation moveRightAnimation;
     private @DSLTypeMember(name = "move_left_animation") Animation moveLeftAnimation;
-    private final Logger velocityCompLogger = Logger.getLogger(this.getClass().getName());
+    private transient Logger velocityCompLogger;
 
     /**
      * @param entity associated entity
@@ -89,6 +89,7 @@ public class VelocityComponent extends Component {
      * @return speed with which the entity moves on the x-axis
      */
     public float getXVelocity() {
+        velocityCompLogger = Logger.getLogger(this.getClass().getName());
         velocityCompLogger.log(
                 CustomLogLevel.DEBUG,
                 "Fetching x-velocity for entity '"
@@ -111,6 +112,7 @@ public class VelocityComponent extends Component {
      * @return Speed with which the entity moves on the y-axis
      */
     public float getYVelocity() {
+        velocityCompLogger = Logger.getLogger(this.getClass().getName());
         velocityCompLogger.log(
                 CustomLogLevel.DEBUG,
                 "Fetching y-velocity for entity '"

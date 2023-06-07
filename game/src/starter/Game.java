@@ -63,6 +63,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private boolean isSkillMenuOpen = false;
     private boolean isGameOverMenueOpen = false;
 
+    public static LevelAPI getLevelAPI() {
+        return levelAPI;
+    }
+
     /** Generates the level */
     protected static LevelAPI levelAPI;
     /** Generates the level */
@@ -109,7 +113,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static DialogMenu<Actor> dialogMenu;
     private static SkillMenu<Actor> skillMenu;
     private static QuestMenu<Actor> questMenu;
-    private Logger gameLogger;
+    private transient Logger gameLogger;
 
     /** List of Tile positions for entities */
     public static ArrayList<Tile> positionList = new ArrayList<>();
@@ -222,7 +226,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     @Override
     public void onLevelLoad() {
+        SaveGame.readObject("ABC.txt");
+
+
         currentLevel = levelAPI.getCurrentLevel();
+        entities.add(hero);
+        //getHero().ifPresent(this::placeOnLevelStart);
+
+        /*
         clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
@@ -232,7 +243,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-        SaveGame.readObject("ABC.txt");
+
+
+         */
+
         //createMonster();
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
@@ -301,6 +315,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (pauseMenu != null) {
             if (paused) pauseMenu.showMenu();
             else pauseMenu.hideMenu();
+            SaveData save = new SaveData();
+            Hero h = (Hero) hero;
+            save.setH(h);
+            save.setCurrentLevel(currentLevel);
+            SaveGame.writeObject(save, "ABC.txt");
         }
     }
 
@@ -336,22 +355,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 gameOverMenu.createGameOverMenue();
                 gameOverMenu.showMenu();
                 isGameOverMenueOpen = true;
-
-                SaveData save = new SaveData();
-                save.setEntities();
-                Hero h = (Hero) hero;
-                /*
-                save.setSkillslot2(h.getPAC().getSkillSlot2().orElseThrow());
-                save.setSkillslot3(h.getPAC().getSkillSlot3().orElseThrow());
-
-
-                save.setHerolevel(h.getXP().getCurrentLevel());
-                save.setHeroxp(h.getXP().getCurrentXP());
-                save.setLevelCounter(levelCounter);
-                save.setHealthpoints(h.getHC().getCurrentHealthpoints());
-
-                 */
-                SaveGame.writeObject(save, "ABC.txt");
             } else {
                 System.out.println("RemoveMenue");
                 gameOverMenu.removeGameOverMenu();

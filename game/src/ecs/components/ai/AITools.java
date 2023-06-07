@@ -5,6 +5,8 @@ import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.entities.Entity;
+
+import java.io.Serializable;
 import java.util.*;
 import level.elements.ILevel;
 import level.elements.tile.Tile;
@@ -12,7 +14,7 @@ import level.tools.Coordinate;
 import starter.Game;
 import tools.Point;
 
-public class AITools {
+public class AITools implements Serializable {
     private static final Random random = new Random();
 
     /**

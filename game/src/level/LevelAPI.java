@@ -130,4 +130,10 @@ public class LevelAPI {
         currentLevel = level;
         onLevelLoader.onLevelLoad();
     }
+
+    public void setCurrentLevel(ILevel level) {
+        currentLevel = level;
+    }
+
+
 }
