@@ -69,8 +69,6 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
                                 if (!SaveGame.isLoaded()) {
-                                    Game.getEntities().clear();
-                                    Game.getQuestList().clear();
                                     SaveGame.readObject("SavedGame.txt");
                                     SaveGame.setIsLoaded(true);
                                 } else {

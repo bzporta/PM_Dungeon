@@ -46,10 +46,20 @@ public class SaveGame {
         try (FileInputStream fis = new FileInputStream("game/src/saveGame/savedGames/" + filename);
                 ObjectInputStream ois = new ObjectInputStream(fis)) {
             SaveData data = (SaveData) ois.readObject();
-
+            // Lade das gespeicherte Level in das Game.
             Game.getLevelAPI().setCurrentLevel(data.getCurrentLevel());
             Game.currentLevel = data.getCurrentLevel();
+            // Entferne alle Quest, Questtexte und Entities vom derzeitigen Level.
+            for (Quest qu : Game.getQuestList()) {
+                if (qu.isActive()) {
+                    qu.getScreenText().remove();
+                    Game.getQuestMenu().decreaseQuestcounter();
+                }
+            }
+            Game.getEntities().clear();
+            Game.getQuestList().clear();
 
+            // Die Liste der Connections von den Tiles wurde nicht gespeichert, deswegen müssen diese wiederhergestellt werden.
             for (FloorTile fl : Game.currentLevel.getFloorTiles()) {
                 for (TileConnection tlc : fl.getSerializedConnections()) {
                     fl.restoreConnection(tlc);
@@ -60,28 +70,25 @@ public class SaveGame {
                     Game.currentLevel.getExitTiles().get(0).getSerializedConnections()) {
                 Game.currentLevel.getExitTiles().get(0).restoreConnection(tlc);
             }
-
+            // Die QuestListe wird wiederhergestellt.
             Game.setQuestList(data.getQuestList());
-
             for (Quest qu : Game.getQuestList()) {
-                System.out.println(qu.getName() + " " + qu.isActive());
+                if (qu instanceof GraveQuest) {
+                    Game.setGraveQuest((GraveQuest) qu);
+                } else if (qu instanceof KillQuest) {
+                    Game.setKillQuest((KillQuest) qu);
+                }
                 if (qu.isActive()) {
-                    if (qu instanceof GraveQuest) {
-                        Game.setGraveQuest((GraveQuest) qu);
-                    } else if (qu instanceof KillQuest) {
-                        Game.setKillQuest((KillQuest) qu);
-                    }
-
                     qu.setScreenText();
                 }
             }
-
+            // Wiederherstellen der Entitylist.
             for (Entity entity : data.getEntities()) {
                 if (entity instanceof Monster) ((Monster) entity).setupAiComponent();
                 Game.getEntities().add(entity);
                 if (entity instanceof Hero) Game.setHero(entity);
             }
-
+            // Zurücksetzen der Buffs, Spawnrate und des Levelcounters.
             Game.levelCounter = data.getLevelCounter();
             Game.setHpBuff(data.getHpBuff());
             Game.setDmgBuff(data.getDmgBuff());
@@ -94,7 +101,7 @@ public class SaveGame {
     }
 
     /**
-     * Returns whether the game is loaded on the current session or not.
+     * Returns whether the game is loaded on the current level or not.
      *
      * @return isLoaded
      */
@@ -103,7 +110,7 @@ public class SaveGame {
     }
 
     /**
-     * Sets whether the game is loaded on current session or not.
+     * Sets whether the game is loaded on current level or not.
      *
      * @param isLoaded
      */

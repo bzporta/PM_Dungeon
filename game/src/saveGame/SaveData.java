@@ -49,7 +49,7 @@ public class SaveData implements Serializable {
     }
 
     /**
-     * Sets the current level.
+     * Sets the current level and save a list of the FloorTiles to restore the connections later.
      *
      * @param currentLevel current level
      */
