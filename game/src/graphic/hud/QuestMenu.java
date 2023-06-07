@@ -7,9 +7,7 @@ import controller.ScreenController;
 import tools.Constants;
 import tools.Point;
 
-/**
- * QuestMenu class
- */
+/** QuestMenu class */
 public class QuestMenu<T extends Actor> extends ScreenController<T> {
 
     private ScreenText screenText_quest;

@@ -13,9 +13,7 @@ import java.util.LinkedList;
 import starter.Game;
 import tools.Point;
 
-/**
- * DialogMenu class
- */
+/** DialogMenu class */
 public class DialogMenu<T extends Actor> extends ScreenController<T> {
 
     /** Creates a new DialogMenu with a new Spritebatch */
@@ -44,9 +42,11 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
             "1: Grave-Quest: Activate 10 Gravestones \n" + "2: Bounthunter-Quest: Kill 10 Monsters";
     private final String controll = "Rätsel ??? Quest ??? ... ???";
 
-    /** Creates the DialogMenu
+    /**
+     * Creates the DialogMenu
      *
-     * The DialogMenu is a Menu where the Player can write in a Textfield. The player is able to choose a Quest or a Riddle.
+     * <p>The DialogMenu is a Menu where the Player can write in a Textfield. The player is able to
+     * choose a Quest or a Riddle.
      */
     public void createDialogMenu() {
 
@@ -125,26 +125,29 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
         this.forEach((Actor s) -> s.remove());
     }
 
-    /** checks the Answer of the Player
+    /**
+     * checks the Answer of the Player
      *
-     * If the Player writes in the Textfield, the answer will be checked with RegEx. If the answer is correct, the Player gets a reward.
+     * <p>If the Player writes in the Textfield, the answer will be checked with RegEx. If the
+     * answer is correct, the Player gets a reward.
      *
-     * The first if-statement checks if the player wants to do a riddle or a quest. The switch-case-statement checks the answers of the riddles.
+     * <p>The first if-statement checks if the player wants to do a riddle or a quest. The
+     * switch-case-statement checks the answers of the riddles.
      */
     public void checkAnswer() {
 
         if (textInput.getText().matches("[rR]([äÄ]|[aA][eE])[tT][sS][eE][lL]")) {
-            if (!
-                    questions.isEmpty()) {
+            if (!questions.isEmpty()) {
                 text.setText(questions.peek());
                 questions.pop();
             } else {
                 text.setText("...........???????????");
             }
         } else if (textInput.getText().matches("[qQ][uU][eE][sS][tT]")) {
-            text.setText(questList);
+            if (Game.getGraveQuest().isFinished() && Game.getKillQuest().isFinished())
+                text.setText("Ich habe keine weiteren Aufgaben!");
+            else text.setText(questList);
         }
-
         switch (text.getText().toString()) {
             case question1 -> {
                 if (textInput.getText().matches("[mM][uU][tT]{2}[eE][rR]")) {
@@ -160,27 +163,40 @@ public class DialogMenu<T extends Actor> extends ScreenController<T> {
             }
             case questList -> {
                 if (textInput.getText().matches("1")) {
-                    starter.Game.getGraveQuest().activateQuest();
+                    if (Game.getGraveQuest().isActive()) text.setText("Schon fertig???");
+                    else if (Game.getGraveQuest().isFinished()) text.setText("Gute Arbeit!!!");
+                    else {
+                        starter.Game.getGraveQuest().activateQuest();
+                        text.setText("Geh und sammel die verlorenen Seelen für mich!");
+                    }
                 } else if (textInput.getText().matches("2")) {
-                    starter.Game.getKillQuest().activateQuest();
+                    if (Game.getKillQuest().isActive()) text.setText("Schon fertig???");
+                    else if (Game.getKillQuest().isFinished()) text.setText("Gute Arbeit!!!");
+                    else {
+                        starter.Game.getKillQuest().activateQuest();
+                        text.setText(
+                                "Geh und vertreibe die lästigen Monster aus meiner Ruhestätte!");
+                    }
                 }
             }
         }
     }
 
-    /** gives the Player a reward
+    /**
+     * gives the Player a reward
      *
-     * The Player gets 50 XP.
+     * <p>The Player gets 50 XP.
      */
     public void getReward() {
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
         hero.getXP().addXP(50);
     }
 
-    /** Returns true if the Menu is open
+    /**
+     * Returns true if the Menu is open
      *
      * @return isOpen true if the Menu is open
-     * */
+     */
     public boolean getIsOpen() {
         return isOpen;
     }

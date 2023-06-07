@@ -20,9 +20,11 @@ public class Andromalius extends Monster {
         setupAiComponent();
     }
 
-    /** Sets up the AI component
+    /**
+     * Sets up the AI component
      *
-     * Sets the IdleAi to PatrouilleWalk*/
+     * <p>Sets the IdleAi to PatrouilleWalk
+     */
     public void setupAiComponent() {
         ai = new AIComponent(this);
         ai.setIdleAI(new PatrouilleWalk(3f, 5, 1, PatrouilleWalk.MODE.RANDOM));

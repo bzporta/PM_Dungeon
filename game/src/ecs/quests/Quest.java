@@ -17,12 +17,13 @@ public abstract class Quest implements Serializable {
 
     protected boolean active;
 
-    /** Creates a new Quest
+    /**
+     * Creates a new Quest
      *
-     * @param name        Name of the quest
+     * @param name Name of the quest
      * @param description Description of the quest
-     * @param reward      Reward of the quest
-     * @param status      Status of the quest
+     * @param reward Reward of the quest
+     * @param status Status of the quest
      */
     public Quest(String name, String description, int reward, String status) {
         this.name = name;
@@ -31,12 +32,12 @@ public abstract class Quest implements Serializable {
         this.status = status;
     }
 
-
     public abstract void activateQuest();
 
     public abstract boolean checkIfDone();
 
-    /** Returns the name of the quest
+    /**
+     * Returns the name of the quest
      *
      * @return name of the quest
      */
@@ -48,7 +49,8 @@ public abstract class Quest implements Serializable {
         return status;
     }
 
-    /** Sets the status of the quest
+    /**
+     * Sets the status of the quest
      *
      * @param current Amount of current progress of the quest
      * @param goal Amount of goal progress of the quest
@@ -57,7 +59,8 @@ public abstract class Quest implements Serializable {
         this.status = "" + current + "/" + goal;
     }
 
-    /** Returns true if the quest is active
+    /**
+     * Returns true if the quest is active
      *
      * @return true if the quest is active
      */
@@ -65,7 +68,8 @@ public abstract class Quest implements Serializable {
         return active;
     }
 
-    /** Sets the quest to active
+    /**
+     * Sets the quest to active
      *
      * @param active true if the quest is active
      */
@@ -73,7 +77,8 @@ public abstract class Quest implements Serializable {
         this.active = active;
     }
 
-    /** Returns the ScreenText of the quest
+    /**
+     * Returns the ScreenText of the quest
      *
      * @return ScreenText of the quest
      */
@@ -81,16 +86,15 @@ public abstract class Quest implements Serializable {
         return screenText;
     }
 
-    /** Sets the ScreenText of the quest to its name and status
-     *
-     */
+    /** Sets the ScreenText of the quest to its name and status */
     public void setScreenText() {
         QuestMenu qm = starter.Game.getQuestMenu();
         this.screenText = qm.addActiveQuest(getName(), getStatus());
         ;
     }
 
-    /** Sets finished to true or false
+    /**
+     * Sets finished to true or false
      *
      * @param finished True if the quest is finished, false if not
      */
@@ -98,7 +102,8 @@ public abstract class Quest implements Serializable {
         this.finished = finished;
     }
 
-    /** Returns true if the quest is finished
+    /**
+     * Returns true if the quest is finished
      *
      * @return True if the quest is finished
      */

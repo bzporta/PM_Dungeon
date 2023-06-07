@@ -302,9 +302,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Saves the game
+    /**
+     * Saves the game
      *
-     * Sets all important attributes of the game that are needed to load the game later to a SaveData object
+     * <p>Sets all important attributes of the game that are needed to load the game later to a
+     * SaveData object
      */
     public void saveGame() {
         SaveData save = new SaveData();
@@ -376,7 +378,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return skillMenu;
     }
 
-    /** Returns the DialogMenu
+    /**
+     * Returns the DialogMenu
      *
      * @return DialogMenu
      */
@@ -494,7 +497,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         getGame().setup();
     }
 
-    /** Returns the GraveQuest
+    /**
+     * Returns the GraveQuest
      *
      * @return GraveQuest
      */
@@ -502,7 +506,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return graveQuest;
     }
 
-    /** Sets the GraveQuest
+    /**
+     * Sets the GraveQuest
      *
      * @param gravequest GraveQuest
      */
@@ -510,7 +515,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         graveQuest = gravequest;
     }
 
-    /** Returns the KillQuest
+    /**
+     * Returns the KillQuest
      *
      * @return KillQuest
      */
@@ -518,7 +524,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return killQuest;
     }
 
-    /** Sets the KillQuest
+    /**
+     * Sets the KillQuest
      *
      * @param killquest KillQuest
      */
@@ -526,7 +533,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         killQuest = killquest;
     }
 
-    /** Returns a Set of all Quests
+    /**
+     * Returns a Set of all Quests
      *
      * @return Set of all Quests
      */
@@ -578,7 +586,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Returns the TrapDmgCreator
+    /**
+     * Returns the TrapDmgCreator
      *
      * @return TrapDmgCreator
      */
@@ -586,7 +595,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return trapDmgCreator;
     }
 
-    /** Returns the TrapTeleportCreator
+    /**
+     * Returns the TrapTeleportCreator
      *
      * @return TrapTeleportCreator
      */
@@ -594,7 +604,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return trapTeleportCreator;
     }
 
-    /** Returns the LevelAPI
+    /**
+     * Returns the LevelAPI
      *
      * @return LevelAPI
      */
@@ -602,7 +613,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return levelAPI;
     }
 
-    /** Sets the Questlist of the Level
+    /**
+     * Sets the Questlist of the Level
      *
      * @param questList Questlist
      */
@@ -610,7 +622,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         Game.questList = questList;
     }
 
-    /** Sets the Spawnrate of the Level
+    /**
+     * Sets the Spawnrate of the Level
      *
      * @param spawnRate Spawnrate
      */
@@ -618,7 +631,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         Game.spawnRate = spawnRate;
     }
 
-    /** Sets the Damagebuff of the Level
+    /**
+     * Sets the Damagebuff of the Level
      *
      * @param dmgBuff Damagebuff
      */
@@ -626,7 +640,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         Game.dmgBuff = dmgBuff;
     }
 
-    /** Sets the HPbuff of the Level
+    /**
+     * Sets the HPbuff of the Level
      *
      * @param hpBuff HPbuff
      */

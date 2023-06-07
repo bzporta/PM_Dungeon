@@ -4,9 +4,7 @@ import ecs.entities.Entity;
 import java.io.Serializable;
 import tools.Constants;
 
-/**
- * Skill class
- */
+/** Skill class */
 public class Skill implements Serializable {
 
     private ISkillFunction skillFunction;

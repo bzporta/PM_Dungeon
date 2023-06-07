@@ -7,6 +7,7 @@ import ecs.quests.GraveQuest;
 import ecs.quests.KillQuest;
 import ecs.quests.Quest;
 import java.io.*;
+import java.util.logging.Logger;
 import level.elements.astar.TileConnection;
 import level.elements.tile.FloorTile;
 import starter.Game;
@@ -14,22 +15,22 @@ import starter.Game;
 /** This class is responsible for saving and loading the game. */
 public class SaveGame {
 
+    private static Logger logger = Logger.getLogger(SaveGame.class.getName());
     /**
      * This method saves the current state of the game.
      *
      * @param saveData The SaveData object that contains all the data that needs to be saved.
      * @param filename The name of the file to save the game to.
-     *
-     * Writes a SaveData object to a file.
+     *     <p>Writes a SaveData object to a file.
      */
     public static void writeObject(SaveData saveData, String filename) {
         try (FileOutputStream fos =
                         new FileOutputStream("game/src/saveGame/savedGames/" + filename);
                 ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(saveData);
-            oos.close();
+            logger.info("Game saved successfully");
         } catch (IOException ex) {
-            // Logger
+            logger.warning("SaveGame.writeObject() failed - Could not save the game");
         }
     }
 
@@ -37,8 +38,8 @@ public class SaveGame {
      * This method loads a saved game.
      *
      * @param filename The name of the file to load the game from.
-     *
-     * Reads a SaveData object from a file and restores the game state by adding all important attributes to the game.
+     *     <p>Reads a SaveData object from a file and restores the game state by adding all
+     *     important attributes to the game.
      */
     public static void readObject(String filename) {
         try (FileInputStream fis = new FileInputStream("game/src/saveGame/savedGames/" + filename);
@@ -83,9 +84,10 @@ public class SaveGame {
             Game.setHpBuff(data.getHpBuff());
             Game.setDmgBuff(data.getDmgBuff());
             Game.setSpawnRate(data.getSpawnRate());
+            logger.info("Game loaded successfully");
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
-            // Logger
+            logger.warning("SaveGame.readObject() failed - Could not load the game");
         }
     }
 }
