@@ -51,7 +51,6 @@ public abstract class Monster extends Entity {
             String idleRight,
             String runLeft,
             String runRight) {
-        logger = Logger.getLogger(getClass().getName());
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.hitDmg = hitDmg;
@@ -147,12 +146,15 @@ public abstract class Monster extends Entity {
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
 
+    public abstract void setupAiComponent();
+
     /**
      * Knocks the monster back
      *
      * @param knockbackamount
      */
     public void knockback(float knockbackamount) {
+        logger = Logger.getLogger(getClass().getName());
         logger.info(this.getClass().getSimpleName() + " got knocked back");
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
         float x = pc.getPosition().x - hero.getPosition().x;

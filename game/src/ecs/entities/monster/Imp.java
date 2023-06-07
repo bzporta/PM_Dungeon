@@ -22,7 +22,7 @@ public class Imp extends Monster {
         setupAiComponent();
     }
 
-    private void setupAiComponent() {
+    public void setupAiComponent() {
         ai = new AIComponent(this);
         ProtectTileRadiusWalk ptrw =
                 new ProtectTileRadiusWalk(Game.currentLevel.getEndTile(), 1.5f, 2);

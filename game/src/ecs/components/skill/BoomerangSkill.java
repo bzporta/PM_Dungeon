@@ -30,7 +30,6 @@ public class BoomerangSkill implements ISkillFunction {
      * @param projectileDamage
      */
     public BoomerangSkill(ITargetSelection selectionFunction, Damage projectileDamage) {
-        logger = Logger.getLogger(getClass().getName());
         this.pathToTexturesOfProjectile = "skills.boomerang";
         this.projectileDamage = projectileDamage;
         this.projectileSpeed = 0.3f;
@@ -45,6 +44,7 @@ public class BoomerangSkill implements ISkillFunction {
      */
     @Override
     public void execute(Entity entity) {
+        logger = Logger.getLogger(getClass().getName());
         Entity projectile = new Entity();
         PositionComponent epc =
                 (PositionComponent)

@@ -11,6 +11,7 @@ import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import ecs.entities.trap.Trap;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import graphic.hud.GameOver;
@@ -137,7 +138,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
                 this,
                 (hero, other, direction) -> {
                     if (other instanceof TrapDmg) {
-                        hp.receiveHit(TrapDmg.getDmg());
+                        hp.receiveHit(((TrapDmg) other).getDmg());
                     }
                 },
                 null);

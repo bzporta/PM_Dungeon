@@ -5,7 +5,9 @@ import level.tools.DesignLabel;
 import level.tools.LevelElement;
 import level.tools.LevelSize;
 
-public interface IGenerator {
+import java.io.Serializable;
+
+public interface IGenerator extends Serializable {
     /**
      * Get a level with the given configuration.
      *

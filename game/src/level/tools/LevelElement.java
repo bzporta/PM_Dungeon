@@ -2,12 +2,14 @@ package level.tools;
 
 import tools.Constants;
 
+import java.io.Serializable;
+
 /**
  * Each type of field in a level can be represented by an integer value.
  *
  * @author Andre Matutat
  */
-public enum LevelElement {
+public enum LevelElement implements Serializable {
     /** This field is a blank */
     SKIP(Constants.LEVELELEMENT_IS_NOT_ACCESSIBLE),
     /** This field is a floor-field */

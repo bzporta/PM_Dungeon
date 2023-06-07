@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import tools.Constants;
 import tools.Point;
 
+import java.io.Serializable;
+
 /** This class is intended for the configuration of the image to be displayed. */
 public class ScreenImage extends Image {
 

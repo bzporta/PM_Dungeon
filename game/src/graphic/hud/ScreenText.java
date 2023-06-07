@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import tools.Point;
 
+import java.io.Serializable;
+
 /** This class is intended for the configuration of the text to be displayed. */
 public class ScreenText extends Label {
     /** Allows the dynamic configuration of the default style for the generated ScreenTexts */

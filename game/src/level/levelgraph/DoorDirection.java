@@ -1,11 +1,13 @@
 package level.levelgraph;
 
+import java.io.Serializable;
+
 /**
  * Defines on which side of the room the door is located
  *
  * @quthor Andre Matutat
  */
-public enum DoorDirection {
+public enum DoorDirection implements Serializable {
     UP(0),
 
     LEFT(1),

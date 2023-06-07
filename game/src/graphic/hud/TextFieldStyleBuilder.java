@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import java.io.Serializable;
+
 /** Builder implementation to help create a {@link TextFieldStyle}. */
-public class TextFieldStyleBuilder {
+public class TextFieldStyleBuilder{
     private BitmapFont font;
     private Color fontColor = Color.BLACK;
     private Drawable cursor;
