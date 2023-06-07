@@ -15,7 +15,7 @@ public class KillQuest extends Quest {
      * <p>The Player has to kill 10 Monsters to complete the quest
      */
     public KillQuest() {
-        super("KillQuest", "Kill 10 Monsters", 10, "0/2");
+        super("KillQuest", "Kill 10 Monsters", 10, "0/10");
         this.killedMonsters = 0;
         this.killedMonstersGoal = 10;
     }

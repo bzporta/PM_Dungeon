@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ControllerLayer;
 import controller.ScreenController;
+import java.util.logging.Logger;
 import saveGame.SaveGame;
 import starter.Game;
 import tools.Constants;
@@ -20,6 +21,8 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
     public PauseMenu() {
         this(new SpriteBatch());
     }
+
+    private Logger logger;
 
     /** Creates a new PauseMenu with a given Spritebatch */
     public PauseMenu(SpriteBatch batch) {
@@ -57,7 +60,7 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                 Align.center | Align.bottom);
 
         add((T) screenButton_neustart, ControllerLayer.BOTTOM);
-
+        logger = Logger.getLogger(PauseMenu.class.getName());
         ScreenButton screenButton_Laden =
                 new ScreenButton(
                         "Laden",
@@ -65,9 +68,14 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                Game.getEntities().clear();
-                                Game.getQuestList().clear();
-                                SaveGame.readObject("SavedGame.txt");
+                                if (!SaveGame.isLoaded()) {
+                                    Game.getEntities().clear();
+                                    Game.getQuestList().clear();
+                                    SaveGame.readObject("SavedGame.txt");
+                                    SaveGame.setIsLoaded(true);
+                                } else {
+                                    logger.warning("Game can only be loaded once a level!");
+                                }
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)

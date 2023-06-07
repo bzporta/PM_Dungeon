@@ -16,6 +16,7 @@ import starter.Game;
 public class SaveGame {
 
     private static Logger logger = Logger.getLogger(SaveGame.class.getName());
+    private static boolean isLoaded = false;
     /**
      * This method saves the current state of the game.
      *
@@ -70,6 +71,7 @@ public class SaveGame {
                     } else if (qu instanceof KillQuest) {
                         Game.setKillQuest((KillQuest) qu);
                     }
+
                     qu.setScreenText();
                 }
             }
@@ -89,5 +91,23 @@ public class SaveGame {
             ex.printStackTrace();
             logger.warning("SaveGame.readObject() failed - Could not load the game");
         }
+    }
+
+    /**
+     * Returns whether the game is loaded on the current session or not.
+     *
+     * @return isLoaded
+     */
+    public static boolean isLoaded() {
+        return isLoaded;
+    }
+
+    /**
+     * Sets whether the game is loaded on current session or not.
+     *
+     * @param isLoaded
+     */
+    public static void setIsLoaded(boolean isLoaded) {
+        SaveGame.isLoaded = isLoaded;
     }
 }

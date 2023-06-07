@@ -12,7 +12,7 @@ public class GraveQuest extends Quest {
 
     /** Constructor for GraveQuest Sets the GravesGoal to 10 */
     public GraveQuest() {
-        super("GraveQuest", "Activate 10 Graves", 10, "0/2");
+        super("GraveQuest", "Activate 10 Graves", 10, "0/10");
         activatedGraves = 0;
         activatedGravesGoal = 10;
     }

@@ -13,6 +13,8 @@ public abstract class Quest implements Serializable {
 
     private boolean finished = false;
 
+    // private boolean screenTextSetOnLoad = false;
+
     protected transient ScreenText screenText;
 
     protected boolean active;
@@ -90,7 +92,6 @@ public abstract class Quest implements Serializable {
     public void setScreenText() {
         QuestMenu qm = starter.Game.getQuestMenu();
         this.screenText = qm.addActiveQuest(getName(), getStatus());
-        ;
     }
 
     /**
