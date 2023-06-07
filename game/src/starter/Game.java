@@ -226,14 +226,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     @Override
     public void onLevelLoad() {
-        SaveGame.readObject("ABC.txt");
-
-
         currentLevel = levelAPI.getCurrentLevel();
         entities.add(hero);
-        //getHero().ifPresent(this::placeOnLevelStart);
-
-        /*
+        getHero().ifPresent(this::placeOnLevelStart);
         clearPositionlist();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
@@ -243,11 +238,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         grave.setGrave(currentLevel);
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-
-
-         */
-
-        //createMonster();
+        createMonster();
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
         }
@@ -315,11 +306,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (pauseMenu != null) {
             if (paused) pauseMenu.showMenu();
             else pauseMenu.hideMenu();
-            SaveData save = new SaveData();
-            Hero h = (Hero) hero;
-            save.setH(h);
-            save.setCurrentLevel(currentLevel);
-            SaveGame.writeObject(save, "ABC.txt");
         }
     }
 
