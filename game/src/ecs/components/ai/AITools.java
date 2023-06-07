@@ -5,7 +5,6 @@ import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.entities.Entity;
-
 import java.io.Serializable;
 import java.util.*;
 import level.elements.ILevel;

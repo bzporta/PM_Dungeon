@@ -90,8 +90,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static KillQuest killQuest;
     private static GraveQuest graveQuest;
 
-
-
     private static Set<Quest> questList = new HashSet<>();
 
     /** All entities to be removed from the dungeon in the next frame */
@@ -304,6 +302,18 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    public void saveGame() {
+        SaveData save = new SaveData();
+        save.setCurrentLevel(currentLevel);
+        save.setQuestList(questList);
+        save.setEntities(entities);
+        save.setLevelCounter(levelCounter);
+        save.setHpBuff(hpBuff);
+        save.setDmgBuff(dmgBuff);
+        save.setSpawnRate(spawnRate);
+        SaveGame.writeObject(save, "ABC.txt");
+    }
+
     /** Toggles the SkillMenu */
     public void toggleSkillMenu() {
         toggleSkillMenue = !toggleSkillMenue;
@@ -480,8 +490,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return graveQuest;
     }
 
+    public static void setGraveQuest(GraveQuest gravequest) {
+        graveQuest = gravequest;
+    }
+
     public static KillQuest getKillQuest() {
         return killQuest;
+    }
+
+    public static void setKillQuest(KillQuest killquest) {
+        killQuest = killquest;
     }
 
     public static Set<Quest> getQuestList() {

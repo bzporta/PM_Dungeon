@@ -4,7 +4,6 @@ import dslToGame.ConvertedGraph;
 import dslToGame.DotToLevelGraph;
 import dslToGame.graph.Graph;
 import dslToGame.graph.Node;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import level.elements.ILevel;
@@ -12,7 +11,6 @@ import level.generator.IGenerator;
 import level.tools.DesignLabel;
 import level.tools.LevelElement;
 import level.tools.LevelSize;
-import saveGame.SaveGame;
 
 /**
  * Generates a space-based level whose structure is defined by the given graph

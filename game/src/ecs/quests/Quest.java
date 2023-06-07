@@ -1,10 +1,7 @@
 package ecs.quests;
 
-import ecs.entities.Hero;
 import graphic.hud.QuestMenu;
 import graphic.hud.ScreenText;
-import starter.Game;
-
 import java.io.Serializable;
 
 public abstract class Quest implements Serializable {
@@ -13,9 +10,11 @@ public abstract class Quest implements Serializable {
     private int reward;
     private String status;
 
+    private boolean finished = false;
+
     protected transient ScreenText screenText;
 
-    private boolean active;
+    protected boolean active;
 
     public Quest(String name, String description, int reward, String status) {
         this.name = name;
@@ -25,7 +24,6 @@ public abstract class Quest implements Serializable {
     }
 
     public abstract void activateQuest();
-
 
     public abstract boolean checkIfDone();
 
@@ -58,7 +56,7 @@ public abstract class Quest implements Serializable {
     }
 
     public void setStatus(int current, int goal) {
-        this.status = ""+current + "/" + goal;
+        this.status = "" + current + "/" + goal;
     }
 
     public boolean isActive() {
@@ -75,6 +73,15 @@ public abstract class Quest implements Serializable {
 
     public void setScreenText() {
         QuestMenu qm = starter.Game.getQuestMenu();
-        this.screenText = qm.addActiveQuest(getName(), getStatus());;
+        this.screenText = qm.addActiveQuest(getName(), getStatus());
+        ;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

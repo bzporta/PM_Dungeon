@@ -1,5 +1,7 @@
 package graphic.hud;
 
+import static starter.Game.*;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -7,18 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Align;
 import controller.ControllerLayer;
 import controller.ScreenController;
-import ecs.entities.Hero;
-import saveGame.SaveData;
 import saveGame.SaveGame;
 import starter.Game;
 import tools.Constants;
 import tools.Point;
-
-import java.io.File;
-
-import static saveGame.SaveGame.writeObject;
-import static starter.Game.currentLevel;
-
 
 public class PauseMenu<T extends Actor> extends ScreenController<T> {
 
@@ -51,7 +45,7 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                saveGame();
+                                starter.Game.getGame().saveGame();
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -71,12 +65,9 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                File file = new File("ABC.txt");
-
-
-                                SaveGame.readObject(("ABC.txt"));
-
-
+                                Game.getEntities().clear();
+                                Game.getQuestList().clear();
+                                SaveGame.readObject("ABC.txt");
                             }
                         },
                         new TextButtonStyleBuilder(FontBuilder.DEFAULT_FONT)
@@ -84,7 +75,7 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                                 .build());
         screenButton_Laden.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
-                ((Constants.WINDOW_HEIGHT) / 2f + screenButton_Laden.getHeight())-30f,
+                ((Constants.WINDOW_HEIGHT) / 2f + screenButton_Laden.getHeight()) - 50f,
                 Align.center | Align.bottom);
 
         add((T) screenButton_Laden, ControllerLayer.BOTTOM);
@@ -96,7 +87,7 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                         new TextButtonListener() {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
-                                saveGame();
+                                starter.Game.getGame().saveGame();
                                 System.exit(0);
                             }
                         },
@@ -105,11 +96,10 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
                                 .build());
         screenButton_beenden.setPosition(
                 (Constants.WINDOW_WIDTH) / 2f - screenText.getWidth(),
-                ((Constants.WINDOW_HEIGHT) / 2f + screenButton_beenden.getHeight()) - 60f,
+                ((Constants.WINDOW_HEIGHT) / 2f + screenButton_beenden.getHeight()) - 100f,
                 Align.center | Align.bottom);
 
         add((T) screenButton_beenden, ControllerLayer.BOTTOM);
-
 
         hideMenu();
     }
@@ -122,13 +112,5 @@ public class PauseMenu<T extends Actor> extends ScreenController<T> {
     /** hides the Menu */
     public void hideMenu() {
         this.forEach((Actor s) -> s.setVisible(false));
-    }
-
-    private void saveGame(){
-        SaveData save = new SaveData();
-        Hero h = (Hero) starter.Game.getHero().orElseThrow();
-        save.setH(h);
-        save.setCurrentLevel(currentLevel);
-        SaveGame.writeObject(save, "ABC.txt");
     }
 }

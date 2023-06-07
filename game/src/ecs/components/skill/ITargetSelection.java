@@ -1,8 +1,7 @@
 package ecs.components.skill;
 
-import tools.Point;
-
 import java.io.Serializable;
+import tools.Point;
 
 public interface ITargetSelection extends Serializable {
 

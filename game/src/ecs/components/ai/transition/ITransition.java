@@ -1,7 +1,6 @@
 package ecs.components.ai.transition;
 
 import ecs.entities.Entity;
-
 import java.io.Serializable;
 
 /** Determines when an ai switches between idle and fight */

@@ -2,9 +2,8 @@ package level.elements.astar;
 
 import com.badlogic.gdx.ai.pfa.Heuristic;
 import com.badlogic.gdx.math.Vector2;
-import level.elements.tile.Tile;
-
 import java.io.Serializable;
+import level.elements.tile.Tile;
 
 /**
  * @author Marti Stuwe

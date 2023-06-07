@@ -3,7 +3,6 @@ package level.elements.tile;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.utils.Array;
 import ecs.entities.Entity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -159,7 +158,7 @@ public abstract class Tile implements Serializable {
         serializedConnections.add(tileCache);
     }
 
-    public void restoreConnection(TileConnection tlc){
+    public void restoreConnection(TileConnection tlc) {
         if (connections == null) {
             connections = new Array<>();
         }
@@ -211,5 +210,4 @@ public abstract class Tile implements Serializable {
     public List<TileConnection> getSerializedConnections() {
         return serializedConnections;
     }
-
 }

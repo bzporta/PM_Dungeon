@@ -6,10 +6,9 @@ import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
 import com.badlogic.gdx.utils.Array;
+import java.io.Serializable;
 import level.elements.astar.TileHeuristic;
 import level.elements.tile.Tile;
-
-import java.io.Serializable;
 
 public interface IPathable extends IndexedGraph<Tile>, Serializable {
 

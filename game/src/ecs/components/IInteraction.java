@@ -1,7 +1,6 @@
 package ecs.components;
 
 import ecs.entities.Entity;
-
 import java.io.Serializable;
 
 public interface IInteraction extends Serializable {

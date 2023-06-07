@@ -1,9 +1,7 @@
 package tools;
 
-import level.tools.Coordinate;
-import saveGame.SaveGame;
-
 import java.io.Serializable;
+import level.tools.Coordinate;
 
 /**
  * For easy handling of positions in the dungeon. <br>

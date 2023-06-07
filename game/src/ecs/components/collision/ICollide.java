@@ -1,9 +1,8 @@
 package ecs.components.collision;
 
 import ecs.entities.Entity;
-import level.elements.tile.Tile;
-
 import java.io.Serializable;
+import level.elements.tile.Tile;
 
 public interface ICollide extends Serializable {
     /**

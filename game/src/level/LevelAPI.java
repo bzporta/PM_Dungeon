@@ -134,6 +134,4 @@ public class LevelAPI {
     public void setCurrentLevel(ILevel level) {
         currentLevel = level;
     }
-
-
 }

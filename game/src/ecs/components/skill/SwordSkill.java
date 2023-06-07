@@ -25,7 +25,7 @@ public class SwordSkill implements ISkillFunction {
      * @param projectileDamage
      */
     public SwordSkill(Damage projectileDamage) {
-        logger = Logger.getLogger(this.getClass().getName());
+
         this.projectileDamage = projectileDamage;
         this.pathToAnimation = "skills.sword";
     }
@@ -76,6 +76,7 @@ public class SwordSkill implements ISkillFunction {
     }
 
     private void attack(Entity entities) {
+        logger = Logger.getLogger(this.getClass().getName());
         HealthComponent hc =
                 (HealthComponent) entities.getComponent(HealthComponent.class).orElseThrow();
         hc.receiveHit(projectileDamage);

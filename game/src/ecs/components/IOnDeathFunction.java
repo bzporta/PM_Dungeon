@@ -1,7 +1,6 @@
 package ecs.components;
 
 import ecs.entities.Entity;
-
 import java.io.Serializable;
 
 /** Functional interfaces for implementing a function that is called when an entity dies */

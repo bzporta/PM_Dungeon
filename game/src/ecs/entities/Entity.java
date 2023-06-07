@@ -1,7 +1,6 @@
 package ecs.entities;
 
 import ecs.components.Component;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Optional;
@@ -17,7 +16,7 @@ public class Entity implements Serializable {
     private static int nextId = 0;
     public final int id = nextId++;
     private HashMap<Class, Component> components;
-    private transient final Logger entityLogger;
+    private final transient Logger entityLogger;
 
     public Entity() {
         components = new HashMap<>();

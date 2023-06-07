@@ -1,18 +1,12 @@
 package saveGame;
 
-import ecs.components.skill.Skill;
 import ecs.entities.Entity;
-import ecs.entities.Hero;
 import ecs.quests.Quest;
-import level.elements.ILevel;
-import level.elements.astar.TileConnection;
-import level.elements.tile.FloorTile;
-import starter.Game;
-
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import level.elements.ILevel;
+import level.elements.tile.FloorTile;
 
 public class SaveData implements Serializable {
 
@@ -42,7 +36,6 @@ public class SaveData implements Serializable {
         this.currentLevel = currentLevel;
         this.floorTileList = currentLevel.getFloorTiles();
     }
-
 
     public void setQuestList(Set<Quest> questList) {
         this.questList = questList;
@@ -83,5 +76,4 @@ public class SaveData implements Serializable {
     public void setHpBuff(int hpBuff) {
         this.hpBuff = hpBuff;
     }
-
 }

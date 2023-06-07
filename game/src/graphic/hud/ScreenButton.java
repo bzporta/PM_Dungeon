@@ -5,8 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import tools.Constants;
 import tools.Point;
 
-import java.io.Serializable;
-
 /** This class is intended for the configuration of the button to be displayed. */
 public class ScreenButton extends TextButton {
     private static final TextButtonStyle DEFAULT_BUTTON_STYLE;

@@ -3,7 +3,6 @@ package graphic.hud;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Align;
 import controller.ScreenController;
 import tools.Constants;
 import tools.Point;
@@ -24,9 +23,9 @@ public class QuestMenu<T extends Actor> extends ScreenController<T> {
         super(batch);
         screenText_description =
                 new ScreenText(
-                        "Active Quests:",
-                        new Point((Constants.WINDOW_WIDTH) / 1.45f,
-                            (Constants.WINDOW_HEIGHT) / 1.1f),
+                        "Quests:",
+                        new Point(
+                                (Constants.WINDOW_WIDTH) / 1.45f, (Constants.WINDOW_HEIGHT) / 1.1f),
                         7,
                         new LabelStyleBuilder(FontBuilder.DEFAULT_FONT)
                                 .setFontcolor(Color.RED)
@@ -51,15 +50,16 @@ public class QuestMenu<T extends Actor> extends ScreenController<T> {
         screenText_quest =
                 new ScreenText(
                         name + " " + status,
-                        new Point(screenText_description.getX(),
-                            (Constants.WINDOW_HEIGHT) / (1.1f + 0.08f * questcounter)),
+                        new Point(
+                                screenText_description.getX(),
+                                (Constants.WINDOW_HEIGHT) / (1.1f + 0.08f * questcounter)),
                         7,
                         new LabelStyleBuilder(FontBuilder.DEFAULT_FONT)
                                 .setFontcolor(Color.RED)
                                 .build());
         screenText_quest.setFontScale(1f);
+
         add((T) screenText_quest);
         return screenText_quest;
     }
-
 }

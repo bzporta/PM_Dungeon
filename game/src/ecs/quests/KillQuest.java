@@ -14,8 +14,8 @@ public class KillQuest extends Quest {
 
     @Override
     public void activateQuest() {
-        if (!isActive()) {
-            QuestMenu qm = starter.Game.getQuestMenu();
+        QuestMenu qm = starter.Game.getQuestMenu();
+        if (!isActive() && !isFinished()) {
             screenText = qm.addActiveQuest(super.getName(), getStatus());
             setActive(true);
         }
@@ -27,11 +27,11 @@ public class KillQuest extends Quest {
 
     public void countKilledMonsters() {
         this.killedMonsters++;
-        setStatus(killedMonsters,killedMonstersGoal);
+        setStatus(killedMonsters, killedMonstersGoal);
     }
 
     @Override
-    public boolean checkIfDone(){
+    public boolean checkIfDone() {
         return killedMonsters == killedMonstersGoal;
     }
 }

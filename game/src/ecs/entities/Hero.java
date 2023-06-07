@@ -11,7 +11,6 @@ import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
-import ecs.entities.trap.Trap;
 import ecs.entities.trap.TrapDmg;
 import graphic.Animation;
 import graphic.hud.GameOver;
