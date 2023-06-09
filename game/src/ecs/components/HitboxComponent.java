@@ -18,7 +18,7 @@ public class HitboxComponent extends Component {
     private /*@DSLTypeMember(name="size")*/ Point size;
     private ICollide iCollideEnter;
     private ICollide iCollideLeave;
-    private final Logger hitboxLogger = Logger.getLogger(this.getClass().getName());
+    private transient Logger hitboxLogger;
 
     /**
      * Creates A Hitbox
@@ -77,6 +77,7 @@ public class HitboxComponent extends Component {
      */
     public void onLeave(HitboxComponent other, Tile.Direction direction) {
         if (iCollideLeave != null) {
+            hitboxLogger = Logger.getLogger(this.getClass().getName());
             hitboxLogger.log(
                     CustomLogLevel.DEBUG,
                     this.getClass().getSimpleName()

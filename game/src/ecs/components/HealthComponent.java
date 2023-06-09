@@ -26,7 +26,7 @@ public class HealthComponent extends Component {
     private @DSLTypeMember(name = "on_death_function") IOnDeathFunction onDeath;
     private @DSLTypeMember(name = "get_hit_animation") Animation getHitAnimation;
     private @DSLTypeMember(name = "die_animation") Animation dieAnimation;
-    private final Logger healthLogger = Logger.getLogger(this.getClass().getName());
+    private transient Logger healthLogger;
 
     /**
      * Creates a new HealthComponent
@@ -73,6 +73,7 @@ public class HealthComponent extends Component {
      * @param damage Damage that should be inflicted
      */
     public void receiveHit(Damage damage) {
+        healthLogger = Logger.getLogger(this.getClass().getName());
         damageToGet.add(damage);
         this.lastCause = damage.cause() != null ? damage.cause() : this.lastCause;
         healthLogger.info(
@@ -102,7 +103,7 @@ public class HealthComponent extends Component {
                         .filter(d -> d.damageType() == dt)
                         .mapToInt(Damage::damageAmount)
                         .sum();
-
+        healthLogger = Logger.getLogger(this.getClass().getName());
         healthLogger.log(
                 CustomLogLevel.DEBUG,
                 this.getClass().getSimpleName()

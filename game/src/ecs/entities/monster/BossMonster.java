@@ -50,7 +50,12 @@ public class BossMonster extends Monster {
         hp.setCurrentHealthpoints(250);
     }
 
-    private void setupAiComponent() {
+    /**
+     * Sets up the AI component of the monster.
+     *
+     * <p>Sets TransitionAI to RangeTransition with Range 5.0f Sets the IdleAI to BossWalk
+     */
+    public void setupAiComponent() {
         ai = new AIComponent(this);
         ai.setTransitionAI(new RangeTransition(5.0f));
         ai.setIdleAI(new BossWalk(2));

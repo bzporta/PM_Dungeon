@@ -2,12 +2,13 @@ package level.elements.astar;
 
 import com.badlogic.gdx.ai.pfa.Heuristic;
 import com.badlogic.gdx.math.Vector2;
+import java.io.Serializable;
 import level.elements.tile.Tile;
 
 /**
  * @author Marti Stuwe
  */
-public class TileHeuristic implements Heuristic<Tile> {
+public class TileHeuristic implements Heuristic<Tile>, Serializable {
 
     /**
      * Heuristic used by the pathfinding algorithm

@@ -3,7 +3,9 @@ package level.elements.tile;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.utils.Array;
 import ecs.entities.Entity;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import level.elements.ILevel;
 import level.elements.TileLevel;
@@ -18,14 +20,15 @@ import tools.Point;
  *
  * @author Andre Matutat
  */
-public abstract class Tile {
+public abstract class Tile implements Serializable {
     protected final Coordinate globalPosition;
     protected DesignLabel designLabel;
     protected String texturePath;
 
     protected ILevel level;
     protected LevelElement levelElement;
-    protected transient Array<Connection<Tile>> connections = new Array<>();
+    protected transient Array<Connection<Tile>> connections;
+    protected List<TileConnection> serializedConnections;
     protected int index;
 
     /**
@@ -38,6 +41,8 @@ public abstract class Tile {
      */
     public Tile(
             String texturePath, Coordinate globalPosition, DesignLabel designLabel, ILevel level) {
+        this.connections = new Array<>();
+        this.serializedConnections = new LinkedList<>();
         this.texturePath = texturePath;
         this.globalPosition = globalPosition;
         this.designLabel = designLabel;
@@ -148,7 +153,17 @@ public abstract class Tile {
         if (connections == null) {
             connections = new Array<>();
         }
-        connections.add(new TileConnection(this, to));
+        TileConnection tileCache = new TileConnection(this, to);
+        connections.add(tileCache);
+        serializedConnections.add(tileCache);
+    }
+
+    /** Restores the saved connections to the level */
+    public void restoreConnection(TileConnection tlc) {
+        if (connections == null) {
+            connections = new Array<>();
+        }
+        connections.add(tlc);
     }
 
     /**
@@ -193,4 +208,7 @@ public abstract class Tile {
 
     // --------------------------- End LibGDX Pathfinding ---------------------------
 
+    public List<TileConnection> getSerializedConnections() {
+        return serializedConnections;
+    }
 }

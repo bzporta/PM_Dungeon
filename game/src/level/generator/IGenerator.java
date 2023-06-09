@@ -1,11 +1,12 @@
 package level.generator;
 
+import java.io.Serializable;
 import level.elements.ILevel;
 import level.tools.DesignLabel;
 import level.tools.LevelElement;
 import level.tools.LevelSize;
 
-public interface IGenerator {
+public interface IGenerator extends Serializable {
     /**
      * Get a level with the given configuration.
      *

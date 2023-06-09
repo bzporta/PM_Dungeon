@@ -137,7 +137,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
                 this,
                 (hero, other, direction) -> {
                     if (other instanceof TrapDmg) {
-                        hp.receiveHit(TrapDmg.getDmg());
+                        hp.receiveHit(((TrapDmg) other).getDmg());
                     }
                 },
                 null);

@@ -18,12 +18,13 @@ import ecs.components.PositionComponent;
 import ecs.entities.*;
 import ecs.entities.monster.*;
 import ecs.entities.trap.*;
+import ecs.quests.GraveQuest;
+import ecs.quests.KillQuest;
+import ecs.quests.Quest;
 import ecs.systems.*;
 import graphic.DungeonCamera;
 import graphic.Painter;
-import graphic.hud.GameOver;
-import graphic.hud.PauseMenu;
-import graphic.hud.SkillMenu;
+import graphic.hud.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -35,13 +36,15 @@ import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
 import level.tools.LevelSize;
+import saveGame.SaveData;
+import saveGame.SaveGame;
 import tools.Constants;
 import tools.Point;
 
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
-    private final LevelSize LEVELSIZE = LevelSize.MEDIUM;
+    private final LevelSize LEVELSIZE = LevelSize.SMALL;
 
     /**
      * The batch is necessary to draw ALL the stuff. Every object that uses draw need to know the
@@ -78,12 +81,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static final Set<Entity> entities = new HashSet<>();
 
     private static Entity hero;
-    private static Ghost ghost;
-    private static Grave grave;
+    private Ghost ghost;
+    private Grave grave;
     private static Monster imp;
     private static Monster darkheart;
     private static Monster andromalius;
     private static Monster boss;
+    private static KillQuest killQuest;
+    private static GraveQuest graveQuest;
+
+    private static Set<Quest> questList = new HashSet<>();
 
     /** All entities to be removed from the dungeon in the next frame */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
@@ -97,9 +104,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
 
     private static GameOver<Actor> gameOverMenu;
-
+    private static DialogMenu<Actor> dialogMenu;
     private static SkillMenu<Actor> skillMenu;
-    private Logger gameLogger;
+    private static QuestMenu<Actor> questMenu;
+    private transient Logger gameLogger;
 
     /** List of Tile positions for entities */
     public static ArrayList<Tile> positionList = new ArrayList<>();
@@ -158,8 +166,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverMenu = new GameOver<>();
         skillMenu = new SkillMenu<>();
+        dialogMenu = new DialogMenu<>();
         controller.add(skillMenu);
         controller.add(gameOverMenu);
+        controller.add(dialogMenu);
+        questMenu = new QuestMenu<>();
+        controller.add(questMenu);
+        questMenu.showMenu();
         paused = false;
         toggleGameOverMenue = false;
         toggleSkillMenue = false;
@@ -175,6 +188,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(LEVELSIZE);
         Gdx.input.setInputProcessor(inputMultiplexer);
+        killQuest = new KillQuest();
+        graveQuest = new GraveQuest();
+        questList.add(graveQuest);
+        questList.add(killQuest);
         createSystems();
     }
 
@@ -183,7 +200,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         setCameraFocus();
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
-        if (!isSkillMenuOpen && !isGameOverMenueOpen) {
+        if (!isSkillMenuOpen && !isGameOverMenueOpen && !getDialogMenu().getIsOpen()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
         }
         if (isSkillMenuOpen) {
@@ -211,9 +228,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         trapDmgCreator.creator(1, entities, currentLevel);
         entities.add(grave = new Grave((Hero) hero));
         grave.setGrave(currentLevel);
+        createMonster();
         entities.add(ghost = new Ghost(grave));
         ghost.setSpawn();
-        createMonster();
+        SaveGame.setIsLoaded(false);
         if (((Hero) hero).getXP().getCurrentLevel() < 11) {
             ((Hero) hero).getXP().addXP(20);
         }
@@ -284,10 +302,26 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
+    /**
+     * Saves the game
+     *
+     * <p>Sets all important attributes of the game that are needed to load the game later to a
+     * SaveData object
+     */
+    public void saveGame() {
+        SaveData save = new SaveData();
+        save.setCurrentLevel(currentLevel);
+        save.setQuestList(questList);
+        save.setEntities(entities);
+        save.setLevelCounter(levelCounter);
+        save.setHpBuff(hpBuff);
+        save.setDmgBuff(dmgBuff);
+        save.setSpawnRate(spawnRate);
+        SaveGame.writeObject(save, "SavedGame.txt");
+    }
+
     /** Toggles the SkillMenu */
     public void toggleSkillMenu() {
-        // controller.add(skillMenu);
-        System.out.println("SkillMenu1");
         toggleSkillMenue = !toggleSkillMenue;
         if (systems != null) {
             systems.forEach(ECS_System::toggleRun);
@@ -295,7 +329,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
         if (skillMenu != null) {
             if (toggleSkillMenue) {
-                System.out.println("SkillMenu");
                 isSkillMenuOpen = true;
                 skillMenu.showMenu();
 
@@ -343,6 +376,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static SkillMenu getSkillMenu() {
         return skillMenu;
+    }
+
+    /**
+     * Returns the DialogMenu
+     *
+     * @return DialogMenu
+     */
+    public static DialogMenu getDialogMenu() {
+        return dialogMenu;
     }
 
     /**
@@ -428,6 +470,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         // https://stackoverflow.com/questions/52011592/libgdx-set-ortho-camera
     }
 
+    public static QuestMenu getQuestMenu() {
+        return questMenu;
+    }
+
     private void createSystems() {
         new VelocitySystem();
         new DrawSystem(painter);
@@ -438,6 +484,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
+        new QuestSystem();
     }
 
     /**
@@ -448,6 +495,51 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static void restartGame() {
         getGame().setup();
+    }
+
+    /**
+     * Returns the GraveQuest
+     *
+     * @return GraveQuest
+     */
+    public static GraveQuest getGraveQuest() {
+        return graveQuest;
+    }
+
+    /**
+     * Sets the GraveQuest
+     *
+     * @param gravequest GraveQuest
+     */
+    public static void setGraveQuest(GraveQuest gravequest) {
+        graveQuest = gravequest;
+    }
+
+    /**
+     * Returns the KillQuest
+     *
+     * @return KillQuest
+     */
+    public static KillQuest getKillQuest() {
+        return killQuest;
+    }
+
+    /**
+     * Sets the KillQuest
+     *
+     * @param killquest KillQuest
+     */
+    public static void setKillQuest(KillQuest killquest) {
+        killQuest = killquest;
+    }
+
+    /**
+     * Returns a Set of all Quests
+     *
+     * @return Set of all Quests
+     */
+    public static Set<Quest> getQuestList() {
+        return questList;
     }
 
     private void clearPositionlist() {
@@ -492,5 +584,68 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                 darkheart.setPosition(currentLevel.getRandomFloorTile().getCoordinateAsPoint());
             }
         }
+    }
+
+    /**
+     * Returns the TrapDmgCreator
+     *
+     * @return TrapDmgCreator
+     */
+    public static TrapDmgCreator getTrapDmgCreator() {
+        return trapDmgCreator;
+    }
+
+    /**
+     * Returns the TrapTeleportCreator
+     *
+     * @return TrapTeleportCreator
+     */
+    public static TrapTeleportCreator getTrapTeleportCreator() {
+        return trapTeleportCreator;
+    }
+
+    /**
+     * Returns the LevelAPI
+     *
+     * @return LevelAPI
+     */
+    public static LevelAPI getLevelAPI() {
+        return levelAPI;
+    }
+
+    /**
+     * Sets the Questlist of the Level
+     *
+     * @param questList Questlist
+     */
+    public static void setQuestList(Set<Quest> questList) {
+        Game.questList = questList;
+    }
+
+    /**
+     * Sets the Spawnrate of the Level
+     *
+     * @param spawnRate Spawnrate
+     */
+    public static void setSpawnRate(int spawnRate) {
+        Game.spawnRate = spawnRate;
+    }
+
+    /**
+     * Sets the Damagebuff of the Level
+     *
+     * @param dmgBuff Damagebuff
+     */
+    public static void setDmgBuff(int dmgBuff) {
+        Game.dmgBuff = dmgBuff;
+    }
+
+    /**
+     * Sets the HPbuff of the Level
+     *
+     * @param hpBuff HPbuff
+     */
+    public static void setHpBuff(int hpBuff) {
+        Game.hpBuff = hpBuff;
     }
 }

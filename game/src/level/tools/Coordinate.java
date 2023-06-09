@@ -1,9 +1,10 @@
 package level.tools;
 
+import java.io.Serializable;
 import tools.Point;
 
 /** Coordinate in the dungeon, based on array index. */
-public class Coordinate {
+public class Coordinate implements Serializable {
 
     public int x;
     public int y;

@@ -1,11 +1,12 @@
 package level.elements;
 
+import java.io.Serializable;
 import java.util.List;
 import level.elements.tile.*;
 import level.tools.LevelElement;
 import level.tools.TileTextureFactory;
 
-public interface ILevel extends ITileable {
+public interface ILevel extends ITileable, Serializable {
 
     /** Mark a random tile as start */
     default void setRandomStart() {

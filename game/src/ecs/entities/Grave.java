@@ -6,6 +6,7 @@ import ecs.components.InteractionComponent;
 import ecs.components.PositionComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import ecs.quests.GraveQuest;
 import java.util.Random;
 import level.elements.ILevel;
 import level.elements.tile.Tile;
@@ -57,6 +58,11 @@ public class Grave extends Entity {
         } else {
             hero.getHC().receiveHit(new Damage(20, DamageType.MAGIC, null));
             setupAnimation("dungeon/grave/graveused.png");
+        }
+        GraveQuest graveQuest = Game.getGraveQuest();
+        System.out.println(starter.Game.getGraveQuest().isActive());
+        if (starter.Game.getGraveQuest().isActive()) {
+            graveQuest.countActivatedGraves();
         }
     }
 

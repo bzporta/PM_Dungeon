@@ -130,4 +130,13 @@ public class LevelAPI {
         currentLevel = level;
         onLevelLoader.onLevelLoad();
     }
+
+    /**
+     * Sets the current level to the given level.
+     *
+     * @param level The level to be set.
+     */
+    public void setCurrentLevel(ILevel level) {
+        currentLevel = level;
+    }
 }

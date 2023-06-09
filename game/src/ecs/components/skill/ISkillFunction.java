@@ -1,8 +1,9 @@
 package ecs.components.skill;
 
 import ecs.entities.Entity;
+import java.io.Serializable;
 
-public interface ISkillFunction {
+public interface ISkillFunction extends Serializable {
 
     /**
      * Implements the concrete skill of an entity

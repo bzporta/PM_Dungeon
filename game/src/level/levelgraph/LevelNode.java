@@ -1,5 +1,6 @@
 package level.levelgraph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import level.elements.tile.DoorTile;
@@ -10,7 +11,7 @@ import level.room.IRoom;
  *
  * @param <T> Each Node is a Room in the Level
  */
-public class LevelNode<T extends IRoom> {
+public class LevelNode<T extends IRoom> implements Serializable {
     private T room;
     private LevelNode[] neighbours;
 

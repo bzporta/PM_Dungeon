@@ -21,7 +21,12 @@ public class DarkHeart extends Monster {
         setupAiComponent();
     }
 
-    private void setupAiComponent() {
+    /**
+     * Sets up the AI component
+     *
+     * <p>Sets the IdleAi to PatrouilleWalk
+     */
+    public void setupAiComponent() {
         ai = new AIComponent(this);
         ai.setIdleAI(new PatrouilleWalk(3f, 5, 1, PatrouilleWalk.MODE.RANDOM));
     }

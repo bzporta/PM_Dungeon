@@ -1,9 +1,10 @@
 package tools;
 
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public final class Constants {
+public final class Constants implements Serializable {
     public static final int WINDOW_WIDTH = 640;
 
     public static final int WINDOW_HEIGHT = 480;

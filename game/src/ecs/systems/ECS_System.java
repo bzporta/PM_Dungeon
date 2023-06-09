@@ -1,13 +1,14 @@
 package ecs.systems;
 
+import java.io.Serializable;
 import java.util.logging.Logger;
 import starter.Game;
 
 /** Marks a Class as a System in the ECS */
-public abstract class ECS_System {
+public abstract class ECS_System implements Serializable {
 
     protected boolean run;
-    public Logger systemLogger = Logger.getLogger(this.getClass().getName());
+    public transient Logger systemLogger = Logger.getLogger(this.getClass().getName());
 
     public ECS_System() {
         Game.systems.add(this);

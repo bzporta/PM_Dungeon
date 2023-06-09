@@ -1,5 +1,6 @@
 package level.levelgraph;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import level.elements.tile.DoorTile;
 import level.elements.tile.Tile;
@@ -12,7 +13,7 @@ import level.tools.LevelSize;
 /**
  * @author Andre Matutat
  */
-public class GraphLevel {
+public class GraphLevel implements Serializable {
     private LevelNode root;
     private LevelSize size;
     private DesignLabel designLabel;

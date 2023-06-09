@@ -2,6 +2,7 @@ package logging;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -11,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class LoggerConfig {
+public class LoggerConfig implements Serializable {
     private static Logger baseLogger;
     private static FileHandler customFileHandler;
 

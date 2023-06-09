@@ -10,6 +10,7 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
+import ecs.quests.KillQuest;
 import graphic.Animation;
 import java.util.logging.Logger;
 import starter.Game;
@@ -29,7 +30,7 @@ public abstract class Monster extends Entity {
     private String pathToRunLeft;
     private String pathToRunRight;
     private int hitDmg;
-    private Logger logger;
+    private transient Logger logger;
 
     /**
      * Constructor for the Monster class
@@ -50,7 +51,6 @@ public abstract class Monster extends Entity {
             String idleRight,
             String runLeft,
             String runRight) {
-        logger = Logger.getLogger(getClass().getName());
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.hitDmg = hitDmg;
@@ -78,6 +78,11 @@ public abstract class Monster extends Entity {
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
+    /**
+     * Sets the Healthcomponent of the monster
+     *
+     * <p>The Monster get 100 Healthpoints and can reach 100 Healthpoints
+     */
     public void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
@@ -90,7 +95,10 @@ public abstract class Monster extends Entity {
     }
 
     private void onDeath(Entity entity) {
-        System.out.println("Monster toooot");
+        KillQuest killQuest = Game.getKillQuest();
+        if (killQuest.isActive()) {
+            killQuest.countKilledMonsters();
+        }
     }
 
     /**
@@ -143,12 +151,16 @@ public abstract class Monster extends Entity {
         new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
 
+    /** Sets the AIComponent of the monster */
+    public abstract void setupAiComponent();
+
     /**
      * Knocks the monster back
      *
      * @param knockbackamount
      */
     public void knockback(float knockbackamount) {
+        logger = Logger.getLogger(getClass().getName());
         logger.info(this.getClass().getSimpleName() + " got knocked back");
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
         float x = pc.getPosition().x - hero.getPosition().x;

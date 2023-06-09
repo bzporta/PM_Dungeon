@@ -17,7 +17,7 @@ public class RangeAI implements IFightAI {
     private final int delay = Constants.FRAME_RATE;
     private int timeSinceLastUpdate = delay;
     private Skill fightSkill;
-    private GraphPath<Tile> path;
+    private transient GraphPath<Tile> path;
     private Point p;
 
     /**

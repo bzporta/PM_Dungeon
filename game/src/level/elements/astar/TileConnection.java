@@ -2,6 +2,7 @@ package level.elements.astar;
 
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.math.Vector2;
+import java.io.Serializable;
 import level.elements.tile.Tile;
 
 /**
@@ -9,7 +10,7 @@ import level.elements.tile.Tile;
  *
  * @author Marti Stuwe
  */
-public class TileConnection implements Connection<Tile> {
+public class TileConnection implements Connection<Tile>, Serializable {
 
     private final Tile from;
     private final Tile to;

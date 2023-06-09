@@ -1,5 +1,6 @@
 package tools;
 
+import java.io.Serializable;
 import level.tools.Coordinate;
 
 /**
@@ -8,7 +9,7 @@ import level.tools.Coordinate;
  * Point.x to get x <br>
  * Point.y to get y <br>
  */
-public class Point {
+public class Point implements Serializable {
 
     public float x;
     public float y;

@@ -25,7 +25,7 @@ public class SawSkill implements ISkillFunction {
     private final float projectileRange;
     private final Damage projectileDamage;
     private final ITargetSelection selectionFunction;
-    private Logger logger;
+    private transient Logger logger;
 
     /**
      * Konstruktor für SawSkill
@@ -34,7 +34,6 @@ public class SawSkill implements ISkillFunction {
      * @param projectileDamage
      */
     public SawSkill(ITargetSelection selectionFunction, Damage projectileDamage) {
-        logger = Logger.getLogger(getClass().getName());
         this.pathToTexturesOfProjectile = "skills.saw";
         this.projectileDamage = projectileDamage;
         this.projectileSpeed = 0.3f;
@@ -49,7 +48,7 @@ public class SawSkill implements ISkillFunction {
      */
     @Override
     public void execute(Entity entity) {
-        System.out.println("Saw_executed");
+        logger = Logger.getLogger(getClass().getName());
         Entity projectile = new Entity();
         PositionComponent epc =
                 (PositionComponent)
