@@ -33,7 +33,7 @@ public class QuestSystem extends ECS_System {
         quest.setActive(false);
         quest.setFinished(true);
         logger.info("Quest " + quest.getName() + " is done!");
-    }
+     }
 
     /**
      * Refreshes the quest menu
