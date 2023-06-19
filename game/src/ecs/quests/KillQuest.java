@@ -57,4 +57,8 @@ public class KillQuest extends Quest {
     public boolean checkIfDone() {
         return killedMonsters == killedMonstersGoal;
     }
+
+    public int getKilledMonsters() {
+        return killedMonsters;
+    }
 }

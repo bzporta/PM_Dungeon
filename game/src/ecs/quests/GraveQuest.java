@@ -53,4 +53,8 @@ public class GraveQuest extends Quest {
     public boolean checkIfDone() {
         return activatedGraves == activatedGravesGoal;
     }
+
+    public int getActivatedGraves() {
+        return activatedGraves;
+    }
 }
