@@ -225,7 +225,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         trapTeleportCreator.creator(1, entities, currentLevel);
-        trapDmgCreator.creator(1, entities, currentLevel);
+        trapDmgCreator.creator(-1, entities, currentLevel);
         entities.add(grave = new Grave((Hero) hero));
         grave.setGrave(currentLevel);
         createMonster();

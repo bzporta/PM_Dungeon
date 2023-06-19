@@ -16,10 +16,11 @@ public class TrapDmgCreator implements TrapFactory {
      * @param currentLevel current level
      */
     @Override
-    public void creator(int anzahl, Set<Entity> entity, ILevel currentLevel) {
-
+    public void creator(int anzahl, Set<Entity> entity, ILevel currentLevel){
+        /*if(anzahl < 0){
+            throw new IllegalArgumentException("Trap amount must be positive");
+        }*/
         Tile tile;
-
         starter.Game.positionList.add(currentLevel.getStartTile());
         for (int i = 0; i < anzahl; i++) {
             Trap falle = new TrapDmg();
