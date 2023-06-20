@@ -31,6 +31,7 @@ public abstract class Trap extends Entity {
      * @param path the path to the animation
      */
     public void setupAnimation(String path) {
+        System.out.println("123");
         new AnimationComponent(this, AnimationBuilder.buildAnimation(path));
     }
 

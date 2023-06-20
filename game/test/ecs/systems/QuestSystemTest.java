@@ -47,13 +47,11 @@ public class QuestSystemTest {
     static String screenText;
     @Before
     public void setUp() throws Exception {
-        GdxNativesLoader.load();
         questMenu = Mockito.mock(QuestMenu.class);
         Game.setQuestMenu(questMenu);
         Game.systems = new SystemController();
         killquest = new KillQuest();
         system = new QuestSystemStud();
-
         hero = mock(Hero.class);
         Game.setHero(hero);
     }

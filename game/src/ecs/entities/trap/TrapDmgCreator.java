@@ -8,6 +8,16 @@ import level.elements.tile.Tile;
 /** A class that creates Damage Traps */
 public class TrapDmgCreator implements TrapFactory {
 
+
+    public Trap getFalle() {
+        return falle;
+    }
+
+    public void setFalle(Trap falle) {
+        this.falle = falle;
+    }
+
+    private Trap falle;
     /**
      * Creates a Damage Trap
      *
@@ -19,11 +29,14 @@ public class TrapDmgCreator implements TrapFactory {
     public void creator(int anzahl, Set<Entity> entity, ILevel currentLevel){
         /*if(anzahl < 0){
             throw new IllegalArgumentException("Trap amount must be positive");
+        }
+        if(anzahl > currentLevel.getFloorTiles().size()){
+            throw new IllegalArgumentException("Trap amount to high");
         }*/
         Tile tile;
         starter.Game.positionList.add(currentLevel.getStartTile());
         for (int i = 0; i < anzahl; i++) {
-            Trap falle = new TrapDmg();
+            if(falle == null) falle = new TrapDmg();
             entity.add(falle);
             do {
                 tile = currentLevel.getRandomFloorTile();
@@ -39,6 +52,7 @@ public class TrapDmgCreator implements TrapFactory {
                 } while (starter.Game.positionList.contains(tile));
                 starter.Game.positionList.add(tile);
             }
+            falle = null;
         }
     }
 }

@@ -8,6 +8,15 @@ import level.elements.tile.Tile;
 /** A class that creates Teleportation Traps */
 public class TrapTeleportCreator implements TrapFactory {
 
+    public Trap getFalle() {
+        return falle;
+    }
+
+    public void setFalle(Trap falle) {
+        this.falle = falle;
+    }
+
+    Trap falle;
     /**
      * Creates a Teleportation Trap
      *
@@ -17,15 +26,18 @@ public class TrapTeleportCreator implements TrapFactory {
      */
     @Override
     public void creator(int anzahl, Set<Entity> entity, ILevel currentLevel){
+
         /*
         if(anzahl < 0){
             throw new IllegalArgumentException("Trap amount must be positive");
+        }
+        if(anzahl > currentLevel.getFloorTiles().size()){
+            throw new IllegalArgumentException("Trap amount to high");
         }*/
         Tile tile;
         starter.Game.positionList.add(currentLevel.getStartTile());
         for (int i = 0; i < anzahl; i++) {
-            Trap falle =
-                    new TrapTeleport(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
+            if(falle == null) falle = new TrapTeleport(currentLevel.getRandomFloorTile().getCoordinate().toPoint());
             entity.add(falle);
             do {
                 tile = currentLevel.getRandomFloorTile();
@@ -41,6 +53,7 @@ public class TrapTeleportCreator implements TrapFactory {
                 } while (starter.Game.positionList.contains(tile));
                 starter.Game.positionList.add(tile);
             }
+            falle = null;
         }
     }
 }

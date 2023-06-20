@@ -24,7 +24,7 @@ public class Lever extends Entity {
         setupAnimation(pathToSkin);
     }
 
-    private void setupAnimation(String path) {
+    public void setupAnimation(String path) {
         new AnimationComponent(this, AnimationBuilder.buildAnimation(path));
     }
 
