@@ -17,6 +17,12 @@ public class TrapTeleportCreator implements TrapFactory {
     }
 
     Trap falle;
+
+    public void setCreateSameTrap(boolean createSameTrap) {
+        this.createSameTrap = createSameTrap;
+    }
+
+    private boolean createSameTrap = false;
     /**
      * Creates a Teleportation Trap
      *
@@ -53,7 +59,7 @@ public class TrapTeleportCreator implements TrapFactory {
                 } while (starter.Game.positionList.contains(tile));
                 starter.Game.positionList.add(tile);
             }
-            falle = null;
+            if(!createSameTrap) falle = null;
         }
     }
 }

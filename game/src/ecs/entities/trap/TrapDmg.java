@@ -31,4 +31,8 @@ public class TrapDmg extends Trap {
         setupAnimation("dungeon/trap/deactivate_trap.png");
         dmg = new Damage(0, null, null);
     }
+
+    public void setDmg(Damage dmg) {
+        this.dmg = dmg;
+    }
 }

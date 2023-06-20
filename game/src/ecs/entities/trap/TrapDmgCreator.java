@@ -18,6 +18,12 @@ public class TrapDmgCreator implements TrapFactory {
     }
 
     private Trap falle;
+
+    public void setCreateSameTrap(boolean createSameTrap) {
+        this.createSameTrap = createSameTrap;
+    }
+
+    private boolean createSameTrap = false;
     /**
      * Creates a Damage Trap
      *
@@ -52,7 +58,7 @@ public class TrapDmgCreator implements TrapFactory {
                 } while (starter.Game.positionList.contains(tile));
                 starter.Game.positionList.add(tile);
             }
-            falle = null;
+            if(!createSameTrap) falle = null;
         }
     }
 }

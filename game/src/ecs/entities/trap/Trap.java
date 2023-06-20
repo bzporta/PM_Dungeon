@@ -21,7 +21,7 @@ public abstract class Trap extends Entity {
         pc = new PositionComponent(this);
         Random rand = new Random();
         if (rand.nextDouble() < 0.5) {
-            lever = new Lever(this);
+            //lever = new Lever(this);
         }
     }
 
@@ -31,7 +31,6 @@ public abstract class Trap extends Entity {
      * @param path the path to the animation
      */
     public void setupAnimation(String path) {
-        System.out.println("123");
         new AnimationComponent(this, AnimationBuilder.buildAnimation(path));
     }
 
@@ -64,4 +63,8 @@ public abstract class Trap extends Entity {
 
     /** Deactivates the trap */
     public abstract void deactivateTrap();
+
+    public void setPc(PositionComponent pc) {
+        this.pc = pc;
+    }
 }

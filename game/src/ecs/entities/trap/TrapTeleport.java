@@ -58,4 +58,12 @@ public class TrapTeleport extends Trap {
         setupAnimation("dungeon/trap/deactivate_trap.png");
         active = false;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
