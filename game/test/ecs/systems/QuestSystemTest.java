@@ -1,15 +1,5 @@
 package ecs.systems;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.GdxNativesLoader;
-import com.badlogic.gdx.utils.Logger;
-import com.badlogic.gdx.utils.StringBuilder;
-import controller.ScreenController;
 import controller.SystemController;
 import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
@@ -17,23 +7,13 @@ import ecs.entities.Hero;
 import ecs.quests.GraveQuest;
 import ecs.quests.KillQuest;
 import ecs.quests.Quest;
-import graphic.hud.FontBuilder;
-import graphic.hud.LabelStyleBuilder;
 import graphic.hud.QuestMenu;
-import graphic.hud.ScreenText;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import starter.Game;
-import starter.LibgdxSetup;
-import tools.Point;
-
-import java.awt.*;
 import java.util.Set;
-
 import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
 import static org.powermock.api.mockito.PowerMockito.*;
 
 public class QuestSystemTest {
