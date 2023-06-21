@@ -39,7 +39,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of -2 seconds
      *
-     * <p>Testcase: Breaktime of -2 seconds ->Method gets called every 0 frames -> No error expected
+     * <p>Testcase: Breaktime of -2 seconds -> Calculate path every 0 frames -> No error expected
      */
     @Test
     public void testNegativeBreakTime() {
@@ -52,7 +52,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 0 seconds
      *
-     * <p>Testcase: Breaktime of 0 seconds ->Method gets called every 0 frames -> No error expected
+     * <p>Testcase: Breaktime of 0 seconds -> Calculate path every 0 frames -> No error expected
      */
     @Test
     public void testZeroBreakTime() {
@@ -65,7 +65,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 2 seconds
      *
-     * <p>Testcase: Breaktime of 2 seconds ->Method gets called every 60 frames -> No error expected
+     * <p>Testcase: Breaktime of 2 seconds -> Calculate path every 60 frames -> No error expected
      */
     @Test
     public void testPositiveBreakTime() {
@@ -78,7 +78,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 20 seconds
      *
-     * <p>Testcase: Breaktime of 20 seconds -> Method gets called every 600 frames -> No error
+     * <p>Testcase: Breaktime of 20 seconds -> Calculate path every 600 frames -> No error
      * expected
      */
     @Test
@@ -109,7 +109,7 @@ public class ProtectTileRadiusWalkTest {
          * Method to simplify the idle-Method
          *
          * <p>Simulates the time passed by increasing the currentBreak-Variable (One second = 30
-         * frames)
+         * frames). Everytime the Method would get into the If-Statement the Entity would calculate a path.
          *
          * @param entity Entity to idle
          */

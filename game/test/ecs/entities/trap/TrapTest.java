@@ -39,7 +39,7 @@ public class TrapTest {
     /**
      * Setup for the tests
      *
-     * <p>A trapDmgCreator and a trapTeleportCreator are created
+     * <p>A trapDmgCreator and a trapTeleportCreator and other needed are created
      */
     @Before
     public void setup() {
@@ -57,7 +57,7 @@ public class TrapTest {
     /**
      * Test for the method "creator" in the class "TrapDmgCreator"
      *
-     * <p>Testcase: Negative amount of traps -> IllegalArgumentException
+     * <p>Testcase: Negative amount of traps -> throw IllegalArgumentException
      */
     @Test
     public void testCreatorNegativeAmount() {
@@ -86,7 +86,7 @@ public class TrapTest {
     /**
      * Test for the method "creator" in the class "TrapDmgCreator"
      *
-     * <p>Testcase: Positive amount of traps -> Traps added
+     * <p>Testcase: Normal positive amount of traps -> Traps added
      */
     @Test
     public void testCreatorPositiveAmount() {
@@ -109,7 +109,7 @@ public class TrapTest {
     /**
      * Test for the method "creator" in the class "TrapDmgCreator"
      *
-     * <p>Testcase: High amount of traps -> IllegalArgumentException
+     * <p>Testcase: High amount of traps(Trap amount > Floortile amount of level) -> throw IllegalArgumentException
      */
     @Test
     @Ignore("Aufgrund einer hohen Anzahl an Traps wird eine Endlosschleife erzeugt")
@@ -138,7 +138,7 @@ public class TrapTest {
     /**
      * Checks if the position of the trap is added to the positionList
      *
-     * <p>Testcase: Trap added to the positionList
+     * <p>Testcase: Trap added to the positionList of the Game
      */
     @Test
     public void testCheckPositionList() {
@@ -161,7 +161,7 @@ public class TrapTest {
     /**
      * Test for the method "pullLever" in the class "TrapDmg"
      *
-     * <p>Testcase: Trap is activated
+     * <p>Testcase: When the lever is pulled -> TrapDmg gets deactivated
      */
     @Test
     public void testPullLeverDmgTrap()
@@ -188,7 +188,7 @@ public class TrapTest {
     /**
      * Test for the method "pullLever" in the class "TrapTeleport"
      *
-     * <p>Testcase: Trap is activated
+     * <p>Testcase: When the lever is pulled -> TrapTeleport gets deactivated
      */
     @Test
     public void testPullLeverTeleportTrap() throws Exception {
@@ -246,8 +246,18 @@ public class TrapTest {
         assertEquals(15.0f, trap.getPoint().x, 0.0f);
         assertEquals(25.0f, trap.getPoint().y, 0.0f);
     }
-
+    /**
+     * Stub Class to implement the class "Lever" with minimal logic
+     *
+     * <p>pullLever from Lever is not working, because the required animation is not available. The new
+     * pullLever-method deactivates the Trap without an animation.
+     */
     public class LeverStub extends Lever {
+        /**
+         * Constructor to create a LeverStub
+         *
+         * @param trap the trap that the lever is connected to
+         */
         public LeverStub(Trap trap) {
             super(trap);
         }

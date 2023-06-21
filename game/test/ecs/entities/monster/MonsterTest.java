@@ -266,7 +266,7 @@ public class MonsterTest {
     /**
      * Class to implement the abstract class "Monster" with minimal logic
      *
-     * <p>Without the setVc is not working, because the required animation is not available. The new
+     * <p>setVc from "Monster" is not working, because the required animation is not available. The new
      * setVc-method sets a new VelocityComponent with a mock-animation.
      */
     public class MonsterStub extends Monster {

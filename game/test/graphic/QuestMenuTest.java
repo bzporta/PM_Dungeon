@@ -14,11 +14,11 @@ import org.junit.Test;
 /** Testclass for the class "QuestMenu" */
 public class QuestMenuTest {
 
-    QuestMenu<Actor> questMenu;
-    static String screenText;
-    static boolean visible;
+    private QuestMenu<Actor> questMenu;
+    private static String screenText;
+    private static boolean visible;
 
-    /** Setup for the tests A Questmenu is created and its visibility is set to "false" */
+    /** Setup for the tests, a Questmenu is created and its visibility is set to "false" */
     @Before
     public void setup() {
         questMenu = mock(QuestMenuStub.class);
@@ -78,7 +78,11 @@ public class QuestMenuTest {
         assertEquals(0, questMenu.getQuestcounter());
     }
 
-    /** Stub for the class "QuestMenu" */
+    /** Stub for the class "QuestMenu" with minimal logic
+     *
+     * <p> Some needed Methods use libGDX and cannot be called without the Game running.
+     * the Overridden Methods use minimal logic to mimic the original Methods.
+     * */
     public class QuestMenuStub<T extends Actor> extends QuestMenu {
 
         /** Hides the QuestMenu */
