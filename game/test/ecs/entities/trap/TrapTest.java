@@ -240,6 +240,7 @@ public class TrapTest {
             super(trap);
         }
 
+
         private void pullLever(Entity entity) {
             TrapTest.trap.deactivateTrap();
             TrapTest.trap2.deactivateTrap();

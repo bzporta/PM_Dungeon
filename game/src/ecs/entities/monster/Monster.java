@@ -25,6 +25,7 @@ public abstract class Monster extends Entity {
     private float ySpeed;
     private PositionComponent pc;
     private HealthComponent hp;
+    private VelocityComponent vc;
     private String pathToIdleLeft;
     private String pathToIdleRight;
     private String pathToRunLeft;
@@ -69,7 +70,7 @@ public abstract class Monster extends Entity {
     private void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
-        new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
+        vc = new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
     }
 
     private void setupAnimationComponent() {
@@ -148,7 +149,7 @@ public abstract class Monster extends Entity {
 
         Animation moveRight = AnimationBuilder.buildAnimation(frozen);
         Animation moveLeft = AnimationBuilder.buildAnimation(frozen);
-        new VelocityComponent(this, 0, 0, moveLeft, moveRight);
+        vc = new VelocityComponent(this, 0, 0, moveLeft, moveRight);
     }
 
     /** Sets the AIComponent of the monster */
@@ -160,6 +161,8 @@ public abstract class Monster extends Entity {
      * @param knockbackamount
      */
     public void knockback(float knockbackamount) {
+        //if (knockbackamount < 0) throw new IllegalArgumentException("No negative Knockback allowed");
+        //if (knockbackamount > 3) knockbackamount = 3;
         logger = Logger.getLogger(getClass().getName());
         logger.info(this.getClass().getSimpleName() + " got knocked back");
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();
@@ -174,5 +177,21 @@ public abstract class Monster extends Entity {
         if (Game.currentLevel.getTileAt(newPosition.toCoordinate()).isAccessible()) {
             pc = new PositionComponent(this, newx, newy);
         }
+    }
+
+    public void setPc(PositionComponent pc) {
+        this.pc = pc;
+    }
+
+    public PositionComponent getPc() {
+        return pc;
+    }
+
+    public VelocityComponent getVc() {
+        return vc;
+    }
+
+    public void setVc(VelocityComponent vc) {
+        this.vc = vc;
     }
 }

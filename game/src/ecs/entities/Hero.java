@@ -97,7 +97,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         boomerangSkill =
                 new BoomerangSkill(
                         SkillTools::getCursorPositionAsPoint,
-                        new Damage(20, DamageType.PHYSICAL, null));
+                        new Damage(-100, DamageType.PHYSICAL, null));
         fourthSkill = new Skill(boomerangSkill, boomerangCooldown);
     }
 
@@ -149,7 +149,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         xp.setCurrentXP(-20);
     }
 
-    private void setupHealthComponent() {
+    public void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);
         hp.setCurrentHealthpoints(100);

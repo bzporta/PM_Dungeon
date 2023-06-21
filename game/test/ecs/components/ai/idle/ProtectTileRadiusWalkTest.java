@@ -24,7 +24,7 @@ public class ProtectTileRadiusWalkTest {
 
     @Test
     public void testNegativeBreakTime() {
-        AIComponent aiComponent = new AIComponent(hero, );
+        //AIComponent aiComponent = new AIComponent(hero, );
         ProtectTileRadiusWalk protectTileRadiusWalk = new ProtectTileRadiusWalk(Game.currentLevel.getEndTile(), -1);
 
     }
