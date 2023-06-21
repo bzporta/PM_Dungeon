@@ -21,13 +21,13 @@ import tools.Point;
 /** Testclass for the class "Monster" */
 public class MonsterTest {
 
-    Monster darkHeart;
-    Monster andromalius;
-    Monster imp;
-    Monster monsterStub;
-    Hero hero;
-    ILevel level;
-    Tile endtile;
+    private Monster darkHeart;
+    private Monster andromalius;
+    private Monster imp;
+    private Monster monsterStub;
+    private Hero hero;
+    private ILevel level;
+    private Tile endtile;
 
     /** Setup for the tests */
     @Before
@@ -241,10 +241,11 @@ public class MonsterTest {
         assertEquals(50, hero.getHC().getCurrentHealthpoints());
     }
 
-    /** Test for the method "setHitDmg" in the class "Monster"
+    /**
+     * Test for the method "setHitDmg" in the class "Monster"
      *
-     * Testcase: Hit damage is set to the maximal healthpoints of the hero -> The hero dies
-     * */
+     * <p>Testcase: Hit damage is set to the maximal healthpoints of the hero -> The hero dies
+     */
     @Test
     public void testMaxSetHitDamage() {
         doCallRealMethod().when(darkHeart).setHitDmg(anyInt());
@@ -262,14 +263,16 @@ public class MonsterTest {
         assertEquals(0, hero.getHC().getCurrentHealthpoints());
     }
 
-    /** Class to implement the abstract class "Monster" with minimal logic
+    /**
+     * Class to implement the abstract class "Monster" with minimal logic
      *
-     * Without the setVc is not working, because the required animation is not available.
-     * The new setVc-method sets a new VelocityComponent with a mock-animation.
-     * */
+     * <p>Without the setVc is not working, because the required animation is not available. The new
+     * setVc-method sets a new VelocityComponent with a mock-animation.
+     */
     public class MonsterStub extends Monster {
-        /** Constructor to create a MonsterStub
-         * A velocity component with a mocked animation is created
+        /**
+         * Constructor to create a MonsterStub A velocity component with a mocked animation is
+         * created
          */
         MonsterStub() {
             super(any(), any(), any(), any(), any(), any(), any());
@@ -278,18 +281,21 @@ public class MonsterTest {
                             monsterStub, 5, 5, mock(Animation.class), mock(Animation.class)));
         }
 
-        /** Method to setup the ai component
+        /**
+         * Method to setup the ai component
          *
-         * Gets overwritten to do nothing, because the abstract method has to be implemented but is not needed for the test
+         * <p>Gets overwritten to do nothing, because the abstract method has to be implemented but
+         * is not needed for the test
          */
         @Override
         public void setupAiComponent() {
             // DO-NOTHING
         }
 
-        /** Method to set the monster to frozen
+        /**
+         * Method to set the monster to frozen
          *
-         * Sets the velocity component to a new velocity component with zero velocity
+         * <p>Sets the velocity component to a new velocity component with zero velocity
          */
         @Override
         public void setFrozen() {

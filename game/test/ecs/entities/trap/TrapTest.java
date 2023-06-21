@@ -128,7 +128,7 @@ public class TrapTest {
 
         try {
             trapDmgCreator.creator(1000, entities, level);
-            trapTeleportCreator.creator(1000,entities, level);
+            trapTeleportCreator.creator(1000, entities, level);
             fail("No IllegalArgumentException has been thrown");
         } catch (IllegalArgumentException ex) {
             assertNotNull(ex.getMessage());
