@@ -649,6 +649,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         Game.hpBuff = hpBuff;
     }
 
+    /**
+     * Sets the questMenu for the game
+     *
+     * @param questMenu QuestMenu-object
+     */
     public static void setQuestMenu(QuestMenu questMenu) {
         Game.questMenu = questMenu;
     }

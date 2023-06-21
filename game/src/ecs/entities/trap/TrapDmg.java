@@ -32,6 +32,11 @@ public class TrapDmg extends Trap {
         dmg = new Damage(0, null, null);
     }
 
+    /**
+     * Sets the damage of the trap
+     *
+     * @param dmg the damage to set the trap to
+     */
     public void setDmg(Damage dmg) {
         this.dmg = dmg;
     }

@@ -149,6 +149,11 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         xp.setCurrentXP(-20);
     }
 
+    /**
+     * Sets up the health component of the hero
+     *
+     * <p>Maximal healthpoints are set to 100 onDeath behaviour is set to onDeath
+     */
     public void setupHealthComponent() {
         hp = new HealthComponent(this);
         hp.setMaximalHealthpoints(100);

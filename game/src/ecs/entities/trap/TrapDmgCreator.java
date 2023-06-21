@@ -8,19 +8,7 @@ import level.elements.tile.Tile;
 /** A class that creates Damage Traps */
 public class TrapDmgCreator implements TrapFactory {
 
-    public Trap getFalle() {
-        return falle;
-    }
-
-    public void setFalle(Trap falle) {
-        this.falle = falle;
-    }
-
     private Trap falle;
-
-    public void setCreateSameTrap(boolean createSameTrap) {
-        this.createSameTrap = createSameTrap;
-    }
 
     private boolean createSameTrap = false;
     /**
@@ -59,5 +47,23 @@ public class TrapDmgCreator implements TrapFactory {
             }
             if (!createSameTrap) falle = null;
         }
+    }
+
+    /**
+     * Sets whether the same predefined trap should be created
+     *
+     * @param createSameTrap whether the same trap should be created
+     */
+    public void setCreateSameTrap(boolean createSameTrap) {
+        this.createSameTrap = createSameTrap;
+    }
+
+    /**
+     * Sets the predefined trap that should be created
+     *
+     * @param falle the trap to be created
+     */
+    public void setFalle(Trap falle) {
+        this.falle = falle;
     }
 }

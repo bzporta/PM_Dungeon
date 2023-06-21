@@ -64,6 +64,11 @@ public abstract class Trap extends Entity {
     /** Deactivates the trap */
     public abstract void deactivateTrap();
 
+    /**
+     * Sets the positioncomponent of the trap
+     *
+     * @param pc the positioncomponent to set the trap to
+     */
     public void setPc(PositionComponent pc) {
         this.pc = pc;
     }

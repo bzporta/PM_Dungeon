@@ -59,10 +59,20 @@ public class TrapTeleport extends Trap {
         active = false;
     }
 
+    /**
+     * Returns whether the trap is active
+     *
+     * @return whether the trap is active
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * Sets whether the trap is active
+     *
+     * @param active whether the trap is active
+     */
     public void setActive(boolean active) {
         this.active = active;
     }

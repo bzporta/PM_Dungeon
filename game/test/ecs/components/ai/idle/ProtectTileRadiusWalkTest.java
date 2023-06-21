@@ -78,7 +78,8 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 20 seconds
      *
-     * <p>Testcase: Breaktime of 20 seconds -> Method gets called every 600 frames -> No error expected
+     * <p>Testcase: Breaktime of 20 seconds -> Method gets called every 600 frames -> No error
+     * expected
      */
     @Test
     public void testMaxBreakTime() {
@@ -107,7 +108,7 @@ public class ProtectTileRadiusWalkTest {
         /**
          * Method to simplify the idle-Method
          *
-         * Simulates the time passed by increasing the currentBreak-Variable (One second = 30
+         * <p>Simulates the time passed by increasing the currentBreak-Variable (One second = 30
          * frames)
          *
          * @param entity Entity to idle

@@ -8,19 +8,7 @@ import level.elements.tile.Tile;
 /** A class that creates Teleportation Traps */
 public class TrapTeleportCreator implements TrapFactory {
 
-    public Trap getFalle() {
-        return falle;
-    }
-
-    public void setFalle(Trap falle) {
-        this.falle = falle;
-    }
-
     Trap falle;
-
-    public void setCreateSameTrap(boolean createSameTrap) {
-        this.createSameTrap = createSameTrap;
-    }
 
     private boolean createSameTrap = false;
     /**
@@ -64,5 +52,23 @@ public class TrapTeleportCreator implements TrapFactory {
             }
             if (!createSameTrap) falle = null;
         }
+    }
+
+    /**
+     * Sets the trap to be created
+     *
+     * @param falle trap to be created
+     */
+    public void setFalle(Trap falle) {
+        this.falle = falle;
+    }
+
+    /**
+     * Sets whether the same predefined trap should be created
+     *
+     * @param createSameTrap whether the same trap should be created
+     */
+    public void setCreateSameTrap(boolean createSameTrap) {
+        this.createSameTrap = createSameTrap;
     }
 }
