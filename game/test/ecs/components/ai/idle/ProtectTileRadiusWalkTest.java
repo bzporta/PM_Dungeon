@@ -1,76 +1,82 @@
 package ecs.components.ai.idle;
 
-import ecs.components.ai.AIComponent;
+import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import level.elements.ILevel;
 import level.elements.tile.Tile;
-import level.elements.tile.WallTile;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import starter.Game;
+import tools.Point;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class ProtectTileRadiusWalkTest {
 
     Hero hero;
+    ProtectTileRadiusWalk ai;
+    Entity entity;
+    Tile tile;
+    static int frames;
     @Before
     public void setUp() throws Exception {
-        ILevel level = Mockito.mock(ILevel.class);
+        ILevel level = mock(ILevel.class);
         Game.currentLevel = level;
-        hero = new Hero();
-
+        hero = mock(Hero.class);
+        tile = mock(Tile.class);
+        when(tile.getCoordinateAsPoint()).thenReturn(new Point(5,5));
+        entity = new Entity();
+        PositionComponent pc = new PositionComponent(entity, new Point(1,1));
+        frames = 0;
     }
 
     @Test
     public void testNegativeBreakTime() {
-        //AIComponent aiComponent = new AIComponent(hero, );
-        ProtectTileRadiusWalk protectTileRadiusWalk = new ProtectTileRadiusWalk(Game.currentLevel.getEndTile(), -1);
+        ai = new ProtectTileRadiusWalkStub(tile,-2);
+        ai.idle(entity);
 
+        assertEquals(0, frames);
     }
 
     @Test
     public void testZeroBreakTime() {
+        ai = new ProtectTileRadiusWalkStub(tile,0);
+        ai.idle(entity);
 
+        assertEquals(0, frames);
     }
 
     @Test
     public void testPositiveBreakTime() {
+        ai = new ProtectTileRadiusWalkStub(tile,2);
+        ai.idle(entity);
 
+        assertEquals(60, frames);
     }
 
     @Test
     public void testMaxBreakTime() {
+        ai = new ProtectTileRadiusWalkStub(tile,20);
+        ai.idle(entity);
 
+        assertEquals(600, frames);
     }
 
-    @Test
-    public void testNegativeRadius() {
+    public class ProtectTileRadiusWalkStub extends ProtectTileRadiusWalk{
 
-    }
+        ProtectTileRadiusWalkStub(Tile tile, int breakTimeInSeconds){
+            super(tile, breakTimeInSeconds);
+        }
 
-    @Test
-    public void testZeroRadius() {
-
-    }
-
-    @Test
-    public void testPositiveRadius() {
-
-    }
-
-    @Test
-    public void testMaxRadius() {
-
-    }
-
-    @Test
-    public void testNotAccessibleTile() {
-
-    }
-
-    @Test
-    public void testAccessibleTile() {
-
+        @Override
+        public void idle(Entity entity){
+                if (currentBreak >= breakTime) {
+                    return;
+                }
+                ProtectTileRadiusWalkTest.frames++;
+                currentBreak++;
+                idle(entity);
+        }
     }
 }
