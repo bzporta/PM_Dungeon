@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Mockito.*;
 
+/** Testclass for the classes "TrapDmgCreator" and "TrapTeleportCreator" */
 public class TrapTest {
 
     TrapDmgCreator trapDmgCreator;
@@ -33,6 +34,10 @@ public class TrapTest {
     Entity hero;
     List<FloorTile> floorTiles;
 
+    /** Setup for the tests
+     *
+     * A trapDmgCreator and a trapTeleportCreator are created
+     */
     @Before
     public void setup(){
         trapDmgCreator = new TrapDmgCreator();
@@ -46,6 +51,10 @@ public class TrapTest {
         when(level.getFloorTiles().size()).thenReturn(5);
     }
 
+    /** Test for the method "creator" in the class "TrapDmgCreator"
+     *
+     * Testcase: Negative amount of traps -> IllegalArgumentException
+     */
     @Test
     public void testCreatorNegativeAmount(){
         try{
@@ -56,6 +65,11 @@ public class TrapTest {
             assertNotNull(ex.getMessage());
         }
     }
+
+    /** Test for the method "creator" in the class "TrapDmgCreator"
+     *
+     * Testcase: Zero amount of traps -> No traps added
+     */
     @Test
     public void testCreatorZeroAmount(){
         entities.clear();
@@ -64,6 +78,11 @@ public class TrapTest {
         assertTrue(entities.isEmpty());
 
     }
+
+    /** Test for the method "creator" in the class "TrapDmgCreator"
+     *
+     * Testcase: Positive amount of traps -> Traps added
+     */
     @Test
     public void testCreatorPositiveAmount(){
         when(level.getRandomFloorTile()).thenReturn(tile);
@@ -82,6 +101,11 @@ public class TrapTest {
         assertTrue("Trap2 added",entities.contains(trap2));
 
     }
+
+    /** Test for the method "creator" in the class "TrapDmgCreator"
+     *
+     * Testcase: High amount of traps -> IllegalArgumentException
+     */
     @Test @Ignore
     public void testCreatorHighAmount() throws Exception {
         // ACHTUNG ENDLOSSCHLEIFE BEIM TESTEN!!
@@ -103,6 +127,11 @@ public class TrapTest {
             assertNotNull(ex.getMessage());
         }
     }
+
+    /** Checks if the position of the trap is added to the positionList
+     *
+     * Testcase: Trap added to the positionList
+     */
     @Test
     public void testCheckPositionList(){
         when(level.getRandomFloorTile()).thenReturn(tile);
@@ -120,6 +149,11 @@ public class TrapTest {
         trapTeleportCreator.creator(1,entities, level);
         assertTrue(Game.positionList.contains(tile));
     }
+
+    /** Test for the method "pullLever" in the class "TrapDmg"
+     *
+     * Testcase: Trap is activated
+     */
     @Test
     public void testPullLeverDmgTrap() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         when(level.getRandomFloorTile()).thenReturn(tile);
@@ -140,6 +174,11 @@ public class TrapTest {
 
         assertEquals(0, trap.getDmg().damageAmount());
     }
+
+    /** Test for the method "pullLever" in the class "TrapTeleport"
+     *
+     * Testcase: Trap is activated
+     */
     @Test
     public void testPullLeverTeleportTrap() throws Exception {
         when(level.getRandomFloorTile()).thenReturn(tile);
@@ -160,6 +199,11 @@ public class TrapTest {
 
         assertFalse(trap2.isActive());
     }
+
+    /** Test for the teleport method in the class "TrapTeleport"
+     *
+     * Testcase: Hero is teleported to the right position
+     */
     @Test
     public void testTeleport(){
         doCallRealMethod().when(trap2).setActive(anyBoolean());
@@ -172,6 +216,11 @@ public class TrapTest {
         assertEquals(15.0f, pc.getPosition().x, 0.0f);
         assertEquals(25.0f, pc.getPosition().y, 0.0f);
     }
+
+    /** Test for the method "setTrapTile" in the class "Trap"
+     *
+     * Testcase: Trap is set to the right position
+     */
     @Test
     public void testSetTrapTile(){
         doCallRealMethod().when(trap).setTrapTile(any());
@@ -184,6 +233,7 @@ public class TrapTest {
         assertEquals(15.0f, trap.getPoint().x, 0.0f);
         assertEquals(25.0f, trap.getPoint().y, 0.0f);
     }
+
 
     public class LeverStub extends Lever{
         public LeverStub(Trap trap){
