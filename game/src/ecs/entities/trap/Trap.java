@@ -21,7 +21,7 @@ public abstract class Trap extends Entity {
         pc = new PositionComponent(this);
         Random rand = new Random();
         if (rand.nextDouble() < 0.5) {
-            //lever = new Lever(this);
+            // lever = new Lever(this);
         }
     }
 

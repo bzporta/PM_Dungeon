@@ -72,7 +72,7 @@ public class QuestMenu<T extends Actor> extends ScreenController<T> {
     }
 
     /** Decreases the Questcounter when a Quest gets removed */
-    public void decreaseQuestcounter(){
+    public void decreaseQuestcounter() {
         questcounter--;
     }
 

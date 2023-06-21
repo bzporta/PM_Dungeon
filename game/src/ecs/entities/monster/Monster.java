@@ -161,8 +161,9 @@ public abstract class Monster extends Entity {
      * @param knockbackamount
      */
     public void knockback(float knockbackamount) {
-        //if (knockbackamount < 0) throw new IllegalArgumentException("No negative Knockback allowed");
-        //if (knockbackamount > 3) knockbackamount = 3;
+        // if (knockbackamount < 0) throw new IllegalArgumentException("No negative Knockback
+        // allowed");
+        // if (knockbackamount > 3) knockbackamount = 3;
         logger = Logger.getLogger(getClass().getName());
         logger.info(this.getClass().getSimpleName() + " got knocked back");
         Hero hero = (Hero) starter.Game.getHero().orElseThrow();

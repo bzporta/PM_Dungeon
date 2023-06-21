@@ -653,4 +653,3 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         Game.questMenu = questMenu;
     }
 }
-

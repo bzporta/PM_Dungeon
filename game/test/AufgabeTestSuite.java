@@ -10,14 +10,11 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        MonsterTest.class,
-        TrapTest.class,
-        QuestTest.class,
-        QuestMenuTest.class,
-        QuestSystemTest.class,
-        ProtectTileRadiusWalkTest.class
+    MonsterTest.class,
+    TrapTest.class,
+    QuestTest.class,
+    QuestMenuTest.class,
+    QuestSystemTest.class,
+    ProtectTileRadiusWalkTest.class
 })
-
-public class AufgabeTestSuit {
-
-}
+public class AufgabeTestSuite {}

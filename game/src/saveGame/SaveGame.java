@@ -59,7 +59,8 @@ public class SaveGame {
             Game.getEntities().clear();
             Game.getQuestList().clear();
 
-            // Die Liste der Connections von den Tiles wurde nicht gespeichert, deswegen müssen diese wiederhergestellt werden.
+            // Die Liste der Connections von den Tiles wurde nicht gespeichert, deswegen müssen
+            // diese wiederhergestellt werden.
             for (FloorTile fl : Game.currentLevel.getFloorTiles()) {
                 for (TileConnection tlc : fl.getSerializedConnections()) {
                     fl.restoreConnection(tlc);
