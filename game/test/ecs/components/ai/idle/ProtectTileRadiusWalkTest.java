@@ -39,7 +39,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of -2 seconds
      *
-     * <p>Testcase: Breaktime of -2 seconds -> 0 frames -> No error expected
+     * <p>Testcase: Breaktime of -2 seconds ->Method gets called every 0 frames -> No error expected
      */
     @Test
     public void testNegativeBreakTime() {
@@ -52,7 +52,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 0 seconds
      *
-     * <p>Testcase: Breaktime of 0 seconds -> 0 frames -> No error expected
+     * <p>Testcase: Breaktime of 0 seconds ->Method gets called every 0 frames -> No error expected
      */
     @Test
     public void testZeroBreakTime() {
@@ -65,7 +65,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 2 seconds
      *
-     * <p>Testcase: Breaktime of 2 seconds -> 60 frames -> No error expected
+     * <p>Testcase: Breaktime of 2 seconds ->Method gets called every 60 frames -> No error expected
      */
     @Test
     public void testPositiveBreakTime() {
@@ -78,7 +78,7 @@ public class ProtectTileRadiusWalkTest {
     /**
      * Test for the ProtectTileRadiusWalk with a breaktime of 20 seconds
      *
-     * <p>Testcase: Breaktime of 20 seconds -> 600 frames -> No error expected
+     * <p>Testcase: Breaktime of 20 seconds -> Method gets called every 600 frames -> No error expected
      */
     @Test
     public void testMaxBreakTime() {
@@ -107,7 +107,7 @@ public class ProtectTileRadiusWalkTest {
         /**
          * Method to simplify the idle-Method
          *
-         * <p>Simulates the time passed by increasing the currentBreak-Variable (One second = 30
+         * Simulates the time passed by increasing the currentBreak-Variable (One second = 30
          * frames)
          *
          * @param entity Entity to idle
