@@ -62,8 +62,8 @@ public abstract class Monster extends Entity {
         pc = new PositionComponent(this);
         setupHealthComponent();
         setupHitboxComponent();
-        setupVelocityComponent();
         setupAnimationComponent();
+        setupVelocityComponent();
     }
 
     private void setupVelocityComponent() {
