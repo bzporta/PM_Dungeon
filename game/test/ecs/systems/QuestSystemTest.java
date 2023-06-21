@@ -18,18 +18,25 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import starter.Game;
 
+/** Testclass for the class "QuestSystem" */
 public class QuestSystemTest {
-    Game game;
-    Hero hero;
-    Set<Quest> questList;
-    KillQuest killquest;
-    GraveQuest gravequest;
-    QuestSystem system;
-    QuestMenu<Actor> questMenu;
-    static String screenText;
+    private Game game;
+    private Hero hero;
+    private Set<Quest> questList;
+    private KillQuest killquest;
+    private GraveQuest gravequest;
+    private QuestSystem system;
+    private QuestMenu<Actor> questMenu;
+    private static String screenText;
 
+    /** Setup for the tests
+     *
+     * A Questmenu is mocked and set as the Questmenu of the game
+     * A new killquest is created
+     * A Hero is mocked and set as the Hero of the game
+     * */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         questMenu = Mockito.mock(QuestMenu.class);
         Game.setQuestMenu(questMenu);
         Game.systems = new SystemController();
@@ -39,6 +46,11 @@ public class QuestSystemTest {
         Game.setHero(hero);
     }
 
+    /** Test for the method "UpdateRefresh" in the class "QuestSystem"
+     *
+     * The countKilledMonsters method of the killquest is called and the refreshQuestMenu method of the system is called to update the screenText.
+     * The test is passed if the screenText is equal to the name and status of the quest
+     * */
     @Test
     public void testUpdateRefresh() {
         killquest.countKilledMonsters();
@@ -47,6 +59,11 @@ public class QuestSystemTest {
         assertTrue("KillQuest 1/10".equals(screenText));
     }
 
+    /** Test for the method "UpdateFinishQuest" in the class "QuestSystem"
+     *
+     * The reward of the killquest is set to 100
+     * The test is passed if the currentXP of the hero is 100, the killquest is not active and the killquest is finished
+     * */
     @Test
     public void testUpdateFinishQuest() {
         ILevelUp levelUp = Mockito.mock(ILevelUp.class);
@@ -58,11 +75,15 @@ public class QuestSystemTest {
         assertFalse(killquest.isActive());
         assertTrue(killquest.isFinished());
     }
-}
 
-class QuestSystemStud extends QuestSystem {
+    /** Class to implement the QuestSystem for the tests */
+    public class QuestSystemStud extends QuestSystem {
 
-    public void refreshQuestMenu(Quest quest) {
-        QuestSystemTest.screenText = quest.getName() + " " + quest.getStatus();
+        /** Method to mock the refreshQuestMenu method */
+        public void refreshQuestMenu(Quest quest) {
+            QuestSystemTest.screenText = quest.getName() + " " + quest.getStatus();
+        }
     }
 }
+
+

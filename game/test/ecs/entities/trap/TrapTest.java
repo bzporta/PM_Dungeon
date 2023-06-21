@@ -25,16 +25,16 @@ import tools.Point;
 /** Testclass for the classes "TrapDmgCreator" and "TrapTeleportCreator" */
 public class TrapTest {
 
-    TrapDmgCreator trapDmgCreator;
-    TrapTeleportCreator trapTeleportCreator;
-    Set<Entity> entities;
-    ILevel level = Mockito.mock(ILevel.class);
-    static TrapDmg trap = mock(TrapDmg.class);
-    static TrapTeleport trap2 = mock(TrapTeleport.class);
-    Tile tile = Mockito.mock(Tile.class);
-    Lever lever;
-    Entity hero;
-    List<FloorTile> floorTiles;
+    private TrapDmgCreator trapDmgCreator;
+    private TrapTeleportCreator trapTeleportCreator;
+    private Set<Entity> entities;
+    private ILevel level = Mockito.mock(ILevel.class);
+    private static TrapDmg trap = mock(TrapDmg.class);
+    private static TrapTeleport trap2 = mock(TrapTeleport.class);
+    private Tile tile = Mockito.mock(Tile.class);
+    private Lever lever;
+    private Entity hero;
+    private List<FloorTile> floorTiles;
 
     /**
      * Setup for the tests

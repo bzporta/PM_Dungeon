@@ -9,8 +9,8 @@ import starter.Game;
 
 /** Testclass for the classes "KillQuest" and "GraveQuest" */
 public class QuestTest {
-    KillQuest killQuest;
-    GraveQuest graveQuest;
+    private KillQuest killQuest;
+    private GraveQuest graveQuest;
 
     /**
      * Setup for the tests
