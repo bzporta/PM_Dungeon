@@ -11,7 +11,6 @@ import controller.ControllerLayer;
 import controller.ScreenController;
 import java.util.logging.Logger;
 import saveGame.SaveGame;
-import starter.Game;
 import tools.Constants;
 import tools.Point;
 

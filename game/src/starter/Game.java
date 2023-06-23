@@ -151,7 +151,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
     /** Called once at the beginning of the game. */
-    protected void setup() {
+    public void setup() {
         doSetup = false;
         controller = new ArrayList<>();
         setupCameras();
@@ -647,5 +647,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static void setHpBuff(int hpBuff) {
         Game.hpBuff = hpBuff;
+    }
+
+    /**
+     * Sets the questMenu for the game
+     *
+     * @param questMenu QuestMenu-object
+     */
+    public static void setQuestMenu(QuestMenu questMenu) {
+        Game.questMenu = questMenu;
     }
 }

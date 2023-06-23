@@ -12,7 +12,7 @@ public class QuestMenu<T extends Actor> extends ScreenController<T> {
 
     private ScreenText screenText_quest;
     private ScreenText screenText_description;
-    private int questcounter = 0;
+    protected int questcounter = 0;
     /** Creates a new QuestMenu with a new Spritebatch */
     public QuestMenu() {
         this(new SpriteBatch());
@@ -72,7 +72,11 @@ public class QuestMenu<T extends Actor> extends ScreenController<T> {
     }
 
     /** Decreases the Questcounter when a Quest gets removed */
-    public void decreaseQuestcounter(){
+    public void decreaseQuestcounter() {
         questcounter--;
+    }
+
+    public int getQuestcounter() {
+        return questcounter;
     }
 }

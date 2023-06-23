@@ -13,14 +13,14 @@ import tools.Point;
 /** This class is used to make an entity walk around a tile in a given radius. */
 public class ProtectTileRadiusWalk implements IIdleAI {
 
-    private Tile tile;
-    private float radius;
-    private transient GraphPath<Tile> path;
-    private Point center;
-    private Point currentPosition;
-    private Point newEndTile;
-    private final int breakTime;
-    private int currentBreak = 0;
+    protected Tile tile;
+    protected float radius;
+    protected transient GraphPath<Tile> path;
+    protected Point center;
+    protected Point currentPosition;
+    protected Point newEndTile;
+    protected final int breakTime;
+    protected int currentBreak = 0;
 
     /**
      * Konstruktor
@@ -67,6 +67,7 @@ public class ProtectTileRadiusWalk implements IIdleAI {
                 currentPosition = pc2.getPosition();
                 newEndTile = getRandomAccessibleTileCoordinateInRange(center, radius).toPoint();
                 path = AITools.calculatePath(currentPosition, newEndTile);
+                System.out.println(path);
                 idle(entity);
             }
             currentBreak++;

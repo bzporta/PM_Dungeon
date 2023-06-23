@@ -8,6 +8,11 @@ import ecs.entities.Entity;
 public class Lever extends Entity {
 
     private PositionComponent pc;
+
+    public Trap getTrap() {
+        return trap;
+    }
+
     private Trap trap;
 
     private String pathToSkin = "dungeon/lever/e2063a6ece3a560.png";
@@ -24,7 +29,7 @@ public class Lever extends Entity {
         setupAnimation(pathToSkin);
     }
 
-    private void setupAnimation(String path) {
+    public void setupAnimation(String path) {
         new AnimationComponent(this, AnimationBuilder.buildAnimation(path));
     }
 
